@@ -100,6 +100,7 @@ public class Login extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLogarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogarMouseClicked
@@ -111,7 +112,6 @@ public class Login extends javax.swing.JFrame {
         Usuario usuario = usuarioRepositorio.buscarPorUsuario(user);
         String pass = usuario.getSenha();
         if(senha.equals(pass)){
-            setVisible(false);
             
             AcessosRepositorio acessosRepositorio = new AcessosRepositorio();
             Acessos acessos = new Acessos();
@@ -121,14 +121,15 @@ public class Login extends javax.swing.JFrame {
             acessos.setUsuario("a");
             acessosRepositorio.inserir(acessos);
 
-            /*if(usuario.getNP() == 1){
+            if(usuario.getNP() == 1){
                 new MedicoTela(usuario.getUsuario()).setVisible(true);
-                
             }else if(usuario.getNP() == 2){
-                System.out.println("np 2");
+                new OficialTela(usuario.getUsuario()).setVisible(true);
             }else if (usuario.getNP() == 3){
-                System.out.println("np 3");
-            }*/
+                new AdminTela(usuario.getUsuario()).setVisible(true);
+            }
+            setVisible(false);
+            dispose();
         }else{
             JOptionPane.showMessageDialog(null, "Senha Incorreta!");
         }
