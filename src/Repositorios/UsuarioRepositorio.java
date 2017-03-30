@@ -24,16 +24,12 @@ public class UsuarioRepositorio {
         sessao.close();
     }
 public Usuario buscarPorUsuario(String usuario){
-        System.out.println("2");
         Session sessao =  Hibernate.NewHibernateUtil.getSessionFactory().openSession();
-        System.out.println("3");
         Query query = sessao.createQuery("from Usuario where usuario = :usuario");
         query.setParameter("usuario", usuario);
         List list = query.list();
         Usuario user = (Usuario) list.get(0);
-        System.out.println("4");
         sessao.close();
-        
         return user;
     }
 public void excluir(Usuario usuario){

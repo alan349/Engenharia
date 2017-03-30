@@ -50,5 +50,6 @@ Contributor(s):
     <property name="hibernate.format_sql">true</property>
     <property name="hibernate.c3p0.timeout">0</property>
     <mapping class="Entidades.Usuario"/>
+    <mapping class="Entidades.Acessos"/>
   </session-factory>
 </hibernate-configuration>

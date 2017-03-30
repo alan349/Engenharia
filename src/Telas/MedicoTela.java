@@ -5,16 +5,20 @@
  */
 package Telas;
 
+import javax.swing.UIManager;
+
 /**
  *
  * @author Alan
  */
 public class MedicoTela extends javax.swing.JFrame {
-
+    public static String user ;
     /**
      * Creates new form MedicoTela
      */
-    public MedicoTela() {
+    public MedicoTela(String usuario) {
+        user = usuario;
+        
         initComponents();
     }
 
@@ -39,11 +43,11 @@ public class MedicoTela extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 395, Short.MAX_VALUE)
+            .addGap(0, 537, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 272, Short.MAX_VALUE)
+            .addGap(0, 335, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Prontuários", jPanel1);
@@ -52,11 +56,11 @@ public class MedicoTela extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 395, Short.MAX_VALUE)
+            .addGap(0, 537, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 272, Short.MAX_VALUE)
+            .addGap(0, 335, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Atendimentos", jPanel2);
@@ -87,12 +91,7 @@ public class MedicoTela extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel"); 
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(MedicoTela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
@@ -107,7 +106,8 @@ public class MedicoTela extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MedicoTela().setVisible(true);
+               new MedicoTela(user).setVisible(true); 
+                
             }
         });
     }

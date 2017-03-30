@@ -5,9 +5,16 @@
  */
 package Telas;
 
+import Entidades.Acessos;
 import Entidades.Usuario;
+import Repositorios.AcessosRepositorio;
 import Repositorios.UsuarioRepositorio;
+import java.sql.Time;
+import java.time.LocalDateTime;
+import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+
 
 /**
  *
@@ -45,6 +52,8 @@ public class Login extends javax.swing.JFrame {
 
         jLabel2.setText("Senha");
 
+        txtSenha.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
         btnLogar.setText("Logar");
         btnLogar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -80,14 +89,14 @@ public class Login extends javax.swing.JFrame {
                 .addGap(23, 23, 23)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnLogar)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();
@@ -99,20 +108,27 @@ public class Login extends javax.swing.JFrame {
         
         String user = txtLogin.getText();
         String senha = txtSenha.getText();
-        System.out.println("1");
         Usuario usuario = usuarioRepositorio.buscarPorUsuario(user);
-        System.out.println(usuario.getUsuario());
-        System.out.println(usuario.getSenha());
-        System.out.println(senha);
         String pass = usuario.getSenha();
         if(senha.equals(pass)){
-            if(usuario.getNP() == 1){
+            setVisible(false);
+            
+            AcessosRepositorio acessosRepositorio = new AcessosRepositorio();
+            Acessos acessos = new Acessos();
+
+            acessos.setData(new Date());
+            acessos.setNome("aa");
+            acessos.setUsuario("a");
+            acessosRepositorio.inserir(acessos);
+
+            /*if(usuario.getNP() == 1){
+                new MedicoTela(usuario.getUsuario()).setVisible(true);
                 
             }else if(usuario.getNP() == 2){
-            
+                System.out.println("np 2");
             }else if (usuario.getNP() == 3){
-                
-            }
+                System.out.println("np 3");
+            }*/
         }else{
             JOptionPane.showMessageDialog(null, "Senha Incorreta!");
         }
@@ -129,12 +145,7 @@ public class Login extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
+           UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel"); 
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
