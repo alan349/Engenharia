@@ -26,16 +26,22 @@ public class AcessosRepositorio {
         transacao.commit();
         sessao.close();
     }
-    public List<Acessos> buscarPorData(Date data) {
+    public List<Acessos> buscarPorData() {
+        DateFormat formatorData = new SimpleDateFormat("dd/MM/yyyy");
         Session sessao = Hibernate.NewHibernateUtil.getSessionFactory().openSession();
-        Criteria criterio = 
-            sessao.createCriteria(Acessos.class);
+        Criteria criterio
+                = sessao.createCriteria(Acessos.class);
         System.out.println("criteria");
-        criterio.add(Restrictions.ge("data", new Date(117, 03, 29, 0,0,0))); 
-        criterio.add(Restrictions.lt("data",new Date(117, 03, 30, 0,0,0)));
+        try {
+            criterio.add(Restrictions.ge("data", formatorData.parse("20/03/2017")));
+            criterio.add(Restrictions.lt("data", formatorData.parse("31/03/2017")));
+
+        } catch (ParseException ex) {
+            Logger.getLogger(AcessosRepositorio.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         List<Acessos> acessos = criterio.list();
-        
+
         sessao.close();
         return acessos;
     }
