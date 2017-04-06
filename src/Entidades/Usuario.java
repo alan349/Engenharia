@@ -7,6 +7,7 @@ package Entidades;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 
@@ -17,8 +18,10 @@ import javax.persistence.Id;
 @Entity
 public class Usuario {
     @Id
+    @GeneratedValue
+    private Integer id;
     @Column(nullable = false, unique = true)
-    private Float CPF;
+    private String CPF;
     @Column(length = 20, nullable = false, unique = true)
     private String RG;
     @Column(length = 200, nullable = false)
@@ -33,14 +36,14 @@ public class Usuario {
     /**
      * @return the CPF
      */
-    public Float getCPF() {
+    public String getCPF() {
         return CPF;
     }
 
     /**
      * @param CPF the CPF to set
      */
-    public void setCPF(Float CPF) {
+    public void setCPF(String CPF) {
         this.CPF = CPF;
     }
 
@@ -112,6 +115,20 @@ public class Usuario {
      */
     public void setNP(Integer NP) {
         this.NP = NP;
+    }
+
+    /**
+     * @return the id
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
 

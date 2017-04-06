@@ -5,6 +5,12 @@
  */
 package Telas;
 
+import Entidades.Usuario;
+import Repositorios.UsuarioRepositorio;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Alan
@@ -17,6 +23,7 @@ public class AdminTela extends javax.swing.JFrame {
     public AdminTela(String usuario) {
         user = usuario;
         initComponents();
+        carregarTabela();
     }
 
     /**
@@ -30,6 +37,12 @@ public class AdminTela extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel5 = new javax.swing.JPanel();
+        btnInserir = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbUsuarios = new javax.swing.JTable();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        btnAlt = new javax.swing.JToggleButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -37,15 +50,78 @@ public class AdminTela extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        btnInserir.setLabel("Inserir");
+        btnInserir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnInserirMouseClicked(evt);
+            }
+        });
+
+        tbUsuarios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nome", "Usuario", "Senha", "N.P.", "CPF", "RG"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tbUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbUsuariosMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbUsuarios);
+
+        jLabel1.setText("Digite o CPF do usuário desejado:");
+
+        btnAlt.setText("Alterar");
+        btnAlt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAltMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 552, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(54, 54, 54)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(120, 120, 120)
+                        .addComponent(btnInserir)
+                        .addGap(69, 69, 69)
+                        .addComponent(btnAlt))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1))
+                .addGap(54, 54, 54))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 336, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap(41, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(52, 52, 52)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnInserir)
+                    .addComponent(btnAlt))
+                .addGap(21, 21, 21))
         );
 
         jTabbedPane1.addTab("Usuários", jPanel5);
@@ -54,11 +130,11 @@ public class AdminTela extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 552, Short.MAX_VALUE)
+            .addGap(0, 560, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 336, Short.MAX_VALUE)
+            .addGap(0, 339, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Pacientes", jPanel1);
@@ -67,11 +143,11 @@ public class AdminTela extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 552, Short.MAX_VALUE)
+            .addGap(0, 560, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 336, Short.MAX_VALUE)
+            .addGap(0, 339, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Atendimentos", jPanel2);
@@ -80,11 +156,11 @@ public class AdminTela extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 552, Short.MAX_VALUE)
+            .addGap(0, 560, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 336, Short.MAX_VALUE)
+            .addGap(0, 339, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Prontuários", jPanel3);
@@ -93,11 +169,11 @@ public class AdminTela extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 552, Short.MAX_VALUE)
+            .addGap(0, 560, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 336, Short.MAX_VALUE)
+            .addGap(0, 339, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Relatórios", jPanel4);
@@ -106,7 +182,7 @@ public class AdminTela extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 565, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -116,6 +192,45 @@ public class AdminTela extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private static boolean alterar = false;
+    
+    private void btnAltMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAltMouseClicked
+        // TODO add your handling code here:
+        if(btnAlt.isSelected() == true){
+            alterar = true;
+        }else{
+            alterar = false;
+        }
+    }//GEN-LAST:event_btnAltMouseClicked
+
+    private void tbUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbUsuariosMouseClicked
+        // TODO add your handling code here:
+        if(alterar == true){
+            test();
+        }
+    }//GEN-LAST:event_tbUsuariosMouseClicked
+
+    private void btnInserirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInserirMouseClicked
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) tbUsuarios.getModel();
+        UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
+        Usuario usuario = new Usuario();
+        String nome = JOptionPane.showInputDialog("Insira o Nome:");
+        usuario.setNome(nome);
+        String user = JOptionPane.showInputDialog("Insira o Usuário:");
+        usuario.setUsuario(user);
+        String senha = JOptionPane.showInputDialog("Insira a Senha:");
+        usuario.setSenha(senha);
+        String np = JOptionPane.showInputDialog("Insira o Nível de Privilégio:");
+        usuario.setNP(Integer.parseInt(np));
+        String cpf = JOptionPane.showInputDialog("Insira o CPF:");
+        usuario.setCPF(cpf);
+        String rg = JOptionPane.showInputDialog("Insira o RG:");
+        usuario.setRG(rg);
+        usuarioRepositorio.inserir(usuario);
+        carregarTabela();
+    }//GEN-LAST:event_btnInserirMouseClicked
 
     /**
      * @param args the command line arguments
@@ -148,9 +263,60 @@ public class AdminTela extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new AdminTela(user).setVisible(true);
+                System.out.println(alterar);
             }
         });
     }
+    
+    public void test(){
+        UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
+        
+        Integer row = tbUsuarios.getSelectedRow();
+        Integer col = tbUsuarios.getSelectedColumn();
+        String title = (String) tbUsuarios.getColumnName(col);
+        String nome = (String) tbUsuarios.getValueAt(row, 0);
+        Usuario usuario = usuarioRepositorio.buscarPorNome(nome);
+        
+        switch (title) {
+            case "Nome":
+                usuario.setNome(JOptionPane.showInputDialog("Digite o novo valor:"));
+                break;
+            case "Usuario":
+                usuario.setUsuario(JOptionPane.showInputDialog("Digite o novo valor:"));
+                break;
+            case "Senha":
+                usuario.setSenha(JOptionPane.showInputDialog("Digite o novo valor:"));
+                break;
+            case "NP":
+                usuario.setNP(Integer.parseInt(JOptionPane.showInputDialog("Digite o novo valor:")));
+                break;
+            case "CPF":
+                usuario.setCPF(JOptionPane.showInputDialog("Digite o novo valor:"));
+                break;
+            case "RG":
+                usuario.setRG(JOptionPane.showInputDialog("Digite o novo valor:"));
+                break;
+            default:
+                break;
+        }
+        
+        usuarioRepositorio.editar(usuario);
+        carregarTabela();
+    }
+    
+    public void carregarTabela(){
+        UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
+        List<Usuario> usuarios = usuarioRepositorio.buscarTudoOrdenado();
+
+        String[] colunasTabela = new String []{"Nome", "Usuario", "Senha", "NP", "CPF", "RG"};
+        DefaultTableModel modeloTabela = new DefaultTableModel(null, colunasTabela){};
+        tbUsuarios.setModel(modeloTabela);
+       
+        for (Usuario usuario : usuarios) {
+            modeloTabela.addRow(new Object[]{usuario.getNome(),usuario.getUsuario(),usuario.getSenha(),
+            usuario.getNP(),usuario.getCPF(),usuario.getRG()});   
+            }
+       }
     
     @Override
     public void dispose() {
@@ -159,11 +325,17 @@ public class AdminTela extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton btnAlt;
+    private javax.swing.JButton btnInserir;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable tbUsuarios;
     // End of variables declaration//GEN-END:variables
 }

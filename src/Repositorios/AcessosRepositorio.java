@@ -6,6 +6,9 @@
 package Repositorios;
 
 import Entidades.Acessos;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.Criteria;
@@ -26,19 +29,17 @@ public class AcessosRepositorio {
         transacao.commit();
         sessao.close();
     }
-    public List<Acessos> buscarPorData() {
-        DateFormat formatorData = new SimpleDateFormat("dd/MM/yyyy");
+    public List<Acessos> buscarPorData(String date) throws ParseException {
+        DateFormat formatorData = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
         Session sessao = Hibernate.NewHibernateUtil.getSessionFactory().openSession();
         Criteria criterio
                 = sessao.createCriteria(Acessos.class);
         System.out.println("criteria");
-        try {
-            criterio.add(Restrictions.ge("data", formatorData.parse("20/03/2017")));
-            criterio.add(Restrictions.lt("data", formatorData.parse("31/03/2017")));
+            
+            criterio.add(Restrictions.ge("data", formatorData.parse(date+" 00:00:00")));
+            criterio.add(Restrictions.le("data", formatorData.parse(date+" 23:59:59")));
 
-        } catch (ParseException ex) {
-            Logger.getLogger(AcessosRepositorio.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
 
         List<Acessos> acessos = criterio.list();
 
