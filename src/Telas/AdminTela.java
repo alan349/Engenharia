@@ -570,6 +570,7 @@ public class AdminTela extends javax.swing.JFrame {
         for (Usuario usuario : usuarios) {
             modeloTabela.addRow(new Object[]{usuario.getNome(),usuario.getUsuario(),usuario.getSenha(),
             usuario.getNP(),usuario.getCPF(),usuario.getRG()});   
+            
         }
     }
     
