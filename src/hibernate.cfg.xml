@@ -51,5 +51,6 @@ Contributor(s):
     <property name="hibernate.c3p0.timeout">0</property>
     <mapping class="Entidades.Usuario"/>
     <mapping class="Entidades.Acessos"/>
+    <mapping class="Entidades.Paciente"/>
   </session-factory>
 </hibernate-configuration>
