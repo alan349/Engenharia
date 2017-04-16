@@ -67,14 +67,14 @@
                                   <Group type="102" alignment="1" attributes="0">
                                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="txtCpf" min="-2" pref="286" max="-2" attributes="0"/>
+                                      <Component id="txtCpfAdmin" min="-2" pref="286" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="btnInserir" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnInsUsuario" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="btnAlt" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnAltUsuario" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="173" max="-2" attributes="0"/>
-                                      <Component id="btnExcluir" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnExcUsuario" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -90,16 +90,16 @@
                       <Component id="lblCpf" min="-2" pref="19" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="txtCpf" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtCpfAdmin" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="324" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="btnInserir" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnAlt" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnExcluir" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnInsUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnAltUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnExcUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -107,12 +107,12 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="btnInserir">
+            <Component class="javax.swing.JButton" name="btnInsUsuario">
               <Properties>
                 <Property name="label" type="java.lang.String" value="Inserir"/>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnInserirMouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnInsUsuarioMouseClicked"/>
               </Events>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -178,9 +178,9 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JTextField" name="txtCpf">
+            <Component class="javax.swing.JTextField" name="txtCpfAdmin">
               <Events>
-                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCpfKeyReleased"/>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCpfAdminKeyReleased"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel1">
@@ -188,12 +188,12 @@
                 <Property name="text" type="java.lang.String" value="Digite o CPF do Usu&#xe1;rio desejado:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JToggleButton" name="btnAlt">
+            <Component class="javax.swing.JToggleButton" name="btnAltUsuario">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Habilitar Altera&#xe7;&#xf5;es"/>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnAltMouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnAltUsuarioMouseClicked"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="lblCpf">
@@ -201,12 +201,12 @@
                 <Property name="horizontalAlignment" type="int" value="0"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JToggleButton" name="btnExcluir">
+            <Component class="javax.swing.JToggleButton" name="btnExcUsuario">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnExcluirMouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnExcUsuarioMouseClicked"/>
               </Events>
             </Component>
           </SubComponents>
@@ -235,15 +235,15 @@
                                   <Group type="102" attributes="0">
                                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="txtSus" min="-2" pref="286" max="-2" attributes="0"/>
+                                      <Component id="txtCpfPaciente" min="-2" pref="286" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="jScrollPane2" min="-2" pref="593" max="-2" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="btnInserir1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnInsPaciente" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="btnAlt1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnAltPaciente" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="170" max="-2" attributes="0"/>
-                                      <Component id="btnExcluir1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnExcPaciente" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -259,16 +259,16 @@
                       <Component id="lblSus" min="-2" pref="19" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="txtSus" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtCpfPaciente" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jScrollPane2" min="-2" pref="324" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="btnInserir1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnAlt1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnExcluir1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnInsPaciente" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnAltPaciente" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnExcPaciente" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -276,12 +276,12 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="btnInserir1">
+            <Component class="javax.swing.JButton" name="btnInsPaciente">
               <Properties>
                 <Property name="label" type="java.lang.String" value="Inserir"/>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnInserir1MouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnInsPacienteMouseClicked"/>
               </Events>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane2">
@@ -347,22 +347,22 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JTextField" name="txtSus">
+            <Component class="javax.swing.JTextField" name="txtCpfPaciente">
               <Events>
-                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtSusKeyReleased"/>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCpfPacienteKeyReleased"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel2">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Digite o C&#xf3;digo Sus do Paciente:"/>
+                <Property name="text" type="java.lang.String" value="Digite o CPF do Paciente desejado:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JToggleButton" name="btnAlt1">
+            <Component class="javax.swing.JToggleButton" name="btnAltPaciente">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Habilitar Altera&#xe7;&#xf5;es"/>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnAlt1MouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnAltPacienteMouseClicked"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="lblSus">
@@ -370,12 +370,12 @@
                 <Property name="horizontalAlignment" type="int" value="0"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JToggleButton" name="btnExcluir1">
+            <Component class="javax.swing.JToggleButton" name="btnExcPaciente">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnExcluir1MouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnExcPacienteMouseClicked"/>
               </Events>
             </Component>
           </SubComponents>
@@ -401,7 +401,7 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
                       <Component id="jScrollPane3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="273" max="32767" attributes="0"/>
