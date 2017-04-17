@@ -9,7 +9,6 @@ import Entidades.Paciente;
 import Entidades.Usuario;
 import Repositorios.PacienteRepositorio;
 import Repositorios.UsuarioRepositorio;
-import datechooser.beans.DateChooserCombo;
 import java.awt.Rectangle;
 import java.text.SimpleDateFormat;
 import java.util.List;
