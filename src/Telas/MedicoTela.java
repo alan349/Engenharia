@@ -61,6 +61,11 @@ public class MedicoTela extends javax.swing.JFrame {
         jButton2.setText("jButton2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jTabbedPane1.setName("Prontuários"); // NOI18N
 
@@ -149,7 +154,6 @@ public class MedicoTela extends javax.swing.JFrame {
         Prontuario prontuario = prontuarioRepositorio.buscarPorNome(nome);
         Usuario usuario = usuarioRepositorio.buscarPorUsuario(user);
         new ProntuarioTela(prontuario.getPaciente(),usuario).alterarProntuario(prontuario);
-        carregartabela();
         
         
     }//GEN-LAST:event_tbProntuMouseClicked
@@ -162,10 +166,14 @@ public class MedicoTela extends javax.swing.JFrame {
         Paciente paciente = pacienteRepositorio.buscarPorCpf(pront);
         Usuario usuario = usuarioRepositorio.buscarPorUsuario(user);
         new ProntuarioTela(paciente,usuario).setVisible(true);
-       carregartabela();
       
        
     }//GEN-LAST:event_btnCadastrarMouseClicked
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // TODO add your handling code here:
+        carregartabela();
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments
