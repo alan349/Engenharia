@@ -30,6 +30,7 @@ public class AdminTela extends javax.swing.JFrame {
         user = usuario;
         initComponents();
         TabelaUsuario();
+        TabelaPaciente();
     }
 
     /**
@@ -463,21 +464,38 @@ public class AdminTela extends javax.swing.JFrame {
             Thread.currentThread().stop();
         }
         paciente.setSUS(sus);
+        
         JFormattedTextField ftxt = new JFormattedTextField();
-        ftxt.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
-        Object[] params = {"Insira a Data de Nascmento:", ftxt};
-        String data = JOptionPane.showInputDialog(null,params,"Start date", JOptionPane.PLAIN_MESSAGE);
-        System.out.println(data);
-        Thread.currentThread().stop();
-        if(data == null){
+        try {
+            ftxt.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        Object[] params = {"Insira a Data de Nascimento:", ftxt};
+        JOptionPane.showMessageDialog(null, params);
+        String data = ftxt.getText();
+        data = data.replace("/", "");
+        data = data.replace(" ", "");
+
+        if(data.equals("")){
             cancelar();
             Thread.currentThread().stop();
         }
-        paciente.setSUS(sus);
-        
-        
+        paciente.setDataNasc(data);
+        String end = JOptionPane.showInputDialog("Insira o Endereço:");
+        if(end == null){
+            cancelar();
+            Thread.currentThread().stop();
+        }
+        paciente.setEndereco(end);
+        String fone = JOptionPane.showInputDialog("Insira o Telefone:");
+        if(fone == null){
+            cancelar();
+            Thread.currentThread().stop();
+        }
+        paciente.setFone(fone);
         pacienteRepositorio.inserir(paciente);
-        TabelaUsuario();
+      
     }//GEN-LAST:event_btnInsPacienteMouseClicked
 
     private void tbPacientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbPacientesMouseClicked
@@ -618,31 +636,31 @@ public class AdminTela extends javax.swing.JFrame {
                 break;
         }
         usuarioRepositorio.editar(usuario);
-        TabelaUsuario();
+        TabelaPaciente();
     }
     
     public void ExcluirPaciente(){
         UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
-        Integer row = tbUsuarios.getSelectedRow();
-        String nome = (String) tbUsuarios.getValueAt(row, 0);
+        Integer row = tbPacientes.getSelectedRow();
+        String nome = (String) tbPacientes.getValueAt(row, 0);
         Usuario usuario = usuarioRepositorio.buscarPorNome(nome);
         usuarioRepositorio.excluir(usuario);
-        TabelaUsuario();
+        TabelaPaciente();
         JOptionPane.showMessageDialog(null, "Excluido Com Sucesso.");
-        btnExcUsuario.setText("Excluir");
-        excluirUsuario = false;
-        btnExcUsuario.setSelected(false);
+        btnExcPaciente.setText("Excluir");
+        excluirPaciente = false;
+        btnExcPaciente.setSelected(false);
     }
     
     public void TabelaPaciente(){
-        UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
-        List<Usuario> usuarios = usuarioRepositorio.buscarTudoOrdenado();
-        String[] colunasTabela = new String []{"Nome", "Usuario", "Senha", "NP", "CPF", "RG"};
+        PacienteRepositorio pacienteRepositorio = new PacienteRepositorio();
+        List<Paciente> pacientes = pacienteRepositorio.buscarTudoOrdenado();
+        String[] colunasTabela = new String []{"Nome", "CPF", "SUS", "Data Nasc.", "Endereço", "Fone"};
         DefaultTableModel modeloTabela = new DefaultTableModel(null, colunasTabela){};
         tbUsuarios.setModel(modeloTabela);
-        for (Usuario usuario : usuarios) {
-            modeloTabela.addRow(new Object[]{usuario.getNome(),usuario.getUsuario(),usuario.getSenha(),
-            usuario.getNP(),usuario.getCPF(),usuario.getRG()});   
+        for (Paciente paciente : pacientes) {
+            modeloTabela.addRow(new Object[]{paciente.getNome(),paciente.getCPF(),paciente.getSUS(),
+            paciente.getDataNasc(),paciente.getEndereco(),paciente.getFone()});   
             
         }
     }
