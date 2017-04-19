@@ -76,6 +76,7 @@ public class AdminTela extends javax.swing.JFrame {
         jltHora = new javax.swing.JList<>();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -313,6 +314,8 @@ public class AdminTela extends javax.swing.JFrame {
         ));
         jScrollPane5.setViewportView(jTable1);
 
+        jButton1.setText("Agendar");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -326,8 +329,10 @@ public class AdminTela extends javax.swing.JFrame {
                         .addGap(26, 26, 26)
                         .addComponent(calendarData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(29, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane4))))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -341,7 +346,9 @@ public class AdminTela extends javax.swing.JFrame {
                         .addComponent(calendarData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane4)))
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(50, Short.MAX_VALUE))
@@ -591,7 +598,7 @@ public class AdminTela extends javax.swing.JFrame {
 
     private void jltMedicoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jltMedicoMouseClicked
         // TODO add your handling code here:
-        System.out.println("test");
+       /*
         LocalDate selDate = calendarData.getSelectedDate();        
             System.out.println(selDate);
         System.out.println(LocalTime.now().toString().substring(0, 2));
@@ -611,13 +618,14 @@ public class AdminTela extends javax.swing.JFrame {
         
         paciente = pacienteRepositorio.buscarPorCpf("432");
         atendimento.setPaciente(paciente);
-        atendimentoRepositorio.inserir(atendimento);
+        atendimentoRepositorio.inserir(atendimento);*/
         test();
     }//GEN-LAST:event_jltMedicoMouseClicked
 
     public void test(){
         AtendimentoRepositorio atendimentoRepositorio = new AtendimentoRepositorio();
-        List<Atendimento> atendimentos = atendimentoRepositorio.buscarTudoOrdenado();
+        List<Atendimento> atendimentos = atendimentoRepositorio.buscarPorMedico("m");
+        
         for (Atendimento atendimento : atendimentos) {
             System.out.println(atendimento.getId().getMedico());
             System.out.println(atendimento.getId().getData());
@@ -890,6 +898,7 @@ public class AdminTela extends javax.swing.JFrame {
     private javax.swing.JButton btnInsPaciente;
     private javax.swing.JButton btnInsUsuario;
     private com.github.lgooddatepicker.components.CalendarPanel calendarData;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

@@ -35,5 +35,12 @@ public class AtendimentoRepositorio {
         return atendimentos;
     }
     
-    
+    public List<Atendimento> buscarPorMedico(String medico){
+        Session sessao =  Hibernate.NewHibernateUtil.getSessionFactory().openSession();
+        Query query = sessao.createQuery("from Atendimento where Medico = :med");
+        query.setParameter("med", medico);
+        List<Atendimento> atendimentos = query.list();
+        sessao.close();
+        return atendimentos;
+    }
 }
