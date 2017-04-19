@@ -53,5 +53,6 @@ Contributor(s):
     <mapping class="Entidades.Acessos"/>
     <mapping class="Entidades.Paciente"/>
     <mapping class="Entidades.Prontuario"/>
+    <mapping class="Entidades.Atendimento"/>
   </session-factory>
 </hibernate-configuration>
