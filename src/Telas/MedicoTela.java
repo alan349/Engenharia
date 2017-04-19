@@ -162,8 +162,8 @@ public class MedicoTela extends javax.swing.JFrame {
         // TODO add your handling code here:
         PacienteRepositorio pacienteRepositorio = new PacienteRepositorio();
         UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
-        String pront = JOptionPane.showInputDialog("Insira o CPF do paciente:");
-        Paciente paciente = pacienteRepositorio.buscarPorCpf(pront);
+        String paci = JOptionPane.showInputDialog("Insira o CPF do paciente:");
+        Paciente paciente = pacienteRepositorio.buscarPorCpf(paci);
         Usuario usuario = usuarioRepositorio.buscarPorUsuario(user);
         new ProntuarioTela(paciente,usuario).setVisible(true);
       

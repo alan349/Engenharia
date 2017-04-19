@@ -18,8 +18,9 @@ import javax.swing.JOptionPane;
  * @author Danilo
  */
 public class ProntuarioTela extends javax.swing.JFrame {
- public static Paciente pront ;
-  public static Usuario medico ;
+    public static Prontuario pront;
+    public static Paciente paci;
+    public static Usuario medico;
   
     /**
      * Creates new form Prontuario
@@ -27,15 +28,14 @@ public class ProntuarioTela extends javax.swing.JFrame {
      * @param Medico
      */
     public ProntuarioTela(Paciente prontuario ,Usuario Medico) {
-        pront = prontuario;
+        paci = prontuario;
         medico = Medico;
         initComponents();
-        carreganome(pront.getNome(),medico.getNome());
+        carreganome(paci.getNome(),medico.getNome());
         
-     
     }
-    public void carreganome( String pront , String medico){
-    txtNPaciente.setText(pront);
+    public void carreganome( String paci , String medico){
+    txtNPaciente.setText(paci);
     txtNMedico.setText(medico);
     }
     public void alterarProntuario(Prontuario prontuario){
@@ -43,7 +43,7 @@ public class ProntuarioTela extends javax.swing.JFrame {
         txtAltura.setText(String.valueOf(prontuario.getAltura()));
         txtPeso.setText(String.valueOf(prontuario.getPeso()));
         txaAnota.setText(prontuario.getAnotacoes());
-        carreganome(pront.getNome(), medico.getNome());
+        carreganome(paci.getNome(), medico.getNome());
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -164,8 +164,8 @@ public class ProntuarioTela extends javax.swing.JFrame {
     private void btnOKMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOKMouseClicked
         // TODO add your handling code here:
         ProntuarioRepositorio prontuarioRepositorio = new ProntuarioRepositorio();
-        Prontuario prontuario = new Prontuario();
-        prontuario.setPaciente(pront);
+        Prontuario prontuario = pront;
+        prontuario.setPaciente(paci);
         prontuario.setMedico(medico);   
         prontuario.setAltura(Float.valueOf(txtAltura.getText()));
         prontuario.setData(new Date());
@@ -208,7 +208,7 @@ public class ProntuarioTela extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ProntuarioTela(pront,medico).setVisible(true);
+                new ProntuarioTela(paci,medico).setVisible(true);
             }
         });
     }
