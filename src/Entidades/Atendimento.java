@@ -7,6 +7,7 @@ package Entidades;
 
 import java.io.Serializable;
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,16 +20,43 @@ import javax.persistence.ManyToOne;
  * @author Alan
  */
 @Entity
-public class Atendimento {
+public class Atendimento implements Serializable {
     @EmbeddedId
-    private AtPK id;
+    private AtendimentoPK id;
     @ManyToOne
     @JoinColumn(nullable = false)
     private Paciente paciente;
-}
 
-class AtPK implements Serializable{
-    private String Medico;
-    private String Data;
-    private String Hora;
+    /**
+     * @return the id
+     */
+    
+
+    /**
+     * @return the paciente
+     */
+    public Paciente getPaciente() {
+        return paciente;
+    }
+
+    /**
+     * @param paciente the paciente to set
+     */
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
+    }
+
+    /**
+     * @return the id
+     */
+    public AtendimentoPK getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(AtendimentoPK id) {
+        this.id = id;
+    }
 }

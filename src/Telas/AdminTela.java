@@ -5,6 +5,8 @@
  */
 package Telas;
 
+import Entidades.Atendimento;
+import Entidades.AtendimentoPK;
 import Entidades.Paciente;
 import Entidades.Usuario;
 import Repositorios.PacienteRepositorio;
@@ -69,7 +71,7 @@ public class AdminTela extends javax.swing.JFrame {
         jltMedico = new javax.swing.JList<>();
         calendarData = new com.github.lgooddatepicker.components.CalendarPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        jltHora = new javax.swing.JList<>();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
@@ -292,12 +294,12 @@ public class AdminTela extends javax.swing.JFrame {
 
         calendarData.setSelectedDate(LocalDate.now());
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        jltHora.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane4.setViewportView(jList1);
+        jScrollPane4.setViewportView(jltHora);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -595,6 +597,14 @@ public class AdminTela extends javax.swing.JFrame {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String formatted = selDate.format(formatter);
         System.out.println(formatted);
+        Atendimento atendimento = new Atendimento();
+        AtendimentoPK atendimentoPK = new AtendimentoPK();
+        atendimentoPK.setData(formatted);
+        atendimentoPK.setHora(jltHora.getSelectedValue());
+        atendimentoPK.setMedico(jltMedico.getSelectedValue());
+        atendimento.setId(atendimentoPK);
+        Paciente paciente = new Paciente();
+        atendimento.setPaciente(paciente);
     }//GEN-LAST:event_jltMedicoMouseClicked
 
     /**
@@ -864,7 +874,6 @@ public class AdminTela extends javax.swing.JFrame {
     private com.github.lgooddatepicker.components.CalendarPanel calendarData;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
@@ -876,6 +885,7 @@ public class AdminTela extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JList<String> jltHora;
     private javax.swing.JList<String> jltMedico;
     private javax.swing.JLabel lblCpfPaciente;
     private javax.swing.JLabel lblCpfUsuario;
