@@ -75,8 +75,8 @@ public class AdminTela extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         jltHora = new javax.swing.JList<>();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        tbAtendimento = new javax.swing.JTable();
+        btnAgendar = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -304,7 +304,7 @@ public class AdminTela extends javax.swing.JFrame {
         jltHora.setSelectedIndex(0);
         jScrollPane4.setViewportView(jltHora);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbAtendimento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -312,9 +312,14 @@ public class AdminTela extends javax.swing.JFrame {
                 "Data", "Hora", "Paciente"
             }
         ));
-        jScrollPane5.setViewportView(jTable1);
+        jScrollPane5.setViewportView(tbAtendimento);
 
-        jButton1.setText("Agendar");
+        btnAgendar.setText("Agendar");
+        btnAgendar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAgendarMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -330,7 +335,7 @@ public class AdminTela extends javax.swing.JFrame {
                         .addComponent(calendarData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnAgendar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jScrollPane4))))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
@@ -348,7 +353,7 @@ public class AdminTela extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                        .addComponent(btnAgendar)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(50, Short.MAX_VALUE))
@@ -598,40 +603,32 @@ public class AdminTela extends javax.swing.JFrame {
 
     private void jltMedicoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jltMedicoMouseClicked
         // TODO add your handling code here:
-       /*
-        LocalDate selDate = calendarData.getSelectedDate();        
-            System.out.println(selDate);
-        System.out.println(LocalTime.now().toString().substring(0, 2));
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        String formatted = selDate.format(formatter);
-        System.out.println(formatted);
+        TabelaAtendimento(jltMedico.getSelectedValue());
+    }//GEN-LAST:event_jltMedicoMouseClicked
+
+    private void btnAgendarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgendarMouseClicked
+        // TODO add your handling code here:
         Atendimento atendimento = new Atendimento();
         AtendimentoRepositorio atendimentoRepositorio = new AtendimentoRepositorio();
         AtendimentoPK atendimentoPK = new AtendimentoPK();
+        PacienteRepositorio pacienteRepositorio = new PacienteRepositorio();
+        
+        LocalDate selDate = calendarData.getSelectedDate();        
+        String formatted = selDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         atendimentoPK.setData(formatted);
         atendimentoPK.setHora(jltHora.getSelectedValue());
         atendimentoPK.setMedico(jltMedico.getSelectedValue());
         atendimento.setId(atendimentoPK);
-        System.out.println(atendimento.getId().getMedico());
-        Paciente paciente = new Paciente();
-        PacienteRepositorio pacienteRepositorio = new PacienteRepositorio();
-        
-        paciente = pacienteRepositorio.buscarPorCpf("432");
-        atendimento.setPaciente(paciente);
-        atendimentoRepositorio.inserir(atendimento);*/
-        test();
-    }//GEN-LAST:event_jltMedicoMouseClicked
-
-    public void test(){
-        AtendimentoRepositorio atendimentoRepositorio = new AtendimentoRepositorio();
-        List<Atendimento> atendimentos = atendimentoRepositorio.buscarPorMedico("m");
-        
-        for (Atendimento atendimento : atendimentos) {
-            System.out.println(atendimento.getId().getMedico());
-            System.out.println(atendimento.getId().getData());
-            System.out.println(atendimento.getId().getHora());
+        String cpf = JOptionPane.showInputDialog(null, "Digite o CPF do Paciente desejado:");
+        if (cpf.isEmpty()){
+            cancelar();
+            Thread.currentThread().stop();
         }
-    }
+        Paciente paciente = pacienteRepositorio.buscarPorCpf(cpf);
+        atendimento.setPaciente(paciente);
+        atendimentoRepositorio.inserir(atendimento);
+    }//GEN-LAST:event_btnAgendarMouseClicked
+
     
     /**
      * @param args the command line arguments
@@ -884,6 +881,29 @@ public class AdminTela extends javax.swing.JFrame {
         }
     }
     
+    public void TabelaAtendimento(String medico){
+        AtendimentoRepositorio atendimentoRepositorio = new AtendimentoRepositorio();
+        List<Atendimento> atendimentos = atendimentoRepositorio.buscarPorMedico(medico);
+        String[] colunasTabela = new String []{"Data", "Hora", "Paciente"};
+        DefaultTableModel modeloTabela = new DefaultTableModel(null, colunasTabela){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+               //all cells false
+               return false;
+            }
+        };
+        tbAtendimento.setModel(modeloTabela);
+        if(atendimentos.isEmpty()){
+            modeloTabela.addRow(new Object[]{"","",""});
+            Thread.currentThread().stop();
+        }else{
+            for (Atendimento atendimento : atendimentos) {
+                modeloTabela.addRow(new Object[]{atendimento.getId().getData(),atendimento.getId().getHora(),
+                atendimento.getPaciente().getNome()});   
+            }
+        }
+    }
+    
     /*@Override
     public void dispose() {
     new Login().setVisible(true);
@@ -891,6 +911,7 @@ public class AdminTela extends javax.swing.JFrame {
     }*/
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgendar;
     private javax.swing.JToggleButton btnAltPaciente;
     private javax.swing.JToggleButton btnAltUsuario;
     private javax.swing.JToggleButton btnExcPaciente;
@@ -898,7 +919,6 @@ public class AdminTela extends javax.swing.JFrame {
     private javax.swing.JButton btnInsPaciente;
     private javax.swing.JButton btnInsUsuario;
     private com.github.lgooddatepicker.components.CalendarPanel calendarData;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
@@ -911,11 +931,11 @@ public class AdminTela extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JList<String> jltHora;
     private javax.swing.JList<String> jltMedico;
     private javax.swing.JLabel lblCpfPaciente;
     private javax.swing.JLabel lblCpfUsuario;
+    private javax.swing.JTable tbAtendimento;
     private javax.swing.JTable tbPacientes;
     private javax.swing.JTable tbUsuarios;
     private javax.swing.JTextField txtCpfPaciente;

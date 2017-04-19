@@ -40,6 +40,11 @@ public class AtendimentoRepositorio {
         Query query = sessao.createQuery("from Atendimento where Medico = :med");
         query.setParameter("med", medico);
         List<Atendimento> atendimentos = query.list();
+        if (atendimentos.isEmpty()){
+            sessao.close();
+            return null;
+        }
+        
         sessao.close();
         return atendimentos;
     }
