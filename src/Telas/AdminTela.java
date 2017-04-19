@@ -9,10 +9,12 @@ import Entidades.Atendimento;
 import Entidades.AtendimentoPK;
 import Entidades.Paciente;
 import Entidades.Usuario;
+import Repositorios.AtendimentoRepositorio;
 import Repositorios.PacienteRepositorio;
 import Repositorios.UsuarioRepositorio;
 import java.awt.Rectangle;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -77,7 +79,6 @@ public class AdminTela extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(640, 510));
 
         jTabbedPane1.setPreferredSize(new java.awt.Dimension(640, 480));
 
@@ -299,6 +300,7 @@ public class AdminTela extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        jltHora.setSelectedIndex(0);
         jScrollPane4.setViewportView(jltHora);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -341,8 +343,8 @@ public class AdminTela extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jScrollPane4)))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Agendamentos", jPanel2);
@@ -590,23 +592,39 @@ public class AdminTela extends javax.swing.JFrame {
     private void jltMedicoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jltMedicoMouseClicked
         // TODO add your handling code here:
         System.out.println("test");
-        LocalDate selDate = null;
-        selDate = calendarData.getSelectedDate();        
+        LocalDate selDate = calendarData.getSelectedDate();        
             System.out.println(selDate);
-
+        System.out.println(LocalTime.now().toString().substring(0, 2));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String formatted = selDate.format(formatter);
         System.out.println(formatted);
         Atendimento atendimento = new Atendimento();
+        AtendimentoRepositorio atendimentoRepositorio = new AtendimentoRepositorio();
         AtendimentoPK atendimentoPK = new AtendimentoPK();
         atendimentoPK.setData(formatted);
         atendimentoPK.setHora(jltHora.getSelectedValue());
         atendimentoPK.setMedico(jltMedico.getSelectedValue());
         atendimento.setId(atendimentoPK);
+        System.out.println(atendimento.getId().getMedico());
         Paciente paciente = new Paciente();
+        PacienteRepositorio pacienteRepositorio = new PacienteRepositorio();
+        
+        paciente = pacienteRepositorio.buscarPorCpf("432");
         atendimento.setPaciente(paciente);
+        atendimentoRepositorio.inserir(atendimento);
+        test();
     }//GEN-LAST:event_jltMedicoMouseClicked
 
+    public void test(){
+        AtendimentoRepositorio atendimentoRepositorio = new AtendimentoRepositorio();
+        List<Atendimento> atendimentos = atendimentoRepositorio.buscarTudoOrdenado();
+        for (Atendimento atendimento : atendimentos) {
+            System.out.println(atendimento.getId().getMedico());
+            System.out.println(atendimento.getId().getData());
+            System.out.println(atendimento.getId().getHora());
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
