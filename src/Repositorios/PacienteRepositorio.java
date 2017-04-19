@@ -39,7 +39,7 @@ public class PacienteRepositorio {
     public List<Paciente> buscarTudoOrdenado() {
         Session sessao = Hibernate.NewHibernateUtil.getSessionFactory().openSession();
         Criteria criterio = sessao.createCriteria(Paciente.class);
-        criterio.addOrder(Order.asc("nome"));   
+        criterio.addOrder(Order.asc("Nome"));   
         List<Paciente> pacientes = criterio.list();
         
         sessao.close();

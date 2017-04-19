@@ -59,6 +59,19 @@ public Usuario buscarPorUsuario(String usuario){
         sessao.close();
         return user;
     }
+
+public List<Usuario> buscarPorNP(Integer np){
+        Session sessao
+                = Hibernate.NewHibernateUtil.getSessionFactory().openSession();
+
+        Criteria criterio = 
+            sessao.createCriteria(Usuario.class);
+        criterio.add(Restrictions.eq("NP", np));
+        criterio.addOrder(Order.asc("nome"));   
+        List<Usuario> usuarios = criterio.list();
+        sessao.close();
+        return usuarios;
+    }
 public void excluir(Usuario usuario){
         Session sessao = Hibernate.NewHibernateUtil.getSessionFactory().openSession();
         Transaction transacao = sessao.beginTransaction();

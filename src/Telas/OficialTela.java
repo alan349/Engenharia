@@ -5,6 +5,15 @@
  */
 package Telas;
 
+import Entidades.Paciente;
+import Repositorios.PacienteRepositorio;
+import java.awt.Rectangle;
+import java.util.List;
+import javax.swing.JFormattedTextField;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Alan
@@ -17,6 +26,7 @@ public class OficialTela extends javax.swing.JFrame {
     public OficialTela(String usuario) {
         user = usuario;
         initComponents();
+        TabelaPaciente();
     }
 
     /**
@@ -30,21 +40,117 @@ public class OficialTela extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
+        btnInsPaciente = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tbPacientes = new javax.swing.JTable();
+        txtCpfPaciente = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        btnAltPaciente = new javax.swing.JToggleButton();
+        lblCpfPaciente = new javax.swing.JLabel();
+        btnExcPaciente = new javax.swing.JToggleButton();
         jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(640, 480));
+        setPreferredSize(new java.awt.Dimension(640, 510));
+
+        btnInsPaciente.setLabel("Inserir");
+        btnInsPaciente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnInsPacienteMouseClicked(evt);
+            }
+        });
+
+        tbPacientes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nome", "CPF", "SUS", "Data Nasc.", "Endereço", "Fone"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tbPacientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbPacientesMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tbPacientes);
+
+        txtCpfPaciente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCpfPacienteKeyReleased(evt);
+            }
+        });
+
+        jLabel2.setText("Digite o CPF do Paciente desejado:");
+
+        btnAltPaciente.setText("Habilitar Alterações");
+        btnAltPaciente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAltPacienteMouseClicked(evt);
+            }
+        });
+
+        lblCpfPaciente.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        btnExcPaciente.setText("Excluir");
+        btnExcPaciente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnExcPacienteMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 527, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(125, 125, 125)
+                        .addComponent(lblCpfPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtCpfPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 593, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnInsPaciente)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnAltPaciente)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnExcPaciente)))))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 344, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblCpfPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtCpfPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnInsPaciente)
+                    .addComponent(btnAltPaciente)
+                    .addComponent(btnExcPaciente))
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Pacientes", jPanel1);
@@ -53,37 +159,24 @@ public class OficialTela extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 527, Short.MAX_VALUE)
+            .addGap(0, 635, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 344, Short.MAX_VALUE)
+            .addGap(0, 452, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Atendimentos", jPanel2);
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 527, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 344, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Prontuários", jPanel3);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 527, Short.MAX_VALUE)
+            .addGap(0, 635, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 344, Short.MAX_VALUE)
+            .addGap(0, 452, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Relatórios", jPanel4);
@@ -103,6 +196,115 @@ public class OficialTela extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnExcPacienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExcPacienteMouseClicked
+        // TODO add your handling code here:
+        if(btnExcPaciente.isSelected() == true){
+            JOptionPane.showMessageDialog(null, "Clique no partido que deseja excluir.");
+            btnExcPaciente.setText("Cancelar Exclusão");
+            excluirPaciente = true;
+        }else{
+            btnExcPaciente.setText("Excluir");
+            excluirPaciente = false;
+        }
+    }//GEN-LAST:event_btnExcPacienteMouseClicked
+
+    private void btnAltPacienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAltPacienteMouseClicked
+        // TODO add your handling code here:
+        if(btnAltPaciente.isSelected() == true){
+            JOptionPane.showMessageDialog(null, "Clique no campo que deseja alterar.");
+            btnAltPaciente.setText("Desabilitar Alterações");
+            alterarPaciente = true;
+        }else{
+            btnAltPaciente.setText("Habilitar Alterações");
+            alterarPaciente = false;
+        }
+    }//GEN-LAST:event_btnAltPacienteMouseClicked
+
+    private void txtCpfPacienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCpfPacienteKeyReleased
+        // TODO add your handling code here:
+        Integer rows = tbPacientes.getRowCount();
+        for(int i = 0; i<rows; i++){
+            if(tbPacientes.getValueAt(i, 1).equals(txtCpfPaciente.getText())){
+                tbPacientes.setRowSelectionInterval(i, i);
+                tbPacientes.scrollRectToVisible(new Rectangle(tbPacientes.getCellRect(i, 0, true)));
+                lblCpfPaciente.setText("Paciente encontrado.");
+                Thread.currentThread().stop();
+            }else{
+                lblCpfPaciente.setText("Nenhum Paciente com este CPF foi encontrado.");
+            }
+            if(txtCpfPaciente.getText().equals("")){
+                lblCpfPaciente.setText(null);
+            }
+        }
+    }//GEN-LAST:event_txtCpfPacienteKeyReleased
+
+    private void tbPacientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbPacientesMouseClicked
+        // TODO add your handling code here:
+        if(alterarPaciente == true){
+            AlterarPaciente();
+        }else if(excluirPaciente ==true){
+            ExcluirPaciente();
+        }
+    }//GEN-LAST:event_tbPacientesMouseClicked
+
+    private void btnInsPacienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInsPacienteMouseClicked
+        // TODO add your handling code here:
+        PacienteRepositorio pacienteRepositorio = new PacienteRepositorio();
+        Paciente paciente = new Paciente();
+        String nome = JOptionPane.showInputDialog("Insira o Nome:");
+        if(nome == null){
+            cancelar();
+            Thread.currentThread().stop();
+        }
+        paciente.setNome(nome);
+        String cpf = JOptionPane.showInputDialog("Insira o CPF:");
+        if(cpf == null){
+            cancelar();
+            Thread.currentThread().stop();
+        }
+        paciente.setCPF(cpf);
+        String sus = JOptionPane.showInputDialog("Insira o código SUS:");
+        if(sus == null){
+            cancelar();
+            Thread.currentThread().stop();
+        }
+        paciente.setSUS(sus);
+
+        JFormattedTextField ftxt = new JFormattedTextField();
+        try {
+            ftxt.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        Object[] params = {"Insira a Data de Nascimento:", ftxt};
+        JOptionPane.showMessageDialog(null, params);
+        String data = ftxt.getText();
+        String dataT = data.replace("/", "");
+        dataT = dataT.replace(" ", "");
+
+        if(dataT.equals("")){
+            cancelar();
+            Thread.currentThread().stop();
+        }
+        paciente.setDataNasc(data);
+        String end = JOptionPane.showInputDialog("Insira o Endereço:");
+        if(end == null){
+            cancelar();
+            Thread.currentThread().stop();
+        }
+        paciente.setEndereco(end);
+        String fone = JOptionPane.showInputDialog("Insira o Telefone:");
+        if(fone == null){
+            cancelar();
+            Thread.currentThread().stop();
+        }
+        paciente.setFone(fone);
+        pacienteRepositorio.inserir(paciente);
+        TabelaPaciente();
+    }//GEN-LAST:event_btnInsPacienteMouseClicked
+    
+    private static boolean alterarPaciente = false;
+    private static boolean excluirPaciente = false;
     /**
      * @param args the command line arguments
      */
@@ -113,12 +315,7 @@ public class OficialTela extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel"); 
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(OficialTela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
@@ -138,6 +335,116 @@ public class OficialTela extends javax.swing.JFrame {
         });
     }
     
+    public void cancelar(){
+        JOptionPane.showMessageDialog(null, "Operação cancelada!");
+    }
+    
+    public void AlterarPaciente(){
+        PacienteRepositorio pacienteRepositorio = new PacienteRepositorio();
+        Integer row = tbPacientes.getSelectedRow();
+        Integer col = tbPacientes.getSelectedColumn();
+        String title = (String) tbPacientes.getColumnName(col);
+        String nome = (String) tbPacientes.getValueAt(row, 0);
+        Paciente paciente = pacienteRepositorio.buscarPorNome(nome);
+        switch (title) {
+            case "Nome":
+                String name = JOptionPane.showInputDialog("Insira o Nome:");
+                if(nome == null){
+                    cancelar();
+                    Thread.currentThread().stop();
+                }
+                paciente.setNome(name);
+                break;
+            case "CPF":
+                String cpf = JOptionPane.showInputDialog("Insira o CPF:");
+                if(cpf == null){
+                    cancelar();
+                    Thread.currentThread().stop();
+                }
+                paciente.setCPF(cpf);
+                break;
+            case "SUS":
+                String sus = JOptionPane.showInputDialog("Insira o código SUS:");
+                if(sus == null){
+                    cancelar();
+                    Thread.currentThread().stop();
+                }
+                paciente.setSUS(sus);
+                break;
+            case "Data Nasc.":
+                JFormattedTextField ftxt = new JFormattedTextField();
+                try {
+                    ftxt.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+                } catch (java.text.ParseException ex) {
+                    ex.printStackTrace();
+                }
+                Object[] params = {"Insira a Data de Nascimento:", ftxt};
+                JOptionPane.showMessageDialog(null, params);
+                String data = ftxt.getText();
+                String dataT = data.replace("/", "");
+                dataT = dataT.replace(" ", "");
+
+                if(dataT.equals("")){
+                    cancelar();
+                    Thread.currentThread().stop();
+                }
+                paciente.setDataNasc(data);
+                break;
+            case "Endereço":
+                String end = JOptionPane.showInputDialog("Insira o Endereço:");
+                if(end == null){
+                    cancelar();
+                    Thread.currentThread().stop();
+                }
+                paciente.setEndereco(end);
+                break;
+            case "RG":
+                String fone = JOptionPane.showInputDialog("Insira o Telefone:");
+                if(fone == null){
+                    cancelar();
+                    Thread.currentThread().stop();
+                }
+                paciente.setFone(fone);
+                break;
+            default:
+                break;
+        }
+        pacienteRepositorio.editar(paciente);
+        TabelaPaciente();
+    }
+    
+    public void ExcluirPaciente(){
+        PacienteRepositorio pacienteRepositorio = new PacienteRepositorio();
+        Integer row = tbPacientes.getSelectedRow();
+        String nome = (String) tbPacientes.getValueAt(row, 0);
+        Paciente paciente = pacienteRepositorio.buscarPorNome(nome);
+        pacienteRepositorio.excluir(paciente);
+        TabelaPaciente();
+        JOptionPane.showMessageDialog(null, "Excluido Com Sucesso.");
+        btnExcPaciente.setText("Excluir");
+        excluirPaciente = false;
+        btnExcPaciente.setSelected(false);
+    }
+    
+    public void TabelaPaciente(){
+        PacienteRepositorio pacienteRepositorio = new PacienteRepositorio();
+        List<Paciente> pacientes = pacienteRepositorio.buscarTudoOrdenado();
+        String[] colunasTabela = new String []{"Nome", "CPF", "SUS", "Data Nasc.", "Endereço", "Fone"};
+        DefaultTableModel modeloTabela = new DefaultTableModel(null, colunasTabela){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+               //all cells false
+               return false;
+            }
+        };
+        tbPacientes.setModel(modeloTabela);
+        for (Paciente paciente : pacientes) {
+            modeloTabela.addRow(new Object[]{paciente.getNome(),paciente.getCPF(),paciente.getSUS(),
+            paciente.getDataNasc(),paciente.getEndereco(),paciente.getFone()});   
+            
+        }
+    }
+    
     @Override
     public void dispose() {
         new Login().setVisible(true);
@@ -145,10 +452,17 @@ public class OficialTela extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton btnAltPaciente;
+    private javax.swing.JToggleButton btnExcPaciente;
+    private javax.swing.JButton btnInsPaciente;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lblCpfPaciente;
+    private javax.swing.JTable tbPacientes;
+    private javax.swing.JTextField txtCpfPaciente;
     // End of variables declaration//GEN-END:variables
 }
