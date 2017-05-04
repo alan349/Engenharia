@@ -31,9 +31,9 @@ public class PacienteRepositorio {
         query.setParameter("nome", nome);
         List list = query.list();
         
-        Paciente user = (Paciente) list.get(0);
+        Paciente paciente = (Paciente) list.get(0);
         sessao.close();
-        return user;
+        return paciente;
     }
 
     public List<Paciente> buscarTudoOrdenado() {

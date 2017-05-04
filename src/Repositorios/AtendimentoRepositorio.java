@@ -7,6 +7,7 @@ package Repositorios;
 
 import Entidades.Atendimento;
 import Entidades.AtendimentoPK;
+import Entidades.Paciente;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -37,14 +38,44 @@ public class AtendimentoRepositorio {
     
     public List<Atendimento> buscarPorMedico(String medico){
         Session sessao =  Hibernate.NewHibernateUtil.getSessionFactory().openSession();
-        Query query = sessao.createQuery("from Atendimento where Medico = :med");
+        Query query = sessao.createQuery("from Atendimento where Medico = :med ORDER BY STR_TO_DATE(Data, '%M-%Y') DESC");
         query.setParameter("med", medico);
+        
+        List<Atendimento> atendimentos = query.list();
+        if (atendimentos.isEmpty()){
+            sessao.close();
+            return null;
+        }        
+        sessao.close();
+        return atendimentos;
+    }
+    
+    public List<Atendimento> buscarPorPacienteMedico(String medico, String paciente){
+        PacienteRepositorio pacienteRepositorio = new PacienteRepositorio();
+        Paciente pacBusca = pacienteRepositorio.buscarPorNome(paciente);
+        Session sessao =  Hibernate.NewHibernateUtil.getSessionFactory().openSession();
+        Query query = sessao.createQuery("from Atendimento where Medico = :med AND paciente_id = :pac ORDER BY STR_TO_DATE(Data, '%D %M %Y') DESC");
+        query.setParameter("med", medico);
+        query.setParameter("pac", pacBusca.getId());
         List<Atendimento> atendimentos = query.list();
         if (atendimentos.isEmpty()){
             sessao.close();
             return null;
         }
-        
+        sessao.close();
+        return atendimentos;
+    }
+    
+    public List<Atendimento> buscarPorDataMedico(String medico, String data){
+        Session sessao =  Hibernate.NewHibernateUtil.getSessionFactory().openSession();
+        Query query = sessao.createQuery("from Atendimento where Medico = :med AND Data = :date ORDER BY STR_TO_DATE(Data, '%D %M %Y') DESC");
+        query.setParameter("med", medico);
+        query.setParameter("date", data);
+        List<Atendimento> atendimentos = query.list();
+        if (atendimentos.isEmpty()){
+            sessao.close();
+            return null;
+        }        
         sessao.close();
         return atendimentos;
     }
