@@ -14,6 +14,7 @@ import Repositorios.PacienteRepositorio;
 import Repositorios.UsuarioRepositorio;
 import com.github.lgooddatepicker.components.CalendarPanel;
 import java.awt.Rectangle;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -36,7 +37,9 @@ import javax.swing.table.DefaultTableModel;
  * @author Alan
  */
 public class AdminTela extends javax.swing.JFrame {
-    public static String user ; 
+    
+    public static String user;
+
     /**
      * Creates new form AdminTela
      */
@@ -123,6 +126,7 @@ public class AdminTela extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tbUsuarios.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tbUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbUsuariosMouseClicked(evt);
@@ -223,6 +227,7 @@ public class AdminTela extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tbPacientes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tbPacientes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbPacientesMouseClicked(evt);
@@ -323,6 +328,7 @@ public class AdminTela extends javax.swing.JFrame {
                 "Data", "Hora", "Paciente"
             }
         ));
+        tbAtendimento.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane5.setViewportView(tbAtendimento);
 
         btnAgendar.setText("Agendar");
@@ -467,11 +473,11 @@ public class AdminTela extends javax.swing.JFrame {
     private static boolean excluirUsuario = false;
     private void btnAltUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAltUsuarioMouseClicked
         // TODO add your handling code here:
-        if(btnAltUsuario.isSelected() == true){
+        if (btnAltUsuario.isSelected() == true) {
             JOptionPane.showMessageDialog(null, "Clique no campo que deseja alterar.");
             btnAltUsuario.setText("Desabilitar Alterações");
             alterarUsuario = true;
-        }else{
+        } else {
             btnAltUsuario.setText("Habilitar Alterações");
             alterarUsuario = false;
         }
@@ -479,9 +485,9 @@ public class AdminTela extends javax.swing.JFrame {
 
     private void tbUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbUsuariosMouseClicked
         // TODO add your handling code here:
-        if(alterarUsuario == true){
+        if (alterarUsuario == true) {
             AlterarUsuario();
-        }else if(excluirUsuario ==true){
+        } else if (excluirUsuario == true) {
             ExcluirUsuario();
         }
     }//GEN-LAST:event_tbUsuariosMouseClicked
@@ -491,44 +497,44 @@ public class AdminTela extends javax.swing.JFrame {
         UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
         Usuario usuario = new Usuario();
         String nome = JOptionPane.showInputDialog("Insira o Nome:");
-        if(nome == null){
+        if (nome == null || nome.isEmpty()) {
             cancelar();
             Thread.currentThread().stop();
         }
         usuario.setNome(nome);
         String usuarioUser = JOptionPane.showInputDialog("Insira o Usuário:");
-        if(usuarioUser == null){
+        if (usuarioUser == null || usuarioUser.isEmpty()) {
             cancelar();
             Thread.currentThread().stop();
         }
         usuario.setUsuario(usuarioUser);
         String senha = JOptionPane.showInputDialog("Insira a Senha:");
-        if(senha == null){
+        if (senha == null || senha.isEmpty()) {
             cancelar();
             Thread.currentThread().stop();
         }
         usuario.setSenha(senha);
         String np = JOptionPane.showInputDialog("Insira o Nível de Privilégio: (1) Médico, (2) Oficial, (3) Administrador.");
-        if(np == null){
+        if (np == null || np.isEmpty()) {
             cancelar();
             Thread.currentThread().stop();
         }
-        while ("1" != np.intern() && "2" != np.intern() && "3" != np.intern() ){
+        while ("1" != np.intern() && "2" != np.intern() && "3" != np.intern()) {
             np = JOptionPane.showInputDialog("Opção Inválida. Digite uma das opções: (1) Médico, (2) Oficial, (3) Administrador.");
-            if(np == null){
+            if (np == null) {
                 cancelar();
                 Thread.currentThread().stop();
             }
         }
         usuario.setNP(Integer.parseInt(np));
         String cpf = JOptionPane.showInputDialog("Insira o CPF:");
-        if(cpf == null){
+        if (cpf == null || cpf.isEmpty() || AdminTela.isValidCPF(cpf)) {
             cancelar();
             Thread.currentThread().stop();
         }
         usuario.setCPF(cpf);
         String rg = JOptionPane.showInputDialog("Insira o RG:");
-        if(rg == null){
+        if (rg == null || rg.isEmpty()) {
             cancelar();
             Thread.currentThread().stop();
         }
@@ -541,28 +547,28 @@ public class AdminTela extends javax.swing.JFrame {
     private void txtCpfUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCpfUsuarioKeyReleased
         // TODO add your handling code here:
         Integer rows = tbUsuarios.getRowCount();
-        for(int i = 0; i<rows; i++){
-            if(tbUsuarios.getValueAt(i, 4).equals(txtCpfUsuario.getText())){
+        for (int i = 0; i < rows; i++) {
+            if (tbUsuarios.getValueAt(i, 4).equals(txtCpfUsuario.getText())) {
                 tbUsuarios.setRowSelectionInterval(i, i);
                 tbUsuarios.scrollRectToVisible(new Rectangle(tbUsuarios.getCellRect(i, 0, true)));
                 lblCpfUsuario.setText("Usuário encontrado.");
                 Thread.currentThread().stop();
-            }else{
+            } else {
                 lblCpfUsuario.setText("Nenhum Usuário com este CPF foi encontrado.");
             }
-            if(txtCpfUsuario.getText().equals("")){
+            if (txtCpfUsuario.getText().equals("")) {
                 lblCpfUsuario.setText(null);
             }
-        }        
+        }
     }//GEN-LAST:event_txtCpfUsuarioKeyReleased
 
     private void btnExcUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExcUsuarioMouseClicked
         // TODO add your handling code here:
-        if(btnExcUsuario.isSelected() == true){
+        if (btnExcUsuario.isSelected() == true) {
             JOptionPane.showMessageDialog(null, "Clique no partido que deseja excluir.");
             btnExcUsuario.setText("Cancelar Exclusão");
             excluirUsuario = true;
-        }else{
+        } else {
             btnExcUsuario.setText("Excluir");
             excluirUsuario = false;
         }
@@ -573,19 +579,19 @@ public class AdminTela extends javax.swing.JFrame {
         PacienteRepositorio pacienteRepositorio = new PacienteRepositorio();
         Paciente paciente = new Paciente();
         String nome = JOptionPane.showInputDialog("Insira o Nome:");
-        if(nome == null){
+        if (nome == null || nome.isEmpty()) {
             cancelar();
             Thread.currentThread().stop();
         }
         paciente.setNome(nome);
         String cpf = JOptionPane.showInputDialog("Insira o CPF:");
-        if(cpf == null){
+        if (cpf == null || cpf.isEmpty() || AdminTela.isValidCPF(cpf)) {
             cancelar();
             Thread.currentThread().stop();
         }
         paciente.setCPF(cpf);
         String sus = JOptionPane.showInputDialog("Insira o código SUS:");
-        if(sus == null){
+        if (sus == null || sus.isEmpty()) {
             cancelar();
             Thread.currentThread().stop();
         }
@@ -598,24 +604,38 @@ public class AdminTela extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         Object[] params = {"Insira a Data de Nascimento:", ftxt};
-        JOptionPane.showMessageDialog(null, params);
-        String data = ftxt.getText();
-        String dataT = data.replace("/", "");
-        dataT = dataT.replace(" ", "");
-
-        if(dataT.equals("")){
-            cancelar();
-            Thread.currentThread().stop();
+        
+        Boolean dataV = false;
+        String data = null;
+        while (dataV == false) {
+            JOptionPane.showMessageDialog(null, params);
+            data = ftxt.getText();
+            String dataT = data.replace("/", "");
+            dataT = dataT.replace(" ", "");
+            if (dataT.equals("")) {
+                cancelar();
+                Thread.currentThread().stop();
+            }
+            DateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
+            dtf.setLenient(false);
+            Date dt = null;
+            try {
+                dt = dtf.parse(data);
+                dataV = true;
+            } catch (ParseException ex) {
+                JOptionPane.showMessageDialog(null, "Insira uma data válida.");
+            }
         }
+        
         paciente.setDataNasc(data);
         String end = JOptionPane.showInputDialog("Insira o Endereço:");
-        if(end == null){
+        if (end == null || end.isEmpty()) {
             cancelar();
             Thread.currentThread().stop();
         }
         paciente.setEndereco(end);
         String fone = JOptionPane.showInputDialog("Insira o Telefone:");
-        if(fone == null){
+        if (fone == null || fone.isEmpty()) {
             cancelar();
             Thread.currentThread().stop();
         }
@@ -626,7 +646,7 @@ public class AdminTela extends javax.swing.JFrame {
 
     private void tbPacientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbPacientesMouseClicked
         // TODO add your handling code here:
-        if(alterarPaciente == true){
+        if (alterarPaciente == true) {
             AlterarPaciente();
         }
     }//GEN-LAST:event_tbPacientesMouseClicked
@@ -634,28 +654,28 @@ public class AdminTela extends javax.swing.JFrame {
     private void txtCpfPacienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCpfPacienteKeyReleased
         // TODO add your handling code here:
         Integer rows = tbPacientes.getRowCount();
-        for(int i = 0; i<rows; i++){
-            if(tbPacientes.getValueAt(i, 1).equals(txtCpfPaciente.getText())){
+        for (int i = 0; i < rows; i++) {
+            if (tbPacientes.getValueAt(i, 1).equals(txtCpfPaciente.getText())) {
                 tbPacientes.setRowSelectionInterval(i, i);
                 tbPacientes.scrollRectToVisible(new Rectangle(tbPacientes.getCellRect(i, 0, true)));
                 lblCpfPaciente.setText("Paciente encontrado.");
                 Thread.currentThread().stop();
-            }else{
+            } else {
                 lblCpfPaciente.setText("Nenhum Paciente com este CPF foi encontrado.");
             }
-            if(txtCpfPaciente.getText().equals("")){
+            if (txtCpfPaciente.getText().equals("")) {
                 lblCpfPaciente.setText(null);
             }
-        }       
+        }
     }//GEN-LAST:event_txtCpfPacienteKeyReleased
 
     private void btnAltPacienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAltPacienteMouseClicked
         // TODO add your handling code here:
-        if(btnAltPaciente.isSelected() == true){
+        if (btnAltPaciente.isSelected() == true) {
             JOptionPane.showMessageDialog(null, "Clique no campo que deseja alterar.");
             btnAltPaciente.setText("Desabilitar Alterações");
             alterarPaciente = true;
-        }else{
+        } else {
             btnAltPaciente.setText("Habilitar Alterações");
             alterarPaciente = false;
         }
@@ -673,18 +693,18 @@ public class AdminTela extends javax.swing.JFrame {
         AtendimentoPK atendimentoPK = new AtendimentoPK();
         PacienteRepositorio pacienteRepositorio = new PacienteRepositorio();
         
-        LocalDate selDate = calendarData.getSelectedDate();        
-        if (selDate.isBefore(LocalDate.now())){
+        LocalDate selDate = calendarData.getSelectedDate();
+        if (selDate.isBefore(LocalDate.now())) {
             JOptionPane.showMessageDialog(null, "Selecione uma data superior ou igual a data atual.");
             cancelar();
             Thread.currentThread().stop();
         }
-    
+        
         String formatted = selDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         
         atendimentoPK.setData(formatted);
         String hora = jltHora.getSelectedValue();
-        if(hora.charAt(0) == '<'){
+        if (hora.charAt(0) == '<') {
             JOptionPane.showMessageDialog(null, "Já existe uma consulta agendada neste horário!");
             Thread.currentThread().stop();
         }
@@ -692,7 +712,7 @@ public class AdminTela extends javax.swing.JFrame {
         atendimentoPK.setMedico(jltMedico.getSelectedValue());
         atendimento.setId(atendimentoPK);
         String cpf = JOptionPane.showInputDialog(null, "Digite o CPF do Paciente desejado:");
-        if (cpf == null){
+        if (cpf == null || cpf.isEmpty() || AdminTela.isValidCPF(cpf)) {
             cancelar();
             Thread.currentThread().stop();
         }
@@ -708,45 +728,45 @@ public class AdminTela extends javax.swing.JFrame {
 
     private void calendarDataPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_calendarDataPropertyChange
         // TODO add your handling code here:
-        if(jPanel2.isShowing()){
-         if(jltMedico.isSelectionEmpty()){
-             JOptionPane.showMessageDialog(null, "Primeiramente selecione um médico.");
-             Thread.currentThread().stop();
-         }else{
-             horarios();
-         }
+        if (jPanel2.isShowing()) {
+            if (jltMedico.isSelectionEmpty()) {
+                JOptionPane.showMessageDialog(null, "Primeiramente selecione um médico.");
+                Thread.currentThread().stop();
+            } else {
+                horarios();
+            }
         }
     }//GEN-LAST:event_calendarDataPropertyChange
 
     private void txtDataKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDataKeyReleased
         // TODO add your handling code here:
         String medico = jltMedico.getSelectedValue();
-        if(jbData.isSelected()){
-                if(txtData.getText().length() == 10){
-                    TabelaAtendimento(medico);
-                }
-        }else if(jbPaciente.isSelected()){
+        if (jbData.isSelected()) {
+            if (txtData.getText().length() == 10) {
                 TabelaAtendimento(medico);
+            }
+        } else if (jbPaciente.isSelected()) {
+            TabelaAtendimento(medico);
         }
-        if(txtData.getText().isEmpty()){
-                    TabelaAtendimento(medico);
+        if (txtData.getText().isEmpty()) {
+            TabelaAtendimento(medico);
         }
         
         Integer rows = tbAtendimento.getRowCount();
         Integer col = null;
-        for(int i = 0; i<rows; i++){
-            if(jbData.isSelected()){
+        for (int i = 0; i < rows; i++) {
+            if (jbData.isSelected()) {
                 col = 0;
-            }else if(jbPaciente.isSelected()){
+            } else if (jbPaciente.isSelected()) {
                 col = 2;
             }
-            if(tbAtendimento.getValueAt(i, col).equals(txtData.getText())){
+            if (tbAtendimento.getValueAt(i, col).equals(txtData.getText())) {
                 tbAtendimento.setRowSelectionInterval(i, i);
                 tbAtendimento.scrollRectToVisible(new Rectangle(tbAtendimento.getCellRect(i, 0, true)));
                 Thread.currentThread().stop();
-            }else{
+            } else {
             }
-
+            
         }
     }//GEN-LAST:event_txtDataKeyReleased
 
@@ -754,8 +774,6 @@ public class AdminTela extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDataActionPerformed
 
-    
-    
     /**
      * @param args the command line arguments
      */
@@ -766,7 +784,7 @@ public class AdminTela extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel"); 
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(AdminTela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
@@ -786,7 +804,7 @@ public class AdminTela extends javax.swing.JFrame {
         });
     }
     
-    public void AlterarUsuario(){
+    public void AlterarUsuario() {
         UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
         Integer row = tbUsuarios.getSelectedRow();
         Integer col = tbUsuarios.getSelectedColumn();
@@ -796,7 +814,7 @@ public class AdminTela extends javax.swing.JFrame {
         switch (title) {
             case "Nome":
                 String name = JOptionPane.showInputDialog("Insira o Nome:");
-                if(nome == null){
+                if (nome == null || nome.isEmpty()) {
                     cancelar();
                     Thread.currentThread().stop();
                 }
@@ -804,7 +822,7 @@ public class AdminTela extends javax.swing.JFrame {
                 break;
             case "Usuario":
                 String usuarioUser = JOptionPane.showInputDialog("Insira o Usuário:");
-                if(usuarioUser == null){
+                if (usuarioUser == null || usuarioUser.isEmpty()) {
                     cancelar();
                     Thread.currentThread().stop();
                 }
@@ -812,7 +830,7 @@ public class AdminTela extends javax.swing.JFrame {
                 break;
             case "Senha":
                 String senha = JOptionPane.showInputDialog("Insira a Senha:");
-                if(senha == null){
+                if (senha == null || senha.isEmpty()) {
                     cancelar();
                     Thread.currentThread().stop();
                 }
@@ -820,13 +838,13 @@ public class AdminTela extends javax.swing.JFrame {
                 break;
             case "NP":
                 String np = JOptionPane.showInputDialog("Insira o Nível de Privilégio: (1) Médico, (2) Oficial, (3) Administrador.");
-                if(np == null){
+                if (np == null || np.isEmpty()) {
                     cancelar();
                     Thread.currentThread().stop();
                 }
-                while ("1" != np.intern() && "2" != np.intern() && "3" != np.intern() ){
+                while ("1" != np.intern() && "2" != np.intern() && "3" != np.intern()) {
                     np = JOptionPane.showInputDialog("Opção Inválida. Digite uma das opções: (1) Médico, (2) Oficial, (3) Administrador.");
-                    if(np == null){
+                    if (np == null) {
                         cancelar();
                         Thread.currentThread().stop();
                     }
@@ -835,7 +853,7 @@ public class AdminTela extends javax.swing.JFrame {
                 break;
             case "CPF":
                 String cpf = JOptionPane.showInputDialog("Insira o CPF:");
-                if(cpf == null){
+                if (cpf == null || cpf.isEmpty() || AdminTela.isValidCPF(cpf)) {
                     cancelar();
                     Thread.currentThread().stop();
                 }
@@ -843,7 +861,7 @@ public class AdminTela extends javax.swing.JFrame {
                 break;
             case "RG":
                 String rg = JOptionPane.showInputDialog("Insira o RG:");
-                if(rg == null){
+                if (rg == null || rg.isEmpty()) {
                     cancelar();
                     Thread.currentThread().stop();
                 }
@@ -855,7 +873,7 @@ public class AdminTela extends javax.swing.JFrame {
         ListaMedico();
     }
     
-    public void ExcluirUsuario(){
+    public void ExcluirUsuario() {
         UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
         Integer row = tbUsuarios.getSelectedRow();
         String nome = (String) tbUsuarios.getValueAt(row, 0);
@@ -869,29 +887,29 @@ public class AdminTela extends javax.swing.JFrame {
         btnExcUsuario.setSelected(false);
     }
     
-    public void TabelaUsuario(){
+    public void TabelaUsuario() {
         UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
         List<Usuario> usuarios = usuarioRepositorio.buscarTudoOrdenado();
-        String[] colunasTabela = new String []{"Nome", "Usuario", "Senha", "NP", "CPF", "RG"};
-        DefaultTableModel modeloTabela = new DefaultTableModel(null, colunasTabela){
+        String[] colunasTabela = new String[]{"Nome", "Usuario", "Senha", "NP", "CPF", "RG"};
+        DefaultTableModel modeloTabela = new DefaultTableModel(null, colunasTabela) {
             @Override
             public boolean isCellEditable(int row, int column) {
-               //all cells false
-               return false;
+                //all cells false
+                return false;
             }
         };
         tbUsuarios.setModel(modeloTabela);
         for (Usuario usuario : usuarios) {
-            modeloTabela.addRow(new Object[]{usuario.getNome(),usuario.getUsuario(),usuario.getSenha(),
-            usuario.getNP(),usuario.getCPF(),usuario.getRG()});   
+            modeloTabela.addRow(new Object[]{usuario.getNome(), usuario.getUsuario(), usuario.getSenha(),
+                usuario.getNP(), usuario.getCPF(), usuario.getRG()});
         }
     }
     
-    public void cancelar(){
+    public void cancelar() {
         JOptionPane.showMessageDialog(null, "Operação cancelada!");
     }
     
-    public void AlterarPaciente(){
+    public void AlterarPaciente() {
         PacienteRepositorio pacienteRepositorio = new PacienteRepositorio();
         Integer row = tbPacientes.getSelectedRow();
         Integer col = tbPacientes.getSelectedColumn();
@@ -901,7 +919,7 @@ public class AdminTela extends javax.swing.JFrame {
         switch (title) {
             case "Nome":
                 String name = JOptionPane.showInputDialog("Insira o Nome:");
-                if(nome == null){
+                if (nome == null || nome.isEmpty()) {
                     cancelar();
                     Thread.currentThread().stop();
                 }
@@ -909,15 +927,16 @@ public class AdminTela extends javax.swing.JFrame {
                 break;
             case "CPF":
                 String cpf = JOptionPane.showInputDialog("Insira o CPF:");
-                if(cpf == null){
+                if (cpf == null || cpf.isEmpty() || AdminTela.isValidCPF(cpf) == false) {
                     cancelar();
                     Thread.currentThread().stop();
                 }
+                
                 paciente.setCPF(cpf);
                 break;
             case "SUS":
                 String sus = JOptionPane.showInputDialog("Insira o código SUS:");
-                if(sus == null){
+                if (sus == null || sus.isEmpty()) {
                     cancelar();
                     Thread.currentThread().stop();
                 }
@@ -931,32 +950,45 @@ public class AdminTela extends javax.swing.JFrame {
                     ex.printStackTrace();
                 }
                 Object[] params = {"Insira a Data de Nascimento:", ftxt};
-                JOptionPane.showMessageDialog(null, params);
-                String data = ftxt.getText();
-                String dataT = data.replace("/", "");
-                dataT = dataT.replace(" ", "");
-
-                if(dataT.equals("")){
-                    cancelar();
-                    Thread.currentThread().stop();
+                Boolean dataV = false;
+                String data = null;
+                while (dataV == false) {
+                    JOptionPane.showMessageDialog(null, params);
+                    data = ftxt.getText();
+                    String dataT = data.replace("/", "");
+                    dataT = dataT.replace(" ", "");
+                    if (dataT.equals("")) {
+                        cancelar();
+                        Thread.currentThread().stop();
+                    }
+                    DateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
+                    dtf.setLenient(false);
+                    Date dt = null;
+                    try {
+                        dt = dtf.parse(data);
+                        dataV = true;
+                    } catch (ParseException ex) {
+                        JOptionPane.showMessageDialog(null, "Insira uma data válida.");
+                    }
+                    
                 }
                 paciente.setDataNasc(data);
                 break;
             case "Endereço":
                 String end = JOptionPane.showInputDialog("Insira o Endereço:");
-                if(end == null){
+                if (end == null || end.isEmpty()) {
                     cancelar();
                     Thread.currentThread().stop();
                 }
                 paciente.setEndereco(end);
                 break;
             case "RG":
-                String fone = JOptionPane.showInputDialog("Insira o Telefone:");
-                if(fone == null){
+                String rg = JOptionPane.showInputDialog("Insira o Telefone:");
+                if (rg == null || rg.isEmpty()) {
                     cancelar();
                     Thread.currentThread().stop();
                 }
-                paciente.setFone(fone);
+                paciente.setFone(rg);
                 break;
             default:
                 break;
@@ -965,26 +997,26 @@ public class AdminTela extends javax.swing.JFrame {
         TabelaPaciente();
     }
     
-    public void TabelaPaciente(){
+    public void TabelaPaciente() {
         PacienteRepositorio pacienteRepositorio = new PacienteRepositorio();
         List<Paciente> pacientes = pacienteRepositorio.buscarTudoOrdenado();
-        String[] colunasTabela = new String []{"Nome", "CPF", "SUS", "Data Nasc.", "Endereço", "Fone"};
-        DefaultTableModel modeloTabela = new DefaultTableModel(null, colunasTabela){
+        String[] colunasTabela = new String[]{"Nome", "CPF", "SUS", "Data Nasc.", "Endereço", "Fone"};
+        DefaultTableModel modeloTabela = new DefaultTableModel(null, colunasTabela) {
             @Override
             public boolean isCellEditable(int row, int column) {
-               //all cells false
-               return false;
+                //all cells false
+                return false;
             }
         };
         tbPacientes.setModel(modeloTabela);
         for (Paciente paciente : pacientes) {
-            modeloTabela.addRow(new Object[]{paciente.getNome(),paciente.getCPF(),paciente.getSUS(),
-            paciente.getDataNasc(),paciente.getEndereco(),paciente.getFone()});   
+            modeloTabela.addRow(new Object[]{paciente.getNome(), paciente.getCPF(), paciente.getSUS(),
+                paciente.getDataNasc(), paciente.getEndereco(), paciente.getFone()});
             
         }
     }
     
-    public void ListaMedico(){
+    public void ListaMedico() {
         UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
         List<Usuario> usuarios = usuarioRepositorio.buscarPorNP(1);
         
@@ -995,13 +1027,13 @@ public class AdminTela extends javax.swing.JFrame {
         }
     }
     
-    public void TabelaAtendimento(String medico){
+    public void TabelaAtendimento(String medico) {
         AtendimentoRepositorio atendimentoRepositorio = new AtendimentoRepositorio();
         List<Atendimento> atendimentos = null;
         Date dt = null;
-        if(!txtData.getText().isEmpty() && jbPaciente.isSelected()){
-            atendimentos = atendimentoRepositorio.buscarPorPacienteMedico(medico,txtData.getText());
-        }else if(!txtData.getText().isEmpty() && jbData.isSelected()){
+        if (!txtData.getText().isEmpty() && jbPaciente.isSelected()) {
+            atendimentos = atendimentoRepositorio.buscarPorPacienteMedico(medico, txtData.getText());
+        } else if (!txtData.getText().isEmpty() && jbData.isSelected()) {
             try {
                 dt = new SimpleDateFormat("dd/MM/yyyy").parse(txtData.getText());
             } catch (ParseException ex) {
@@ -1009,68 +1041,89 @@ public class AdminTela extends javax.swing.JFrame {
             }
             SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
             String formatted = fm.format(dt);
-            atendimentos = atendimentoRepositorio.buscarPorDataMedico(medico,formatted);
-        }else {
+            atendimentos = atendimentoRepositorio.buscarPorDataMedico(medico, formatted);
+        } else {
             atendimentos = atendimentoRepositorio.buscarPorMedico(medico);
         }
         
-        String[] colunasTabela = new String []{"Data", "Hora", "Paciente"};
-        DefaultTableModel modeloTabela = new DefaultTableModel(null, colunasTabela){
+        String[] colunasTabela = new String[]{"Data", "Hora", "Paciente"};
+        DefaultTableModel modeloTabela = new DefaultTableModel(null, colunasTabela) {
             @Override
             public boolean isCellEditable(int row, int column) {
-               //all cells false
-               return false;
+                //all cells false
+                return false;
             }
         };
         tbAtendimento.setModel(modeloTabela);
-        if(atendimentos == null && txtData.getText().isEmpty()){
+        if (atendimentos == null && txtData.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Este médico ainda não tem atendimentos agendados.");
             Thread.currentThread().stop();
-        }else{
+        } else {
             for (Atendimento atendimento : atendimentos) {
                 LocalDate local = LocalDate.parse(atendimento.getId().getData());
                 String data = local.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                modeloTabela.addRow(new Object[]{data,atendimento.getId().getHora(),
-                atendimento.getPaciente().getNome()});   
+                modeloTabela.addRow(new Object[]{data, atendimento.getId().getHora(),
+                    atendimento.getPaciente().getNome()});
             }
         }
         horarios();
     }
     
-    public void horarios(){
+    public void horarios() {
         AtendimentoRepositorio atendimentoRepositorio = new AtendimentoRepositorio();
         LocalDate selDate = calendarData.getSelectedDate();
         String formatted = selDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String medico = jltMedico.getSelectedValue();
         List<Atendimento> atendimentos = atendimentoRepositorio.buscarPorDataMedico(medico, formatted);
         DefaultListModel hModel = new DefaultListModel();
-        String[] list = new String [] {"08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30 ","12:00",
-            "12:30","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30"};
+        String[] list = new String[]{"08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30 ", "12:00",
+            "12:30", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30"};
         int qtdHora = list.length;
-        for (int i = 0; i<qtdHora; i++){
+        for (int i = 0; i < qtdHora; i++) {
             hModel.addElement(list[i]);
         }
-        if(atendimentos == null){
+        if (atendimentos == null) {
             jltHora.setModel(hModel);
             Thread.currentThread().stop();
         }
-        for (Atendimento atendimento: atendimentos){
-            for(int i = 0; i<qtdHora; i++){
-                if(atendimento.getId().getHora().equals(hModel.getElementAt(i))){
-                    System.out.println("teste");
-                    hModel.setElementAt("<html><p style='color:red'>"+hModel.getElementAt(i)+"</p></html>", i);
+        for (Atendimento atendimento : atendimentos) {
+            for (int i = 0; i < qtdHora; i++) {
+                if (atendimento.getId().getHora().equals(hModel.getElementAt(i))) {
+                    hModel.setElementAt("<html><p style='color:red'>" + hModel.getElementAt(i) + "</p></html>", i);
                     
                 }
             }
         }
         jltHora.setModel(hModel);
     }
-    
+
     /*@Override
     public void dispose() {
     new Login().setVisible(true);
     super.dispose();
     }*/
+    private static final int[] pesoCPF = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
+    
+    private static int calcularDigito(String str, int[] peso) {
+        int soma = 0;
+        for (int indice = str.length() - 1, digito; indice >= 0; indice--) {
+            digito = Integer.parseInt(str.substring(indice, indice + 1));
+            soma += digito * peso[peso.length - str.length() + indice];
+        }
+        soma = 11 - soma % 11;
+        return soma > 9 ? 0 : soma;
+    }
+    
+    public static boolean isValidCPF(String cpf) {
+        if ((cpf == null) || (cpf.length() != 11)) {
+            return false;
+        }
+        
+        Integer digito1 = calcularDigito(cpf.substring(0, 9), pesoCPF);
+        Integer digito2 = calcularDigito(cpf.substring(0, 9) + digito1, pesoCPF);
+        return cpf.equals(cpf.substring(0, 9) + digito1.toString() + digito2.toString());
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgendar;
