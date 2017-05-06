@@ -30,7 +30,10 @@ public class PacienteRepositorio {
         Query query = sessao.createQuery("from Paciente where nome = :nome");
         query.setParameter("nome", nome);
         List list = query.list();
-        
+        if(list.isEmpty()){
+            sessao.close();
+            return null;
+        }
         Paciente paciente = (Paciente) list.get(0);
         sessao.close();
         return paciente;

@@ -27,6 +27,7 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -363,9 +364,19 @@ public class AdminTela extends javax.swing.JFrame {
         buttonGroup1.add(jbData);
         jbData.setSelected(true);
         jbData.setText("Data");
+        jbData.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jbDataMouseClicked(evt);
+            }
+        });
 
         buttonGroup1.add(jbPaciente);
         jbPaciente.setText("Paciente");
+        jbPaciente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jbPacienteMouseClicked(evt);
+            }
+        });
 
         jLabel5.setText("Digite o dado desejado:");
 
@@ -536,10 +547,18 @@ public class AdminTela extends javax.swing.JFrame {
             }
         }
         usuario.setNP(Integer.parseInt(np));
-        String cpf = JOptionPane.showInputDialog("Insira o CPF:");
-        if (cpf == null || cpf.isEmpty() || AdminTela.isValidCPF(cpf)) {
-            cancelar();
-            Thread.currentThread().stop();
+        String cpf = null;
+        Boolean cpfV = false;
+        while (cpfV == false) {
+            cpf = JOptionPane.showInputDialog("Insira o CPF:");
+            if (cpf == null || cpf.isEmpty()) {
+                cancelar();
+                Thread.currentThread().stop();
+            } else if (AdminTela.isValidCPF(cpf) == false) {
+                JOptionPane.showMessageDialog(null, "Digite um CPF válido.");
+            } else {
+                cpfV = true;
+            }
         }
         usuario.setCPF(cpf);
         String rg = JOptionPane.showInputDialog("Insira o RG:");
@@ -593,10 +612,18 @@ public class AdminTela extends javax.swing.JFrame {
             Thread.currentThread().stop();
         }
         paciente.setNome(nome);
-        String cpf = JOptionPane.showInputDialog("Insira o CPF:");
-        if (cpf == null || cpf.isEmpty() || AdminTela.isValidCPF(cpf)) {
-            cancelar();
-            Thread.currentThread().stop();
+        String cpf = null;
+        Boolean cpfV = false;
+        while (cpfV == false) {
+            cpf = JOptionPane.showInputDialog("Insira o CPF:");
+            if (cpf == null || cpf.isEmpty()) {
+                cancelar();
+                Thread.currentThread().stop();
+            } else if (AdminTela.isValidCPF(cpf) == false) {
+                JOptionPane.showMessageDialog(null, "Digite um CPF válido.");
+            } else {
+                cpfV = true;
+            }
         }
         paciente.setCPF(cpf);
         String sus = JOptionPane.showInputDialog("Insira o código SUS:");
@@ -643,10 +670,21 @@ public class AdminTela extends javax.swing.JFrame {
             Thread.currentThread().stop();
         }
         paciente.setEndereco(end);
-        String fone = JOptionPane.showInputDialog("Insira o Telefone:");
-        if (fone == null || fone.isEmpty()) {
-            cancelar();
-            Thread.currentThread().stop();
+        String fone = null;
+        Boolean foneV = false;
+        while (foneV == false) {
+            fone = JOptionPane.showInputDialog("Insira o Telefone:");
+            if (fone == null || fone.isEmpty()) {
+                cancelar();
+                Thread.currentThread().stop();
+            }
+            for (int i = 0; i < fone.length(); i++) {
+                if (Character.isLetter(fone.charAt(i))) {
+                    JOptionPane.showMessageDialog(null, "Digite um telefone válido.");
+                } else if (i == fone.length() - 1) {
+                    foneV = true;
+                }
+            }
         }
         paciente.setFone(fone);
         pacienteRepositorio.inserir(paciente);
@@ -721,8 +759,8 @@ public class AdminTela extends javax.swing.JFrame {
         atendimentoPK.setMedico(jltMedico.getSelectedValue());
         atendimento.setId(atendimentoPK);
         String cpf = JOptionPane.showInputDialog(null, "Digite o CPF do Paciente desejado:");
-        if (cpf == null || cpf.isEmpty() || AdminTela.isValidCPF(cpf)) {
-            cancelar();
+        if (cpf == null || cpf.isEmpty() || AdminTela.isValidCPF(cpf) == false) {
+            JOptionPane.showMessageDialog(null, "Nenhum paciente com este CPF foi encontrado.");
             Thread.currentThread().stop();
         }
         Paciente paciente = pacienteRepositorio.buscarPorCpf(cpf);
@@ -782,6 +820,16 @@ public class AdminTela extends javax.swing.JFrame {
     private void txtDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDataActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDataActionPerformed
+
+    private void jbDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbDataMouseClicked
+        // TODO add your handling code here:
+        txtData.setText(null);
+    }//GEN-LAST:event_jbDataMouseClicked
+
+    private void jbPacienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbPacienteMouseClicked
+        // TODO add your handling code here:
+        txtData.setText(null);
+    }//GEN-LAST:event_jbPacienteMouseClicked
 
     /**
      * @param args the command line arguments
@@ -870,10 +918,18 @@ public class AdminTela extends javax.swing.JFrame {
                 usuario.setNP(Integer.parseInt(np));
                 break;
             case "CPF":
-                String cpf = JOptionPane.showInputDialog("Insira o CPF:");
-                if (cpf == null || cpf.isEmpty() || AdminTela.isValidCPF(cpf)) {
-                    cancelar();
-                    Thread.currentThread().stop();
+                String cpf = null;
+                Boolean cpfV = false;
+                while (cpfV == false) {
+                    cpf = JOptionPane.showInputDialog("Insira o CPF:");
+                    if (cpf == null || cpf.isEmpty()) {
+                        cancelar();
+                        Thread.currentThread().stop();
+                    } else if (AdminTela.isValidCPF(cpf) == false) {
+                        JOptionPane.showMessageDialog(null, "Digite um CPF válido.");
+                    } else {
+                        cpfV = true;
+                    }
                 }
                 usuario.setCPF(cpf);
                 break;
@@ -952,12 +1008,19 @@ public class AdminTela extends javax.swing.JFrame {
                 paciente.setNome(name);
                 break;
             case "CPF":
-                String cpf = JOptionPane.showInputDialog("Insira o CPF:");
-                if (cpf == null || cpf.isEmpty() || AdminTela.isValidCPF(cpf) == false) {
-                    cancelar();
-                    Thread.currentThread().stop();
+                String cpf = null;
+                Boolean cpfV = false;
+                while (cpfV == false) {
+                    cpf = JOptionPane.showInputDialog("Insira o CPF:");
+                    if (cpf == null || cpf.isEmpty()) {
+                        cancelar();
+                        Thread.currentThread().stop();
+                    } else if (AdminTela.isValidCPF(cpf) == false) {
+                        JOptionPane.showMessageDialog(null, "Digite um CPF válido.");
+                    } else {
+                        cpfV = true;
+                    }
                 }
-
                 paciente.setCPF(cpf);
                 break;
             case "SUS":
@@ -969,24 +1032,12 @@ public class AdminTela extends javax.swing.JFrame {
                 paciente.setSUS(sus);
                 break;
             case "Data Nasc.":
-                JFormattedTextField ftxt = new JFormattedTextField();
-                try {
-                    ftxt.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
-                } catch (java.text.ParseException ex) {
-                    ex.printStackTrace();
-                }
-                Object[] params = {"Insira a Data de Nascimento:", ftxt};
                 Boolean dataV = false;
                 String data = null;
                 while (dataV == false) {
-                    JOptionPane.showMessageDialog(null, params);
-                    data = ftxt.getText();
-                    String dataT = data.replace("/", "");
-                    dataT = dataT.replace(" ", "");
-                    if (dataT.equals("")) {
-                        cancelar();
-                        Thread.currentThread().stop();
-                    }
+
+                    data = JOptionPane.showInputDialog("Insira a data de nascimento:");
+                    System.out.println("teste: " + data);
                     DateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
                     dtf.setLenient(false);
                     Date dt = null;
@@ -995,6 +1046,9 @@ public class AdminTela extends javax.swing.JFrame {
                         dataV = true;
                     } catch (ParseException ex) {
                         JOptionPane.showMessageDialog(null, "Insira uma data válida.");
+                    } catch (NullPointerException e) {
+                        cancelar();
+                        Thread.currentThread().stop();
                     }
 
                 }
@@ -1008,13 +1062,24 @@ public class AdminTela extends javax.swing.JFrame {
                 }
                 paciente.setEndereco(end);
                 break;
-            case "RG":
-                String rg = JOptionPane.showInputDialog("Insira o Telefone:");
-                if (rg == null || rg.isEmpty()) {
-                    cancelar();
-                    Thread.currentThread().stop();
+            case "Fone":
+                String fone = null;
+                Boolean foneV = false;
+                while (foneV == false) {
+                    fone = JOptionPane.showInputDialog("Insira o Telefone:");
+                    if (fone == null || fone.isEmpty()) {
+                        cancelar();
+                        Thread.currentThread().stop();
+                    }
+                    for (int i = 0; i < fone.length(); i++) {
+                        if (Character.isLetter(fone.charAt(i))) {
+                            JOptionPane.showMessageDialog(null, "Digite um telefone válido.");
+                        } else if (i == fone.length() - 1) {
+                            foneV = true;
+                        }
+                    }
                 }
-                paciente.setFone(rg);
+                paciente.setFone(fone);
                 break;
             default:
                 break;
@@ -1059,6 +1124,9 @@ public class AdminTela extends javax.swing.JFrame {
         Date dt = null;
         if (!txtData.getText().isEmpty() && jbPaciente.isSelected()) {
             atendimentos = atendimentoRepositorio.buscarPorPacienteMedico(medico, txtData.getText());
+            if (atendimentos == null || atendimentos.isEmpty()) {
+                Thread.currentThread().stop();
+            }
         } else if (!txtData.getText().isEmpty() && jbData.isSelected()) {
             try {
                 dt = new SimpleDateFormat("dd/MM/yyyy").parse(txtData.getText());
@@ -1085,6 +1153,7 @@ public class AdminTela extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Este médico ainda não tem atendimentos agendados.");
             Thread.currentThread().stop();
         } else {
+
             for (Atendimento atendimento : atendimentos) {
                 LocalDate local = LocalDate.parse(atendimento.getId().getData());
                 String data = local.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));

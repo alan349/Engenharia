@@ -52,8 +52,13 @@ public class AtendimentoRepositorio {
     
     public List<Atendimento> buscarPorPacienteMedico(String medico, String paciente){
         PacienteRepositorio pacienteRepositorio = new PacienteRepositorio();
-        Paciente pacBusca = pacienteRepositorio.buscarPorNome(paciente);
         Session sessao =  Hibernate.NewHibernateUtil.getSessionFactory().openSession();
+        Paciente pacBusca = pacienteRepositorio.buscarPorNome(paciente);
+        if(pacBusca == null){
+            sessao.close();
+            return null;
+        }
+        
         Query query = sessao.createQuery("from Atendimento where Medico = :med AND paciente_id = :pac ORDER BY STR_TO_DATE(Data, '%D %M %Y') DESC");
         query.setParameter("med", medico);
         query.setParameter("pac", pacBusca.getId());
