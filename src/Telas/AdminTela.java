@@ -5,10 +5,12 @@
  */
 package Telas;
 
+import Entidades.Acessos;
 import Entidades.Atendimento;
 import Entidades.AtendimentoPK;
 import Entidades.Paciente;
 import Entidades.Usuario;
+import Repositorios.AcessosRepositorio;
 import Repositorios.AtendimentoRepositorio;
 import Repositorios.PacienteRepositorio;
 import Repositorios.UsuarioRepositorio;
@@ -32,6 +34,14 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+import static net.sf.dynamicreports.report.builder.DynamicReports.*;
+import java.awt.Color;
+import java.math.BigDecimal;
+import net.sf.dynamicreports.report.builder.style.StyleBuilder;
+import net.sf.dynamicreports.report.constant.HorizontalTextAlignment;
+import net.sf.dynamicreports.report.datasource.DRDataSource;
+import net.sf.dynamicreports.report.exception.DRException;
+import net.sf.jasperreports.engine.JRDataSource;
 
 /**
  *
@@ -98,6 +108,14 @@ public class AdminTela extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         btnExcAtendimento = new javax.swing.JToggleButton();
         jpRelatorio = new javax.swing.JPanel();
+        btnReportAcessos = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator2 = new javax.swing.JSeparator();
+        calendarAcesso = new com.github.lgooddatepicker.components.CalendarPanel();
+        calendarDiario = new com.github.lgooddatepicker.components.CalendarPanel();
+        btnReportDiario = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -451,33 +469,100 @@ public class AdminTela extends javax.swing.JFrame {
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jpAgendamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jpAgendamentoLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jpAgendamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnAltAgenda)
-                            .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel5)
-                            .addComponent(btnExcAtendimento))
-                        .addGap(25, 25, 25))
+                    .addGroup(jpAgendamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnAltAgenda)
+                        .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel5)
+                        .addComponent(btnExcAtendimento))
                     .addGroup(jpAgendamentoLayout.createSequentialGroup()
                         .addComponent(jbData)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jbPaciente)
-                        .addContainerGap(11, Short.MAX_VALUE))))
+                        .addComponent(jbPaciente)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Agendamentos", jpAgendamento);
+
+        btnReportAcessos.setText("Gerar Relatório");
+        btnReportAcessos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnReportAcessosMouseClicked(evt);
+            }
+        });
+
+        jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        calendarAcesso.setSelectedDate(LocalDate.now());
+
+        calendarDiario.setSelectedDate(LocalDate.now());
+
+        btnReportDiario.setText("Gerar Relatório");
+        btnReportDiario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnReportDiarioMouseClicked(evt);
+            }
+        });
+
+        jLabel6.setText("Relatório de Acessos:");
+
+        jLabel7.setText("Relatório de Atendimentos Diários:");
 
         javax.swing.GroupLayout jpRelatorioLayout = new javax.swing.GroupLayout(jpRelatorio);
         jpRelatorio.setLayout(jpRelatorioLayout);
         jpRelatorioLayout.setHorizontalGroup(
             jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 635, Short.MAX_VALUE)
+            .addComponent(jSeparator1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpRelatorioLayout.createSequentialGroup()
+                .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpRelatorioLayout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(calendarAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jpRelatorioLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel6))
+                    .addGroup(jpRelatorioLayout.createSequentialGroup()
+                        .addGap(103, 103, 103)
+                        .addComponent(btnReportAcessos)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpRelatorioLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(calendarDiario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jpRelatorioLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel7))
+                    .addGroup(jpRelatorioLayout.createSequentialGroup()
+                        .addGap(82, 82, 82)
+                        .addComponent(btnReportDiario)))
+                .addGap(51, 51, 51))
         );
         jpRelatorioLayout.setVerticalGroup(
             jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 452, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpRelatorioLayout.createSequentialGroup()
+                .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpRelatorioLayout.createSequentialGroup()
+                        .addComponent(jSeparator2)
+                        .addGap(1, 1, 1))
+                    .addGroup(jpRelatorioLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jpRelatorioLayout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(calendarAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(1, 1, 1)
+                                .addComponent(btnReportAcessos))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpRelatorioLayout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(calendarDiario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, 0)
+                                .addComponent(btnReportDiario)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(188, 188, 188))
         );
 
         jTabbedPane1.addTab("Relatórios", jpRelatorio);
@@ -879,7 +964,7 @@ public class AdminTela extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (alterarAtendimento == true) {
             AlterarAtendimento();
-        }else if (excluirAtendimento == true){
+        } else if (excluirAtendimento == true) {
             ExcluirAtendimento();
         }
     }//GEN-LAST:event_tbAtendimentoMouseClicked
@@ -895,6 +980,97 @@ public class AdminTela extends javax.swing.JFrame {
             excluirAtendimento = false;
         }
     }//GEN-LAST:event_btnExcAtendimentoMouseClicked
+
+    private void btnReportAcessosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportAcessosMouseClicked
+        // TODO add your handling code here:
+        StyleBuilder boldStyle = stl.style().bold();
+        StyleBuilder boldCenteredStyle = stl.style(boldStyle).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
+        StyleBuilder columnTitleStyle = stl.style(boldCenteredStyle)
+                .setBorder(stl.pen1Point())
+                .setBackgroundColor(Color.LIGHT_GRAY);
+        try {
+            try {
+                report()//create new report design
+                        .setColumnTitleStyle(columnTitleStyle)
+                        .highlightDetailEvenRows()
+                        .columns(//add columns
+                                //            title,     field name     data type
+                                col.column("Usuário", "usuario", type.stringType()),
+                                col.column("Nome", "nome", type.stringType()),
+                                col.column("Horário", "horario", type.stringType()))
+                        .title(cmp.text("Relatório de Acessos de "
+                                + calendarAcesso.getSelectedDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).setStyle(boldCenteredStyle))//shows report title
+                        .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))//shows number of page at page footer
+                        .setDataSource(createDataSourceAcessos())//set datasource
+                        .show(false)
+                        ;//create and show report
+            } catch (ParseException ex) {
+                Logger.getLogger(AdminTela.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (DRException e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnReportAcessosMouseClicked
+
+    private void btnReportDiarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportDiarioMouseClicked
+        // TODO add your handling code here:
+        StyleBuilder boldStyle = stl.style().bold();
+        StyleBuilder boldCenteredStyle = stl.style(boldStyle).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
+        StyleBuilder columnTitleStyle = stl.style(boldCenteredStyle)
+                .setBorder(stl.pen1Point())
+                .setBackgroundColor(Color.LIGHT_GRAY);
+        try {
+            report()//create new report design
+                    .setColumnTitleStyle(columnTitleStyle)
+                    .highlightDetailEvenRows()
+                    .columns(//add columns
+                            //            title,     field name     data type
+                            col.column("Horário", "horario", type.stringType()),
+                            col.column("Médico", "medico", type.stringType()),
+                            col.column("Paciente", "paciente", type.stringType()),
+                            col.column("CPF do Paciente", "cpf", type.stringType()))
+                    .title(cmp.text("Relatório de Atendimentos Diários de "
+                            + calendarAcesso.getSelectedDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).setStyle(boldCenteredStyle))//shows report title
+                    .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))//shows number of page at page footer
+                    .setDataSource(createDataSourceDiario())//set datasource
+                    .show();//create and show report
+        } catch (DRException e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnReportDiarioMouseClicked
+
+    private JRDataSource createDataSourceAcessos() throws ParseException {
+        AcessosRepositorio acessosRepositorio = new AcessosRepositorio();
+        LocalDate selDate = calendarAcesso.getSelectedDate();
+        String formatted = selDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        List<Acessos> acessos = acessosRepositorio.buscarPorData(formatted);
+        DRDataSource dataSource = new DRDataSource("usuario", "nome", "horario");
+        if (!acessos.isEmpty() || acessos != null) {
+            for (Acessos acesso : acessos) {
+                String min = Integer.toString(acesso.getData().getMinutes());
+                if(min.length() < 2){
+                    min = "0"+min;
+                }
+                dataSource.add(acesso.getUsuario(), acesso.getNome(), acesso.getData().getHours() + ":" + min);
+            }
+        }
+        return dataSource;
+    }
+
+    private JRDataSource createDataSourceDiario() {
+        AtendimentoRepositorio atendimentoRepositorio = new AtendimentoRepositorio();
+        LocalDate selDate = calendarAcesso.getSelectedDate();
+        String formatted = selDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        List<Atendimento> atendimentos = atendimentoRepositorio.buscarPorData(formatted);
+        DRDataSource dataSource = new DRDataSource("horario", "medico", "paciente", "cpf");
+        if (!atendimentos.isEmpty() || atendimentos != null) {
+            for (Atendimento atendimento : atendimentos) {
+                AtendimentoPK atendimentoPK = atendimento.getId();
+                dataSource.add(atendimentoPK.getHora(), atendimentoPK.getMedico(), atendimento.getPaciente().getNome(), atendimento.getPaciente().getCPF());
+            }
+        }
+        return dataSource;
+    }
 
     /**
      * @param args the command line arguments
@@ -1309,7 +1485,7 @@ public class AdminTela extends javax.swing.JFrame {
         atendimentoRepositorio.editar(atendimento);
         TabelaAtendimento(jltMedico.getSelectedValue());
     }
-    
+
     public void ExcluirAtendimento() {
         AtendimentoRepositorio atendimentoRepositorio = new AtendimentoRepositorio();
         Integer row = tbAtendimento.getSelectedRow();
@@ -1332,7 +1508,7 @@ public class AdminTela extends javax.swing.JFrame {
         btnExcAtendimento.setSelected(false);
         TabelaAtendimento(jltMedico.getSelectedValue());
     }
-    
+
     /*@Override
     public void dispose() {
     new Login().setVisible(true);
@@ -1370,18 +1546,26 @@ public class AdminTela extends javax.swing.JFrame {
     private javax.swing.JToggleButton btnExcUsuario;
     private javax.swing.JButton btnInsPaciente;
     private javax.swing.JButton btnInsUsuario;
+    private javax.swing.JButton btnReportAcessos;
+    private javax.swing.JButton btnReportDiario;
     private javax.swing.ButtonGroup buttonGroup1;
+    private com.github.lgooddatepicker.components.CalendarPanel calendarAcesso;
     private com.github.lgooddatepicker.components.CalendarPanel calendarData;
+    private com.github.lgooddatepicker.components.CalendarPanel calendarDiario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JRadioButton jbData;
     private javax.swing.JRadioButton jbPaciente;

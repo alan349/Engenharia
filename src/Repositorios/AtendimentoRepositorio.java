@@ -67,6 +67,20 @@ public class AtendimentoRepositorio {
         sessao.close();
         return atendimentos;
     }
+    
+    public List<Atendimento> buscarPorData(String data) {
+        Session sessao = Hibernate.NewHibernateUtil.getSessionFactory().openSession();
+        Query query = sessao.createQuery("from Atendimento where Data = :date ORDER BY STR_TO_DATE(Data, '%D %M %Y') DESC");
+        query.setParameter("date", data);
+
+        List<Atendimento> atendimentos = query.list();
+        if (atendimentos.isEmpty()) {
+            sessao.close();
+            return null;
+        }
+        sessao.close();
+        return atendimentos;
+    }
 
     public List<Atendimento> buscarPorPacienteMedico(String medico, String paciente) {
         PacienteRepositorio pacienteRepositorio = new PacienteRepositorio();

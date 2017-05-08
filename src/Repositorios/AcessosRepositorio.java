@@ -33,7 +33,6 @@ public class AcessosRepositorio {
         DateFormat formatorData = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
         Session sessao = Hibernate.NewHibernateUtil.getSessionFactory().openSession();
         Criteria criterio = sessao.createCriteria(Acessos.class);
-            
         criterio.add(Restrictions.ge("data", formatorData.parse(date+" 00:00:00")));
         criterio.add(Restrictions.le("data", formatorData.parse(date+" 23:59:59")));
         List<Acessos> acessos = criterio.list();
