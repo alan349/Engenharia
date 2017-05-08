@@ -25,6 +25,15 @@ public class PacienteRepositorio {
         transacao.commit();
         sessao.close();
     }
+    
+    public void editar(Paciente paciente){
+        Session sessao = Hibernate.NewHibernateUtil.getSessionFactory().openSession();        
+        Transaction transacao = sessao.beginTransaction();
+        sessao.update(paciente);
+        transacao.commit();
+        sessao.close();
+    }
+    
     public Paciente buscarPorNome(String nome){
         Session sessao =  Hibernate.NewHibernateUtil.getSessionFactory().openSession();
         Query query = sessao.createQuery("from Paciente where nome = :nome");
@@ -54,6 +63,10 @@ public class PacienteRepositorio {
         Query query = sessao.createQuery("from Paciente where CPF = :cpf");
         query.setParameter("cpf", cpf);
         List list = query.list();
+        if (list.isEmpty() || list == null){
+            sessao.close();
+            return null;
+        }
         Paciente user = (Paciente) list.get(0);
         sessao.close();
         return user;
@@ -65,11 +78,5 @@ public class PacienteRepositorio {
         transacao.commit();
         sessao.close();
     }
-    public void editar(Paciente paciente){
-        Session sessao = Hibernate.NewHibernateUtil.getSessionFactory().openSession();        
-        Transaction transacao = sessao.beginTransaction();
-        sessao.update(paciente);
-        transacao.commit();
-        sessao.close();
-    }
+    
 }
