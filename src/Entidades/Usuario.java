@@ -22,8 +22,6 @@ public class Usuario {
     private Integer id;
     @Column(nullable = false, unique = true)
     private String CPF;
-    @Column(length = 20, nullable = false, unique = true)
-    private String RG;
     @Column(length = 200, nullable = false)
     private String nome;
     @Column(nullable = false, unique = true)
@@ -32,7 +30,8 @@ public class Usuario {
     private String senha;
     @Column(nullable = false)
     private Integer NP;
-
+    @Column(length = 50)
+    private String Especialidade;
     /**
      * @return the CPF
      */
@@ -48,17 +47,17 @@ public class Usuario {
     }
 
     /**
-     * @return the RG
+     * @return the Especialidade
      */
-    public String getRG() {
-        return RG;
+    public String getEspecialidade() {
+        return Especialidade;
     }
 
     /**
-     * @param RG the RG to set
+     * @param Especialidade the Especialidade to set
      */
-    public void setRG(String RG) {
-        this.RG = RG;
+    public void setEspecialidade(String Especialidade) {
+        this.Especialidade = Especialidade;
     }
 
     /**

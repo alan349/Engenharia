@@ -393,6 +393,11 @@ public class AdminTela extends javax.swing.JFrame {
                 jbDataMouseClicked(evt);
             }
         });
+        jbData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbDataActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(jbPaciente);
         jbPaciente.setText("Paciente");
@@ -435,14 +440,15 @@ public class AdminTela extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jpAgendamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jbPaciente)
-                            .addComponent(jbData))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jpAgendamentoLayout.createSequentialGroup()
+                                .addComponent(jbData)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel5)))
+                        .addGap(18, 18, 18)
                         .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnAltAgenda)
-                        .addGap(22, 22, 22)
+                        .addGap(18, 18, 18)
                         .addComponent(btnExcAtendimento)))
                 .addContainerGap())
         );
@@ -467,18 +473,20 @@ public class AdminTela extends javax.swing.JFrame {
                                 .addComponent(jScrollPane3)))))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jpAgendamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jpAgendamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnAltAgenda)
-                        .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel3)
-                        .addComponent(jLabel5)
-                        .addComponent(btnExcAtendimento))
                     .addGroup(jpAgendamentoLayout.createSequentialGroup()
                         .addComponent(jbData)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jbPaciente)))
+                        .addComponent(jbPaciente))
+                    .addGroup(jpAgendamentoLayout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addGroup(jpAgendamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addGroup(jpAgendamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel5)
+                                .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnAltAgenda)
+                                .addComponent(btnExcAtendimento)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -571,11 +579,14 @@ public class AdminTela extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -586,13 +597,18 @@ public class AdminTela extends javax.swing.JFrame {
     private static boolean excluirUsuario = false, excluirAtendimento = false;
     private void btnAltUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAltUsuarioMouseClicked
         // TODO add your handling code here:
-        if (btnAltUsuario.isSelected() == true) {
-            JOptionPane.showMessageDialog(null, "Clique no campo que deseja alterar.");
-            btnAltUsuario.setText("Desabilitar Alterações");
-            alterarUsuario = true;
+        if (btnExcUsuario.isSelected() == false) {
+            if (btnAltUsuario.isSelected() == true) {
+                JOptionPane.showMessageDialog(null, "Clique no campo que deseja alterar.");
+                btnAltUsuario.setText("Desabilitar Alterações");
+                alterarUsuario = true;
+            } else {
+                btnAltUsuario.setText("Habilitar Alterações");
+                alterarUsuario = false;
+            }
         } else {
-            btnAltUsuario.setText("Habilitar Alterações");
-            alterarUsuario = false;
+            JOptionPane.showMessageDialog(null, "Primeiramente cancele a exclusão para habilitar alterações.");
+            btnAltUsuario.setSelected(false);
         }
     }//GEN-LAST:event_btnAltUsuarioMouseClicked
 
@@ -663,12 +679,14 @@ public class AdminTela extends javax.swing.JFrame {
             }
         }
         usuario.setCPF(cpf);
-        String rg = JOptionPane.showInputDialog("Insira o RG:");
-        if (rg == null || rg.isEmpty()) {
-            cancelar();
-            Thread.currentThread().stop();
+        if (usuario.getNP() == 1) {
+            String esp = JOptionPane.showInputDialog("Insira a Especilidade:");
+            if (esp == null || esp.isEmpty()) {
+                cancelar();
+                Thread.currentThread().stop();
+            }
+            usuario.setEspecialidade(esp);
         }
-        usuario.setRG(rg);
         usuarioRepositorio.inserir(usuario);
         TabelaUsuario();
         ListaMedico();
@@ -694,13 +712,18 @@ public class AdminTela extends javax.swing.JFrame {
 
     private void btnExcUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExcUsuarioMouseClicked
         // TODO add your handling code here:
-        if (btnExcUsuario.isSelected() == true) {
-            JOptionPane.showMessageDialog(null, "Clique no partido que deseja excluir.");
-            btnExcUsuario.setText("Cancelar Exclusão");
-            excluirUsuario = true;
+        if (btnAltUsuario.isSelected() == false) {
+            if (btnExcUsuario.isSelected() == true) {
+                JOptionPane.showMessageDialog(null, "Clique no partido que deseja excluir.");
+                btnExcUsuario.setText("Cancelar Exclusão");
+                excluirUsuario = true;
+            } else {
+                btnExcUsuario.setText("Excluir");
+                excluirUsuario = false;
+            }
         } else {
-            btnExcUsuario.setText("Excluir");
-            excluirUsuario = false;
+            JOptionPane.showMessageDialog(null, "Primeiramente desative as alterações para habilitar exclusões.");
+            btnExcUsuario.setSelected(false);
         }
     }//GEN-LAST:event_btnExcUsuarioMouseClicked
 
@@ -873,16 +896,19 @@ public class AdminTela extends javax.swing.JFrame {
 
     private void btnAltAgendaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAltAgendaMouseClicked
         // TODO add your handling code here:
-        if (btnAltAgenda.isSelected() == true) {
-            JOptionPane.showMessageDialog(null, "Clique no campo que deseja alterar.");
-            btnAltAgenda.setText("Desabilitar Alterações");
-            alterarAtendimento = true;
+        if (btnExcAtendimento.isSelected() == false) {
+            if (btnAltAgenda.isSelected() == true) {
+                JOptionPane.showMessageDialog(null, "Clique no campo que deseja alterar.");
+                btnAltAgenda.setText("Desabilitar Alterações");
+                alterarAtendimento = true;
+            } else {
+                btnAltAgenda.setText("Habilitar Alterações");
+                alterarAtendimento = false;
+            }
         } else {
-            btnAltAgenda.setText("Habilitar Alterações");
-            alterarAtendimento = false;
+            JOptionPane.showMessageDialog(null, "Primeiramente cancele a exclusão para habilitar alterações.");
+            btnAltAgenda.setSelected(false);
         }
-
-
     }//GEN-LAST:event_btnAltAgendaMouseClicked
 
     private void calendarDataPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_calendarDataPropertyChange
@@ -971,13 +997,18 @@ public class AdminTela extends javax.swing.JFrame {
 
     private void btnExcAtendimentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExcAtendimentoMouseClicked
         // TODO add your handling code here:
-        if (btnExcAtendimento.isSelected() == true) {
-            JOptionPane.showMessageDialog(null, "Clique no partido que deseja excluir.");
-            btnExcAtendimento.setText("Cancelar Exclusão");
-            excluirAtendimento = true;
+        if (btnAltAgenda.isSelected() == false) {
+            if (btnExcAtendimento.isSelected() == true) {
+                JOptionPane.showMessageDialog(null, "Clique no partido que deseja excluir.");
+                btnExcAtendimento.setText("Cancelar Exclusão");
+                excluirAtendimento = true;
+            } else {
+                btnExcAtendimento.setText("Excluir");
+                excluirAtendimento = false;
+            }
         } else {
-            btnExcAtendimento.setText("Excluir");
-            excluirAtendimento = false;
+            JOptionPane.showMessageDialog(null, "Primeiramente desative as alterações para habilitar exclusões.");
+            btnExcAtendimento.setSelected(false);
         }
     }//GEN-LAST:event_btnExcAtendimentoMouseClicked
 
@@ -1002,8 +1033,7 @@ public class AdminTela extends javax.swing.JFrame {
                                 + calendarAcesso.getSelectedDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).setStyle(boldCenteredStyle))//shows report title
                         .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))//shows number of page at page footer
                         .setDataSource(createDataSourceAcessos())//set datasource
-                        .show(false)
-                        ;//create and show report
+                        .show(false);//create and show report
             } catch (ParseException ex) {
                 Logger.getLogger(AdminTela.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -1039,6 +1069,10 @@ public class AdminTela extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnReportDiarioMouseClicked
 
+    private void jbDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDataActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbDataActionPerformed
+
     private JRDataSource createDataSourceAcessos() throws ParseException {
         AcessosRepositorio acessosRepositorio = new AcessosRepositorio();
         LocalDate selDate = calendarAcesso.getSelectedDate();
@@ -1048,8 +1082,8 @@ public class AdminTela extends javax.swing.JFrame {
         if (!acessos.isEmpty() || acessos != null) {
             for (Acessos acesso : acessos) {
                 String min = Integer.toString(acesso.getData().getMinutes());
-                if(min.length() < 2){
-                    min = "0"+min;
+                if (min.length() < 2) {
+                    min = "0" + min;
                 }
                 dataSource.add(acesso.getUsuario(), acesso.getNome(), acesso.getData().getHours() + ":" + min);
             }
@@ -1179,13 +1213,13 @@ public class AdminTela extends javax.swing.JFrame {
                 }
                 usuario.setCPF(cpf);
                 break;
-            case "RG":
-                String rg = JOptionPane.showInputDialog("Insira o RG:");
-                if (rg == null || rg.isEmpty()) {
+            case "Especilidade":
+                String esp = JOptionPane.showInputDialog("Insira a Especialidade:");
+                if (esp == null || esp.isEmpty()) {
                     cancelar();
                     Thread.currentThread().stop();
                 }
-                usuario.setRG(rg);
+                usuario.setEspecialidade(esp);
                 break;
         }
         usuarioRepositorio.editar(usuario);
@@ -1210,7 +1244,7 @@ public class AdminTela extends javax.swing.JFrame {
     public void TabelaUsuario() {
         UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
         List<Usuario> usuarios = usuarioRepositorio.buscarTudoOrdenado();
-        String[] colunasTabela = new String[]{"Nome", "Usuario", "Senha", "NP", "CPF", "RG"};
+        String[] colunasTabela = new String[]{"Nome", "Usuario", "Senha", "NP", "CPF", "Especialidade"};
         DefaultTableModel modeloTabela = new DefaultTableModel(null, colunasTabela) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -1229,7 +1263,7 @@ public class AdminTela extends javax.swing.JFrame {
                 np = "Administrador";
             }
             modeloTabela.addRow(new Object[]{usuario.getNome(), usuario.getUsuario(), usuario.getSenha(),
-                np, usuario.getCPF(), usuario.getRG()});
+                np, usuario.getCPF(), usuario.getEspecialidade()});
         }
     }
 
