@@ -1033,7 +1033,7 @@ public class AdminTela extends javax.swing.JFrame {
                             + calendarAcesso.getSelectedDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).setStyle(boldCenteredStyle))//shows report title
                     .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))//shows number of page at page footer
                     .setDataSource(createDataSourceDiario())//set datasource
-                    .show();//create and show report
+                    .show(false);//create and show report
         } catch (DRException e) {
             e.printStackTrace();
         }
