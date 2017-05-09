@@ -72,6 +72,7 @@ public class AdminTela extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jpUsuario = new javax.swing.JPanel();
         btnInsUsuario = new javax.swing.JButton();
@@ -109,13 +110,20 @@ public class AdminTela extends javax.swing.JFrame {
         btnExcAtendimento = new javax.swing.JToggleButton();
         jpRelatorio = new javax.swing.JPanel();
         btnReportAcessos = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JSeparator();
-        jSeparator2 = new javax.swing.JSeparator();
         calendarAcesso = new com.github.lgooddatepicker.components.CalendarPanel();
         calendarDiario = new com.github.lgooddatepicker.components.CalendarPanel();
         btnReportDiario = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        calendarPanel1 = new com.github.lgooddatepicker.components.CalendarPanel();
+        jLabel9 = new javax.swing.JLabel();
+        rbMensal = new javax.swing.JRadioButton();
+        rbEspecialidade = new javax.swing.JRadioButton();
+        rbAnual = new javax.swing.JRadioButton();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -499,8 +507,6 @@ public class AdminTela extends javax.swing.JFrame {
             }
         });
 
-        jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
-
         calendarAcesso.setSelectedDate(LocalDate.now());
 
         calendarDiario.setSelectedDate(LocalDate.now());
@@ -516,61 +522,105 @@ public class AdminTela extends javax.swing.JFrame {
 
         jLabel7.setText("Relatório de Atendimentos Diários:");
 
+        calendarPanel1.setSelectedDate(LocalDate.now());
+
+        jLabel9.setText("Relatório de Especialidade:");
+
+        rbMensal.setText("Mensal");
+
+        rbEspecialidade.setText("Diário");
+
+        rbAnual.setSelected(true);
+        rbAnual.setText("Anual");
+
+        jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane6.setViewportView(jList1);
+
+        jButton1.setText("Gerar Relatório");
+
         javax.swing.GroupLayout jpRelatorioLayout = new javax.swing.GroupLayout(jpRelatorio);
         jpRelatorio.setLayout(jpRelatorioLayout);
         jpRelatorioLayout.setHorizontalGroup(
             jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSeparator1)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpRelatorioLayout.createSequentialGroup()
                 .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jpRelatorioLayout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(calendarAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jpRelatorioLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel6))
                     .addGroup(jpRelatorioLayout.createSequentialGroup()
-                        .addGap(103, 103, 103)
-                        .addComponent(btnReportAcessos)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)
+                        .addComponent(calendarAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jpRelatorioLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(calendarDiario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jpRelatorioLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel7))
-                    .addGroup(jpRelatorioLayout.createSequentialGroup()
-                        .addGap(82, 82, 82)
-                        .addComponent(btnReportDiario)))
+                    .addComponent(jLabel7)
+                    .addComponent(calendarDiario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(51, 51, 51))
+            .addComponent(jSeparator1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpRelatorioLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9)
+                    .addGroup(jpRelatorioLayout.createSequentialGroup()
+                        .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(rbAnual)
+                            .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(rbMensal, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(rbEspecialidade)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(29, 29, 29)
+                .addComponent(calendarPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addGap(23, 23, 23))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpRelatorioLayout.createSequentialGroup()
+                .addGap(93, 93, 93)
+                .addComponent(btnReportAcessos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnReportDiario)
+                .addGap(110, 110, 110))
         );
         jpRelatorioLayout.setVerticalGroup(
             jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpRelatorioLayout.createSequentialGroup()
+                .addGap(3, 3, 3)
+                .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jpRelatorioLayout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addGap(0, 0, 0)
+                        .addComponent(calendarDiario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnReportDiario)))
+                    .addGroup(jpRelatorioLayout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(0, 0, 0)
+                        .addComponent(calendarAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(btnReportAcessos)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jpRelatorioLayout.createSequentialGroup()
-                        .addComponent(jSeparator2)
-                        .addGap(1, 1, 1))
-                    .addGroup(jpRelatorioLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jpRelatorioLayout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(calendarAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(1, 1, 1)
-                                .addComponent(btnReportAcessos))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpRelatorioLayout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(calendarDiario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, 0)
-                                .addComponent(btnReportDiario)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(188, 188, 188))
+                    .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jpRelatorioLayout.createSequentialGroup()
+                            .addComponent(jLabel9)
+                            .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jpRelatorioLayout.createSequentialGroup()
+                                    .addGap(18, 18, 18)
+                                    .addComponent(rbAnual)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(rbMensal)
+                                    .addGap(41, 41, 41)
+                                    .addComponent(rbEspecialidade)
+                                    .addGap(24, 24, 24))
+                                .addGroup(jpRelatorioLayout.createSequentialGroup()
+                                    .addGap(3, 3, 3)
+                                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addContainerGap())))
+                        .addComponent(calendarPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpRelatorioLayout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(88, 88, 88))))
         );
 
         jTabbedPane1.addTab("Relatórios", jpRelatorio);
@@ -582,7 +632,7 @@ public class AdminTela extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(5, 5, 5))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -983,6 +1033,10 @@ public class AdminTela extends javax.swing.JFrame {
             alterarAtendimento = false;
             btnAltAgenda.setSelected(false);
             btnAltAgenda.setText("Habilitar Alterações");
+        }
+        
+        if(jpRelatorio.isShowing()){
+            System.out.println("teste");
         }
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
@@ -1583,9 +1637,12 @@ public class AdminTela extends javax.swing.JFrame {
     private javax.swing.JButton btnReportAcessos;
     private javax.swing.JButton btnReportDiario;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
     private com.github.lgooddatepicker.components.CalendarPanel calendarAcesso;
     private com.github.lgooddatepicker.components.CalendarPanel calendarData;
     private com.github.lgooddatepicker.components.CalendarPanel calendarDiario;
+    private com.github.lgooddatepicker.components.CalendarPanel calendarPanel1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -1593,13 +1650,15 @@ public class AdminTela extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JRadioButton jbData;
     private javax.swing.JRadioButton jbPaciente;
@@ -1611,6 +1670,9 @@ public class AdminTela extends javax.swing.JFrame {
     private javax.swing.JPanel jpUsuario;
     private javax.swing.JLabel lblCpfPaciente;
     private javax.swing.JLabel lblCpfUsuario;
+    private javax.swing.JRadioButton rbAnual;
+    private javax.swing.JRadioButton rbEspecialidade;
+    private javax.swing.JRadioButton rbMensal;
     private javax.swing.JTable tbAtendimento;
     private javax.swing.JTable tbPacientes;
     private javax.swing.JTable tbUsuarios;
