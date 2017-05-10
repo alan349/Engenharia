@@ -731,10 +731,10 @@
                           <Component id="jLabel9" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="rbAnual" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jbAnual" min="-2" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="rbMensal" alignment="1" min="-2" max="-2" attributes="0"/>
-                                      <Component id="rbEspecialidade" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jbMensal" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jbDiario" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -742,9 +742,9 @@
                           </Group>
                       </Group>
                       <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                      <Component id="calendarPanel1" min="-2" max="-2" attributes="0"/>
+                      <Component id="calendarEspecialidade" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnReportEspec" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
@@ -787,11 +787,11 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="rbAnual" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jbAnual" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="rbMensal" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jbMensal" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
-                                          <Component id="rbEspecialidade" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jbDiario" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
@@ -801,10 +801,10 @@
                                       </Group>
                                   </Group>
                               </Group>
-                              <Component id="calendarPanel1" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="calendarEspecialidade" alignment="1" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnReportEspec" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -827,6 +827,9 @@
                   <Connection code="LocalDate.now()" type="code"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="calendarAcessoPropertyChange"/>
+              </Events>
             </Component>
             <Component class="com.github.lgooddatepicker.components.CalendarPanel" name="calendarDiario">
               <Properties>
@@ -834,6 +837,9 @@
                   <Connection code="LocalDate.now()" type="code"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="calendarDiarioPropertyChange"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnReportDiario">
               <Properties>
@@ -855,30 +861,42 @@
             </Component>
             <Component class="javax.swing.JSeparator" name="jSeparator1">
             </Component>
-            <Component class="com.github.lgooddatepicker.components.CalendarPanel" name="calendarPanel1">
+            <Component class="com.github.lgooddatepicker.components.CalendarPanel" name="calendarEspecialidade">
               <Properties>
                 <Property name="selectedDate" type="java.time.LocalDate" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                   <Connection code="LocalDate.now()" type="code"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="calendarEspecialidadePropertyChange"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel9">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Relat&#xf3;rio de Especialidade:"/>
+                <Property name="text" type="java.lang.String" value="Relat&#xf3;rio de Atendimento por Especialidade:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JRadioButton" name="rbMensal">
+            <Component class="javax.swing.JRadioButton" name="jbMensal">
               <Properties>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="buttonGroup2"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Mensal"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JRadioButton" name="rbEspecialidade">
+            <Component class="javax.swing.JRadioButton" name="jbDiario">
               <Properties>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="buttonGroup2"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Di&#xe1;rio"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JRadioButton" name="rbAnual">
+            <Component class="javax.swing.JRadioButton" name="jbAnual">
               <Properties>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="buttonGroup2"/>
+                </Property>
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Anual"/>
               </Properties>
@@ -890,7 +908,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JList" name="jList1">
+                <Component class="javax.swing.JList" name="jltEspecialidade">
                   <Properties>
                     <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
                       <StringArray count="0"/>
@@ -903,10 +921,13 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JButton" name="jButton1">
+            <Component class="javax.swing.JButton" name="btnReportEspec">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Gerar Relat&#xf3;rio"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnReportEspecMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

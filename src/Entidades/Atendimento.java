@@ -26,6 +26,8 @@ public class Atendimento implements Serializable {
     @ManyToOne
     @JoinColumn(nullable = false)
     private Paciente paciente;
+    @Column(nullable = false)
+    private String Especialidade;
 
     /**
      * @return the id
@@ -58,5 +60,19 @@ public class Atendimento implements Serializable {
      */
     public void setId(AtendimentoPK id) {
         this.id = id;
+    }
+
+    /**
+     * @return the Especialidade
+     */
+    public String getEspecialidade() {
+        return Especialidade;
+    }
+
+    /**
+     * @param Especialidade the Especialidade to set
+     */
+    public void setEspecialidade(String Especialidade) {
+        this.Especialidade = Especialidade;
     }
 }

@@ -50,6 +50,19 @@ public List<Usuario> buscarTudoOrdenado() {
         return usuarios;
     }
 
+public List<Usuario> buscarTudoEspec() {
+        Session sessao
+                = Hibernate.NewHibernateUtil.getSessionFactory().openSession();
+
+        Criteria criterio = 
+            sessao.createCriteria(Usuario.class);
+        criterio.addOrder(Order.asc("Especialidade"));   
+        List<Usuario> usuarios = criterio.list();
+        
+        sessao.close();
+        return usuarios;
+    }
+
 public Usuario buscarPorUsuario(String usuario){
         Session sessao =  Hibernate.NewHibernateUtil.getSessionFactory().openSession();
         Query query = sessao.createQuery("from Usuario where usuario = :usuario");
@@ -68,6 +81,19 @@ public List<Usuario> buscarPorNP(Integer np){
             sessao.createCriteria(Usuario.class);
         criterio.add(Restrictions.eq("NP", np));
         criterio.addOrder(Order.asc("nome"));   
+        List<Usuario> usuarios = criterio.list();
+        sessao.close();
+        return usuarios;
+    }
+
+public List<Usuario> buscarPorEspec(String spec){
+        Session sessao
+                = Hibernate.NewHibernateUtil.getSessionFactory().openSession();
+
+        Criteria criterio = 
+            sessao.createCriteria(Usuario.class);
+        criterio.add(Restrictions.eq("Especialidade", spec));
+        criterio.addOrder(Order.asc("Especialidade"));   
         List<Usuario> usuarios = criterio.list();
         sessao.close();
         return usuarios;

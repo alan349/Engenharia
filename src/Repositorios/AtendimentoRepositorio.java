@@ -53,6 +53,15 @@ public class AtendimentoRepositorio {
         sessao.close();
         return atendimentos;
     }
+    
+    public List<Atendimento> buscarTudoEspec() {
+        Session sessao = Hibernate.NewHibernateUtil.getSessionFactory().openSession();
+        Criteria criterio = sessao.createCriteria(Atendimento.class);
+        criterio.addOrder(Order.asc("Especialidade"));
+        List<Atendimento> atendimentos = criterio.list();
+        sessao.close();
+        return atendimentos;
+    }
 
     public List<Atendimento> buscarPorMedico(String medico) {
         Session sessao = Hibernate.NewHibernateUtil.getSessionFactory().openSession();

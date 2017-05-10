@@ -60,6 +60,7 @@ public class AdminTela extends javax.swing.JFrame {
         TabelaUsuario();
         TabelaPaciente();
         ListaMedico();
+        ListaEspecialidade();
     }
 
     /**
@@ -116,14 +117,14 @@ public class AdminTela extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        calendarPanel1 = new com.github.lgooddatepicker.components.CalendarPanel();
+        calendarEspecialidade = new com.github.lgooddatepicker.components.CalendarPanel();
         jLabel9 = new javax.swing.JLabel();
-        rbMensal = new javax.swing.JRadioButton();
-        rbEspecialidade = new javax.swing.JRadioButton();
-        rbAnual = new javax.swing.JRadioButton();
+        jbMensal = new javax.swing.JRadioButton();
+        jbDiario = new javax.swing.JRadioButton();
+        jbAnual = new javax.swing.JRadioButton();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        jButton1 = new javax.swing.JButton();
+        jltEspecialidade = new javax.swing.JList<>();
+        btnReportEspec = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -508,8 +509,18 @@ public class AdminTela extends javax.swing.JFrame {
         });
 
         calendarAcesso.setSelectedDate(LocalDate.now());
+        calendarAcesso.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                calendarAcessoPropertyChange(evt);
+            }
+        });
 
         calendarDiario.setSelectedDate(LocalDate.now());
+        calendarDiario.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                calendarDiarioPropertyChange(evt);
+            }
+        });
 
         btnReportDiario.setText("Gerar Relatório");
         btnReportDiario.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -522,21 +533,34 @@ public class AdminTela extends javax.swing.JFrame {
 
         jLabel7.setText("Relatório de Atendimentos Diários:");
 
-        calendarPanel1.setSelectedDate(LocalDate.now());
+        calendarEspecialidade.setSelectedDate(LocalDate.now());
+        calendarEspecialidade.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                calendarEspecialidadePropertyChange(evt);
+            }
+        });
 
-        jLabel9.setText("Relatório de Especialidade:");
+        jLabel9.setText("Relatório de Atendimento por Especialidade:");
 
-        rbMensal.setText("Mensal");
+        buttonGroup2.add(jbMensal);
+        jbMensal.setText("Mensal");
 
-        rbEspecialidade.setText("Diário");
+        buttonGroup2.add(jbDiario);
+        jbDiario.setText("Diário");
 
-        rbAnual.setSelected(true);
-        rbAnual.setText("Anual");
+        buttonGroup2.add(jbAnual);
+        jbAnual.setSelected(true);
+        jbAnual.setText("Anual");
 
-        jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane6.setViewportView(jList1);
+        jltEspecialidade.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane6.setViewportView(jltEspecialidade);
 
-        jButton1.setText("Gerar Relatório");
+        btnReportEspec.setText("Gerar Relatório");
+        btnReportEspec.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnReportEspecMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jpRelatorioLayout = new javax.swing.GroupLayout(jpRelatorio);
         jpRelatorio.setLayout(jpRelatorioLayout);
@@ -562,16 +586,16 @@ public class AdminTela extends javax.swing.JFrame {
                     .addComponent(jLabel9)
                     .addGroup(jpRelatorioLayout.createSequentialGroup()
                         .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(rbAnual)
+                            .addComponent(jbAnual)
                             .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(rbMensal, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(rbEspecialidade)))
+                                .addComponent(jbMensal, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jbDiario)))
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(29, 29, 29)
-                .addComponent(calendarPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(calendarEspecialidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(btnReportEspec)
                 .addGap(23, 23, 23))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpRelatorioLayout.createSequentialGroup()
                 .addGap(93, 93, 93)
@@ -607,19 +631,19 @@ public class AdminTela extends javax.swing.JFrame {
                             .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jpRelatorioLayout.createSequentialGroup()
                                     .addGap(18, 18, 18)
-                                    .addComponent(rbAnual)
+                                    .addComponent(jbAnual)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(rbMensal)
+                                    .addComponent(jbMensal)
                                     .addGap(41, 41, 41)
-                                    .addComponent(rbEspecialidade)
+                                    .addComponent(jbDiario)
                                     .addGap(24, 24, 24))
                                 .addGroup(jpRelatorioLayout.createSequentialGroup()
                                     .addGap(3, 3, 3)
                                     .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addContainerGap())))
-                        .addComponent(calendarPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(calendarEspecialidade, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpRelatorioLayout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(btnReportEspec)
                         .addGap(88, 88, 88))))
         );
 
@@ -740,6 +764,7 @@ public class AdminTela extends javax.swing.JFrame {
         usuarioRepositorio.inserir(usuario);
         TabelaUsuario();
         ListaMedico();
+        ListaEspecialidade();
     }//GEN-LAST:event_btnInsUsuarioMouseClicked
 
     private void txtCpfUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCpfUsuarioKeyReleased
@@ -904,6 +929,8 @@ public class AdminTela extends javax.swing.JFrame {
         AtendimentoRepositorio atendimentoRepositorio = new AtendimentoRepositorio();
         AtendimentoPK atendimentoPK = new AtendimentoPK();
         PacienteRepositorio pacienteRepositorio = new PacienteRepositorio();
+        Usuario usuario = new Usuario();
+        UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
 
         if (jltHora.isSelectionEmpty()) {
             JOptionPane.showMessageDialog(null, "Primeiramente selecione um horário.");
@@ -928,6 +955,8 @@ public class AdminTela extends javax.swing.JFrame {
         }
         atendimentoPK.setHora(hora);
         atendimentoPK.setMedico(jltMedico.getSelectedValue());
+        usuario = usuarioRepositorio.buscarPorNome(jltMedico.getSelectedValue());
+        atendimento.setEspecialidade(usuario.getEspecialidade());
         atendimento.setId(atendimentoPK);
         String cpf = JOptionPane.showInputDialog(null, "Digite o CPF do Paciente desejado:");
         if (cpf == null || cpf.isEmpty()) {
@@ -964,13 +993,18 @@ public class AdminTela extends javax.swing.JFrame {
     private void calendarDataPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_calendarDataPropertyChange
         // TODO add your handling code here:
         if (jpAgendamento.isShowing()) {
-            if (jltMedico.isSelectionEmpty()) {
-                JOptionPane.showMessageDialog(null, "Primeiramente selecione um médico.");
-                Thread.currentThread().stop();
+            if (calendarData.getSelectedDate() != null) {
+                if (jltMedico.isSelectionEmpty()) {
+
+                    Thread.currentThread().stop();
+                } else {
+                    horarios();
+                }
             } else {
-                horarios();
+                calendarData.setSelectedDate(LocalDate.now());
             }
         }
+
     }//GEN-LAST:event_calendarDataPropertyChange
 
     private void txtDataKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDataKeyReleased
@@ -1034,10 +1068,6 @@ public class AdminTela extends javax.swing.JFrame {
             btnAltAgenda.setSelected(false);
             btnAltAgenda.setText("Habilitar Alterações");
         }
-        
-        if(jpRelatorio.isShowing()){
-            System.out.println("teste");
-        }
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     private void tbAtendimentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbAtendimentoMouseClicked
@@ -1068,6 +1098,11 @@ public class AdminTela extends javax.swing.JFrame {
 
     private void btnReportAcessosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportAcessosMouseClicked
         // TODO add your handling code here:
+        if (calendarAcesso.getSelectedDate() == null) {
+            JOptionPane.showMessageDialog(null, "Primeiramente selecione uma data.");
+            Thread.currentThread().stop();
+        }
+
         StyleBuilder boldStyle = stl.style().bold();
         StyleBuilder boldCenteredStyle = stl.style(boldStyle).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
         StyleBuilder columnTitleStyle = stl.style(boldCenteredStyle)
@@ -1098,6 +1133,10 @@ public class AdminTela extends javax.swing.JFrame {
 
     private void btnReportDiarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportDiarioMouseClicked
         // TODO add your handling code here:
+        if (calendarDiario.getSelectedDate() == null) {
+            JOptionPane.showMessageDialog(null, "Primeiramente selecione uma data.");
+            Thread.currentThread().stop();
+        }
         StyleBuilder boldStyle = stl.style().bold();
         StyleBuilder boldCenteredStyle = stl.style(boldStyle).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
         StyleBuilder columnTitleStyle = stl.style(boldCenteredStyle)
@@ -1127,6 +1166,119 @@ public class AdminTela extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jbDataActionPerformed
 
+    private void btnReportEspecMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportEspecMouseClicked
+        // TODO add your handling code here:
+        if (jltEspecialidade.isSelectionEmpty()) {
+            JOptionPane.showMessageDialog(null, "Primeiramente selecione uma especialidade.");
+            Thread.currentThread().stop();
+        }
+        if (calendarEspecialidade.getSelectedDate() == null) {
+            JOptionPane.showMessageDialog(null, "Primeiramente selecione uma data.");
+            Thread.currentThread().stop();
+        }
+
+        if (jbAnual.isSelected()) {
+            ReportAnual();
+        } else if (jbMensal.isSelected()) {
+            ReportMensal();
+        } else if (jbDiario.isSelected()) {
+            ReportDiario();
+        }
+    }//GEN-LAST:event_btnReportEspecMouseClicked
+
+    private void calendarAcessoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_calendarAcessoPropertyChange
+        // TODO add your handling code here:
+        if (calendarAcesso.getSelectedDate() == null) {
+            calendarAcesso.setSelectedDate(LocalDate.now());
+        }
+    }//GEN-LAST:event_calendarAcessoPropertyChange
+
+    private void calendarDiarioPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_calendarDiarioPropertyChange
+        // TODO add your handling code here:
+        if (calendarDiario.getSelectedDate() == null) {
+            calendarDiario.setSelectedDate(LocalDate.now());
+        }
+    }//GEN-LAST:event_calendarDiarioPropertyChange
+
+    private void calendarEspecialidadePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_calendarEspecialidadePropertyChange
+        // TODO add your handling code here:
+        if (calendarEspecialidade.getSelectedDate() == null) {
+            calendarEspecialidade.setSelectedDate(LocalDate.now());
+        }
+    }//GEN-LAST:event_calendarEspecialidadePropertyChange
+
+    public void ReportAnual() {
+        StyleBuilder boldStyle = stl.style().bold();
+        StyleBuilder boldCenteredStyle = stl.style(boldStyle).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
+        StyleBuilder columnTitleStyle = stl.style(boldCenteredStyle)
+                .setBorder(stl.pen1Point())
+                .setBackgroundColor(Color.LIGHT_GRAY);
+        try {
+            report()//create new report design
+                    .setColumnTitleStyle(columnTitleStyle)
+                    .highlightDetailEvenRows()
+                    .columns(//add columns
+                            //            title,     field name     data type
+                            col.column("Especialidade", "espec", type.stringType()),
+                            col.column("Total de Atendimentos", "total", type.integerType()))
+                    .title(cmp.text("Relatório Anual de Atendimentos da Especialidade: "
+                            + jltEspecialidade.getSelectedValue()).setStyle(boldCenteredStyle))//shows report title
+                    .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))//shows number of page at page footer
+                    .setDataSource(createDataSourceEspAnual())//set datasource
+                    .show(false);//create and show report
+        } catch (DRException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void ReportMensal() {
+        StyleBuilder boldStyle = stl.style().bold();
+        StyleBuilder boldCenteredStyle = stl.style(boldStyle).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
+        StyleBuilder columnTitleStyle = stl.style(boldCenteredStyle)
+                .setBorder(stl.pen1Point())
+                .setBackgroundColor(Color.LIGHT_GRAY);
+        try {
+            report()//create new report design
+                    .setColumnTitleStyle(columnTitleStyle)
+                    .highlightDetailEvenRows()
+                    .columns(//add columns
+                            //            title,     field name     data type
+                            col.column("Especialidade", "espec", type.stringType()),
+                            col.column("Total de Atendimentos", "total", type.integerType()))
+                    .title(cmp.text("Relatório Mensal de Atendimentos da Especialidade: "
+                            + jltEspecialidade.getSelectedValue()).setStyle(boldCenteredStyle))//shows report title
+                    .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))//shows number of page at page footer
+                    .setDataSource(createDataSourceEspMensal())//set datasource
+                    .show(false);//create and show report
+        } catch (DRException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void ReportDiario() {
+        StyleBuilder boldStyle = stl.style().bold();
+        StyleBuilder boldCenteredStyle = stl.style(boldStyle).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
+        StyleBuilder columnTitleStyle = stl.style(boldCenteredStyle)
+                .setBorder(stl.pen1Point())
+                .setBackgroundColor(Color.LIGHT_GRAY);
+        try {
+            report()//create new report design
+                    .setColumnTitleStyle(columnTitleStyle)
+                    .highlightDetailEvenRows()
+                    .columns(//add columns
+                            //            title,     field name     data type
+                            col.column("Especialidade", "espec", type.stringType()),
+                            col.column("Total de Atendimentos", "total", type.integerType()))
+                    .title(cmp.text("Relatório Diario de Atendimentos da Especialidade: "
+                            + jltEspecialidade.getSelectedValue()).setStyle(boldCenteredStyle))//shows report title
+                    .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))//shows number of page at page footer
+                    .setDataSource(createDataSourceEspDiario())//set datasource
+                    .show(false);//create and show report
+        } catch (DRException e) {
+            e.printStackTrace();
+        }
+    }
+
     private JRDataSource createDataSourceAcessos() throws ParseException {
         AcessosRepositorio acessosRepositorio = new AcessosRepositorio();
         LocalDate selDate = calendarAcesso.getSelectedDate();
@@ -1150,11 +1302,101 @@ public class AdminTela extends javax.swing.JFrame {
         LocalDate selDate = calendarAcesso.getSelectedDate();
         String formatted = selDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         List<Atendimento> atendimentos = atendimentoRepositorio.buscarPorData(formatted);
-        DRDataSource dataSource = new DRDataSource("horario", "medico", "paciente", "cpf");
+        DRDataSource dataSource = new DRDataSource("especialidade", "total");
         if (!atendimentos.isEmpty() || atendimentos != null) {
             for (Atendimento atendimento : atendimentos) {
                 AtendimentoPK atendimentoPK = atendimento.getId();
                 dataSource.add(atendimentoPK.getHora(), atendimentoPK.getMedico(), atendimento.getPaciente().getNome(), atendimento.getPaciente().getCPF());
+            }
+        }
+        return dataSource;
+    }
+
+    private JRDataSource createDataSourceEspAnual() {
+        AtendimentoRepositorio atendimentoRepositorio = new AtendimentoRepositorio();
+        LocalDate selDate = calendarEspecialidade.getSelectedDate();
+        String formatted = selDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        List<Atendimento> atendimentos = atendimentoRepositorio.buscarTudoEspec();
+        System.out.println(atendimentos);
+        DRDataSource dataSource = new DRDataSource("espec", "total");
+        if (!atendimentos.isEmpty() || atendimentos != null) {
+            for (Atendimento atendimento : atendimentos) {
+                AtendimentoPK atendimentoPK = atendimento.getId();
+                String dataBanco = atendimentoPK.getData();
+                Integer qtdEspec = 0;
+                if (atendimento.getEspecialidade().equals(jltEspecialidade.getSelectedValue())) {
+                    Boolean anoV = true;
+                    System.out.println(formatted);
+                    System.out.println(dataBanco);
+                    for (int i = 0; i < 4; i++) {
+                        if (formatted.charAt(i) != dataBanco.charAt(i)) {
+                            anoV = false;
+                        } else if (anoV = true && i == 3) {
+                            qtdEspec++;
+                        }
+                    }
+                    dataSource.add(atendimento.getEspecialidade(), qtdEspec);
+                }
+            }
+        }
+        return dataSource;
+    }
+
+    private JRDataSource createDataSourceEspMensal() {
+        AtendimentoRepositorio atendimentoRepositorio = new AtendimentoRepositorio();
+        LocalDate selDate = calendarEspecialidade.getSelectedDate();
+        String formatted = selDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        List<Atendimento> atendimentos = atendimentoRepositorio.buscarTudoEspec();
+        System.out.println(atendimentos);
+        DRDataSource dataSource = new DRDataSource("espec", "total");
+        if (!atendimentos.isEmpty() || atendimentos != null) {
+            for (Atendimento atendimento : atendimentos) {
+                AtendimentoPK atendimentoPK = atendimento.getId();
+                String dataBanco = atendimentoPK.getData();
+                Integer qtdEspec = 0;
+                if (atendimento.getEspecialidade().equals(jltEspecialidade.getSelectedValue())) {
+                    Boolean mesV = true;
+                    System.out.println(formatted);
+                    System.out.println(dataBanco);
+                    for (int i = 0; i < 7; i++) {
+                        if (formatted.charAt(i) != dataBanco.charAt(i)) {
+                            mesV = false;
+                        } else if (mesV = true && i == 6) {
+                            qtdEspec++;
+                        }
+                    }
+                    dataSource.add(atendimento.getEspecialidade(), qtdEspec);
+                }
+            }
+        }
+        return dataSource;
+    }
+
+    private JRDataSource createDataSourceEspDiario() {
+        AtendimentoRepositorio atendimentoRepositorio = new AtendimentoRepositorio();
+        LocalDate selDate = calendarEspecialidade.getSelectedDate();
+        String formatted = selDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        List<Atendimento> atendimentos = atendimentoRepositorio.buscarTudoEspec();
+        System.out.println(atendimentos);
+        DRDataSource dataSource = new DRDataSource("espec", "total");
+        if (!atendimentos.isEmpty() || atendimentos != null) {
+            for (Atendimento atendimento : atendimentos) {
+                AtendimentoPK atendimentoPK = atendimento.getId();
+                String dataBanco = atendimentoPK.getData();
+                Integer qtdEspec = 0;
+                if (atendimento.getEspecialidade().equals(jltEspecialidade.getSelectedValue())) {
+                    Boolean diaV = true;
+                    System.out.println(formatted);
+                    System.out.println(dataBanco);
+                    for (int i = 0; i < 10; i++) {
+                        if (formatted.charAt(i) != dataBanco.charAt(i)) {
+                            diaV = false;
+                        } else if (diaV = true && i == 9) {
+                            qtdEspec++;
+                        }
+                    }
+                    dataSource.add(atendimento.getEspecialidade(), qtdEspec);
+                }
             }
         }
         return dataSource;
@@ -1597,6 +1839,19 @@ public class AdminTela extends javax.swing.JFrame {
         TabelaAtendimento(jltMedico.getSelectedValue());
     }
 
+    public void ListaEspecialidade() {
+        UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
+        List<Usuario> usuarios = usuarioRepositorio.buscarTudoEspec();
+
+        DefaultListModel model = new DefaultListModel();
+        jltEspecialidade.setModel(model);
+        for (Usuario usuario : usuarios) {
+            if (usuario.getEspecialidade() != null) {
+                model.addElement(usuario.getEspecialidade());
+            }
+        }
+    }
+
     /*@Override
     public void dispose() {
     new Login().setVisible(true);
@@ -1636,13 +1891,13 @@ public class AdminTela extends javax.swing.JFrame {
     private javax.swing.JButton btnInsUsuario;
     private javax.swing.JButton btnReportAcessos;
     private javax.swing.JButton btnReportDiario;
+    private javax.swing.JButton btnReportEspec;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private com.github.lgooddatepicker.components.CalendarPanel calendarAcesso;
     private com.github.lgooddatepicker.components.CalendarPanel calendarData;
     private com.github.lgooddatepicker.components.CalendarPanel calendarDiario;
-    private com.github.lgooddatepicker.components.CalendarPanel calendarPanel1;
-    private javax.swing.JButton jButton1;
+    private com.github.lgooddatepicker.components.CalendarPanel calendarEspecialidade;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -1651,7 +1906,6 @@ public class AdminTela extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -1660,8 +1914,12 @@ public class AdminTela extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JRadioButton jbAnual;
     private javax.swing.JRadioButton jbData;
+    private javax.swing.JRadioButton jbDiario;
+    private javax.swing.JRadioButton jbMensal;
     private javax.swing.JRadioButton jbPaciente;
+    private javax.swing.JList<String> jltEspecialidade;
     private javax.swing.JList<String> jltHora;
     private javax.swing.JList<String> jltMedico;
     private javax.swing.JPanel jpAgendamento;
@@ -1670,9 +1928,6 @@ public class AdminTela extends javax.swing.JFrame {
     private javax.swing.JPanel jpUsuario;
     private javax.swing.JLabel lblCpfPaciente;
     private javax.swing.JLabel lblCpfUsuario;
-    private javax.swing.JRadioButton rbAnual;
-    private javax.swing.JRadioButton rbEspecialidade;
-    private javax.swing.JRadioButton rbMensal;
     private javax.swing.JTable tbAtendimento;
     private javax.swing.JTable tbPacientes;
     private javax.swing.JTable tbUsuarios;
