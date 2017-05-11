@@ -161,6 +161,7 @@ public class AdminTela extends javax.swing.JFrame {
             }
         });
         tbUsuarios.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tbUsuarios.getTableHeader().setReorderingAllowed(false);
         tbUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbUsuariosMouseClicked(evt);
@@ -262,6 +263,7 @@ public class AdminTela extends javax.swing.JFrame {
             }
         });
         tbPacientes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tbPacientes.getTableHeader().setReorderingAllowed(false);
         tbPacientes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbPacientesMouseClicked(evt);
@@ -363,6 +365,7 @@ public class AdminTela extends javax.swing.JFrame {
             }
         ));
         tbAtendimento.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tbAtendimento.getTableHeader().setReorderingAllowed(false);
         tbAtendimento.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbAtendimentoMouseClicked(evt);
@@ -667,8 +670,440 @@ public class AdminTela extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private static boolean alterarUsuario = false, alterarPaciente = false, alterarAtendimento = false;
-    private static boolean excluirUsuario = false, excluirAtendimento = false;
+    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
+        // TODO add your handling code here:
+        if (!jpPaciente.isShowing() && alterarPaciente == true) {
+            alterarPaciente = false;
+            btnAltPaciente.setSelected(false);
+            btnAltPaciente.setText("Habilitar Alterações");
+        }
+
+        if (!jpUsuario.isShowing() && alterarUsuario == true) {
+            alterarUsuario = false;
+            btnAltUsuario.setSelected(false);
+            btnAltUsuario.setText("Habilitar Alterações");
+        }
+
+        if (!jpAgendamento.isShowing() && alterarAtendimento == true) {
+            alterarAtendimento = false;
+            btnAltAgenda.setSelected(false);
+            btnAltAgenda.setText("Habilitar Alterações");
+        }
+    }//GEN-LAST:event_jTabbedPane1MouseClicked
+
+    private void btnReportEspecMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportEspecMouseClicked
+        // TODO add your handling code here:
+        if (jltEspecialidade.isSelectionEmpty()) {
+            JOptionPane.showMessageDialog(null, "Primeiramente selecione uma especialidade.");
+            Thread.currentThread().stop();
+        }
+        if (calendarEspecialidade.getSelectedDate() == null) {
+            JOptionPane.showMessageDialog(null, "Primeiramente selecione uma data.");
+            Thread.currentThread().stop();
+        }
+
+        if (jbAnual.isSelected()) {
+            ReportAnual();
+        } else if (jbMensal.isSelected()) {
+            ReportMensal();
+        } else if (jbDiario.isSelected()) {
+            ReportDiario();
+        }
+    }//GEN-LAST:event_btnReportEspecMouseClicked
+
+    private void calendarEspecialidadePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_calendarEspecialidadePropertyChange
+        // TODO add your handling code here:
+        if (calendarEspecialidade.getSelectedDate() == null) {
+            calendarEspecialidade.setSelectedDate(LocalDate.now());
+        }
+    }//GEN-LAST:event_calendarEspecialidadePropertyChange
+
+    private void btnReportDiarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportDiarioMouseClicked
+        // TODO add your handling code here:
+        if (calendarDiario.getSelectedDate() == null) {
+            JOptionPane.showMessageDialog(null, "Primeiramente selecione uma data.");
+            Thread.currentThread().stop();
+        }
+        StyleBuilder boldStyle = stl.style().bold();
+        StyleBuilder boldCenteredStyle = stl.style(boldStyle).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
+        StyleBuilder columnTitleStyle = stl.style(boldCenteredStyle)
+        .setBorder(stl.pen1Point())
+        .setBackgroundColor(Color.LIGHT_GRAY);
+        try {
+            report()//create new report design
+            .setColumnTitleStyle(columnTitleStyle)
+            .highlightDetailEvenRows()
+            .columns(//add columns
+                //            title,     field name     data type
+                col.column("Horário", "horario", type.stringType()),
+                col.column("Médico", "medico", type.stringType()),
+                col.column("Paciente", "paciente", type.stringType()),
+                col.column("CPF do Paciente", "cpf", type.stringType()))
+            .title(cmp.text("Relatório de Atendimentos Diários de "
+                + calendarAcesso.getSelectedDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).setStyle(boldCenteredStyle))//shows report title
+        .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))//shows number of page at page footer
+        .setDataSource(createDataSourceDiario())//set datasource
+        .show(false);//create and show report
+        } catch (DRException e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnReportDiarioMouseClicked
+
+    private void calendarDiarioPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_calendarDiarioPropertyChange
+        // TODO add your handling code here:
+        if (calendarDiario.getSelectedDate() == null) {
+            calendarDiario.setSelectedDate(LocalDate.now());
+        }
+    }//GEN-LAST:event_calendarDiarioPropertyChange
+
+    private void calendarAcessoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_calendarAcessoPropertyChange
+        // TODO add your handling code here:
+        if (calendarAcesso.getSelectedDate() == null) {
+            calendarAcesso.setSelectedDate(LocalDate.now());
+        }
+    }//GEN-LAST:event_calendarAcessoPropertyChange
+
+    private void btnReportAcessosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportAcessosMouseClicked
+        // TODO add your handling code here:
+        if (calendarAcesso.getSelectedDate() == null) {
+            JOptionPane.showMessageDialog(null, "Primeiramente selecione uma data.");
+            Thread.currentThread().stop();
+        }
+
+        StyleBuilder boldStyle = stl.style().bold();
+        StyleBuilder boldCenteredStyle = stl.style(boldStyle).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
+        StyleBuilder columnTitleStyle = stl.style(boldCenteredStyle)
+        .setBorder(stl.pen1Point())
+        .setBackgroundColor(Color.LIGHT_GRAY);
+        try {
+            try {
+                report()//create new report design
+                .setColumnTitleStyle(columnTitleStyle)
+                .highlightDetailEvenRows()
+                .columns(//add columns
+                    //            title,     field name     data type
+                    col.column("Usuário", "usuario", type.stringType()),
+                    col.column("Nome", "nome", type.stringType()),
+                    col.column("Horário", "horario", type.stringType()))
+                .title(cmp.text("Relatório de Acessos de "
+                    + calendarAcesso.getSelectedDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).setStyle(boldCenteredStyle))//shows report title
+            .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))//shows number of page at page footer
+            .setDataSource(createDataSourceAcessos())//set datasource
+            .show(false);//create and show report
+        } catch (ParseException ex) {
+            Logger.getLogger(AdminTela.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        } catch (DRException e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnReportAcessosMouseClicked
+
+    private void btnExcAtendimentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExcAtendimentoMouseClicked
+        // TODO add your handling code here:
+        if (btnAltAgenda.isSelected() == false) {
+            if (btnExcAtendimento.isSelected() == true) {
+                JOptionPane.showMessageDialog(null, "Clique no partido que deseja excluir.");
+                btnExcAtendimento.setText("Cancelar Exclusão");
+                excluirAtendimento = true;
+            } else {
+                btnExcAtendimento.setText("Excluir");
+                excluirAtendimento = false;
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Primeiramente desative as alterações para habilitar exclusões.");
+            btnExcAtendimento.setSelected(false);
+        }
+    }//GEN-LAST:event_btnExcAtendimentoMouseClicked
+
+    private void jbPacienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbPacienteMouseClicked
+        // TODO add your handling code here:
+        txtData.setText(null);
+    }//GEN-LAST:event_jbPacienteMouseClicked
+
+    private void jbDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDataActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbDataActionPerformed
+
+    private void jbDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbDataMouseClicked
+        // TODO add your handling code here:
+        txtData.setText(null);
+    }//GEN-LAST:event_jbDataMouseClicked
+
+    private void txtDataKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDataKeyReleased
+        // TODO add your handling code here:
+        String medico = jltMedico.getSelectedValue();
+        if (jbData.isSelected()) {
+            if (txtData.getText().length() == 10 && tbAtendimento.getRowCount() != 0) {
+                TabelaAtendimento(medico);
+            }
+        } else if (jbPaciente.isSelected() && tbAtendimento.getRowCount() != 0) {
+            TabelaAtendimento(medico);
+        }
+        if (txtData.getText().isEmpty() && tbAtendimento.getRowCount() != 0) {
+            TabelaAtendimento(medico);
+        }
+
+        Integer rows = tbAtendimento.getRowCount();
+        Integer col = null;
+        for (int i = 0; i < rows; i++) {
+            if (jbData.isSelected()) {
+                col = 0;
+            } else if (jbPaciente.isSelected()) {
+                col = 2;
+            }
+            if (tbAtendimento.getValueAt(i, col).equals(txtData.getText())) {
+                tbAtendimento.setRowSelectionInterval(i, i);
+                tbAtendimento.scrollRectToVisible(new Rectangle(tbAtendimento.getCellRect(i, 0, true)));
+                Thread.currentThread().stop();
+            } else {
+            }
+
+        }
+    }//GEN-LAST:event_txtDataKeyReleased
+
+    private void btnAltAgendaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAltAgendaMouseClicked
+        // TODO add your handling code here:
+        if (btnExcAtendimento.isSelected() == false) {
+            if (btnAltAgenda.isSelected() == true) {
+                JOptionPane.showMessageDialog(null, "Clique no campo que deseja alterar.");
+                btnAltAgenda.setText("Desabilitar Alterações");
+                alterarAtendimento = true;
+            } else {
+                btnAltAgenda.setText("Habilitar Alterações");
+                alterarAtendimento = false;
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Primeiramente cancele a exclusão para habilitar alterações.");
+            btnAltAgenda.setSelected(false);
+        }
+    }//GEN-LAST:event_btnAltAgendaMouseClicked
+
+    private void btnAgendarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgendarMouseClicked
+        // TODO add your handling code here:
+        Atendimento atendimento = new Atendimento();
+        AtendimentoRepositorio atendimentoRepositorio = new AtendimentoRepositorio();
+        AtendimentoPK atendimentoPK = new AtendimentoPK();
+        PacienteRepositorio pacienteRepositorio = new PacienteRepositorio();
+        Usuario usuario = new Usuario();
+        UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
+
+        if (jltHora.isSelectionEmpty()) {
+            JOptionPane.showMessageDialog(null, "Primeiramente selecione um horário.");
+            Thread.currentThread().stop();
+        }
+
+        LocalDate selDate = calendarData.getSelectedDate();
+
+        if (selDate.isBefore(LocalDate.now())) {
+            JOptionPane.showMessageDialog(null, "Selecione uma data superior ou igual a data atual.");
+            cancelar();
+            Thread.currentThread().stop();
+        }
+
+        String formatted = selDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+        atendimentoPK.setData(formatted);
+        String hora = jltHora.getSelectedValue();
+        if (hora.charAt(0) == '<') {
+            JOptionPane.showMessageDialog(null, "Já existe uma consulta agendada neste horário!");
+            Thread.currentThread().stop();
+        }
+        atendimentoPK.setHora(hora);
+        atendimentoPK.setMedico(jltMedico.getSelectedValue());
+        usuario = usuarioRepositorio.buscarPorNome(jltMedico.getSelectedValue());
+        atendimento.setEspecialidade(usuario.getEspecialidade());
+        atendimento.setId(atendimentoPK);
+        String cpf = JOptionPane.showInputDialog(null, "Digite o CPF do Paciente desejado:");
+        if (cpf == null || cpf.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Nenhum paciente com este CPF foi encontrado.");
+            Thread.currentThread().stop();
+        }
+        Paciente paciente = pacienteRepositorio.buscarPorCpf(cpf);
+        if (paciente == null) {
+            JOptionPane.showMessageDialog(null, "Nenhum Paciente com este CPF foi encontrado.");
+            Thread.currentThread().stop();
+        }
+        atendimento.setPaciente(paciente);
+        atendimentoRepositorio.inserir(atendimento);
+        TabelaAtendimento(jltMedico.getSelectedValue());
+    }//GEN-LAST:event_btnAgendarMouseClicked
+
+    private void tbAtendimentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbAtendimentoMouseClicked
+        // TODO add your handling code here:
+        if (alterarAtendimento == true) {
+            AlterarAtendimento();
+        } else if (excluirAtendimento == true) {
+            ExcluirAtendimento();
+        }
+    }//GEN-LAST:event_tbAtendimentoMouseClicked
+
+    private void calendarDataPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_calendarDataPropertyChange
+        // TODO add your handling code here:
+        if (jpAgendamento.isShowing()) {
+            if (calendarData.getSelectedDate() != null) {
+                if (jltMedico.isSelectionEmpty()) {
+
+                    Thread.currentThread().stop();
+                } else {
+                    horarios();
+                }
+            } else {
+                calendarData.setSelectedDate(LocalDate.now());
+            }
+        }
+    }//GEN-LAST:event_calendarDataPropertyChange
+
+    private void jltMedicoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jltMedicoMouseClicked
+        // TODO add your handling code here:
+        TabelaAtendimento(jltMedico.getSelectedValue());
+    }//GEN-LAST:event_jltMedicoMouseClicked
+
+    private void btnAltPacienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAltPacienteMouseClicked
+        // TODO add your handling code here:
+        if (btnAltPaciente.isSelected() == true) {
+            JOptionPane.showMessageDialog(null, "Clique no campo que deseja alterar.");
+            btnAltPaciente.setText("Desabilitar Alterações");
+            alterarPaciente = true;
+        } else {
+            btnAltPaciente.setText("Habilitar Alterações");
+            alterarPaciente = false;
+        }
+    }//GEN-LAST:event_btnAltPacienteMouseClicked
+
+    private void txtCpfPacienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCpfPacienteKeyReleased
+        // TODO add your handling code here:
+        Integer rows = tbPacientes.getRowCount();
+        for (int i = 0; i < rows; i++) {
+            if (tbPacientes.getValueAt(i, 1).equals(txtCpfPaciente.getText())) {
+                tbPacientes.setRowSelectionInterval(i, i);
+                tbPacientes.scrollRectToVisible(new Rectangle(tbPacientes.getCellRect(i, 0, true)));
+                lblCpfPaciente.setText("Paciente encontrado.");
+                Thread.currentThread().stop();
+            } else {
+                lblCpfPaciente.setText("Nenhum Paciente com este CPF foi encontrado.");
+            }
+            if (txtCpfPaciente.getText().equals("")) {
+                lblCpfPaciente.setText(null);
+            }
+        }
+    }//GEN-LAST:event_txtCpfPacienteKeyReleased
+
+    private void tbPacientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbPacientesMouseClicked
+        // TODO add your handling code here:
+        if (alterarPaciente == true) {
+            AlterarPaciente();
+        }
+    }//GEN-LAST:event_tbPacientesMouseClicked
+
+    private void btnInsPacienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInsPacienteMouseClicked
+        // TODO add your handling code here:
+        PacienteRepositorio pacienteRepositorio = new PacienteRepositorio();
+        Paciente paciente = new Paciente();
+        String nome = null;
+        Boolean nomeV = false;
+        if (nome == null || nome.isEmpty()) {
+            cancelar();
+            Thread.currentThread().stop();
+        }
+        while (nomeV == false) {
+            nome = JOptionPane.showInputDialog("Insira o Nome:");
+            if (nome == null || nome.isEmpty()) {
+                cancelar();
+                Thread.currentThread().stop();
+            }
+            if (!Character.isLetter(nome.charAt(0))) {
+                JOptionPane.showMessageDialog(null, "O nome deve ser iniciado com uma letra.");
+            } else {
+                nomeV = true;
+            }
+        }
+        paciente.setNome(nome);
+        String cpf = null;
+        Boolean cpfV = false;
+        while (cpfV == false) {
+            cpf = JOptionPane.showInputDialog("Insira o CPF:");
+            if (cpf == null || cpf.isEmpty()) {
+                cancelar();
+                Thread.currentThread().stop();
+            } else if (AdminTela.isValidCPF(cpf) == false) {
+                JOptionPane.showMessageDialog(null, "Digite um CPF válido.");
+            } else {
+                cpfV = true;
+            }
+        }
+        paciente.setCPF(cpf);
+        String sus = JOptionPane.showInputDialog("Insira o número do CNS:");
+        if (sus == null || sus.isEmpty()) {
+            cancelar();
+            Thread.currentThread().stop();
+        }
+        paciente.setSUS(sus);
+
+        Boolean dataV = false;
+        String data = null;
+        while (dataV == false) {
+
+            data = JOptionPane.showInputDialog("Insira a data de nascimento:");
+            System.out.println("teste: " + data);
+            DateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
+            dtf.setLenient(false);
+            Date dt = null;
+            try {
+                dt = dtf.parse(data);
+                dataV = true;
+            } catch (ParseException ex) {
+                JOptionPane.showMessageDialog(null, "Insira uma data válida.");
+            } catch (NullPointerException e) {
+                cancelar();
+                Thread.currentThread().stop();
+            }
+
+        }
+        paciente.setDataNasc(data);
+        String end = JOptionPane.showInputDialog("Insira o Endereço:");
+        if (end == null || end.isEmpty()) {
+            cancelar();
+            Thread.currentThread().stop();
+        }
+        paciente.setEndereco(end);
+        String fone = null;
+        Boolean foneV = false;
+        while (foneV == false) {
+            fone = JOptionPane.showInputDialog("Insira o Telefone:");
+            if (fone == null || fone.isEmpty()) {
+                cancelar();
+                Thread.currentThread().stop();
+            }
+            for (int i = 0; i < fone.length(); i++) {
+                if (Character.isLetter(fone.charAt(i))) {
+                    JOptionPane.showMessageDialog(null, "Digite um telefone válido.");
+                } else if (i == fone.length() - 1) {
+                    foneV = true;
+                }
+            }
+        }
+        paciente.setFone(fone);
+        pacienteRepositorio.inserir(paciente);
+        TabelaPaciente();
+    }//GEN-LAST:event_btnInsPacienteMouseClicked
+
+    private void btnExcUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExcUsuarioMouseClicked
+        // TODO add your handling code here:
+        if (btnAltUsuario.isSelected() == false) {
+            if (btnExcUsuario.isSelected() == true) {
+                JOptionPane.showMessageDialog(null, "Clique no partido que deseja excluir.");
+                btnExcUsuario.setText("Cancelar Exclusão");
+                excluirUsuario = true;
+            } else {
+                btnExcUsuario.setText("Excluir");
+                excluirUsuario = false;
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Primeiramente desative as alterações para habilitar exclusões.");
+            btnExcUsuario.setSelected(false);
+        }
+    }//GEN-LAST:event_btnExcUsuarioMouseClicked
+
     private void btnAltUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAltUsuarioMouseClicked
         // TODO add your handling code here:
         if (btnExcUsuario.isSelected() == false) {
@@ -686,6 +1121,24 @@ public class AdminTela extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAltUsuarioMouseClicked
 
+    private void txtCpfUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCpfUsuarioKeyReleased
+        // TODO add your handling code here:
+        Integer rows = tbUsuarios.getRowCount();
+        for (int i = 0; i < rows; i++) {
+            if (tbUsuarios.getValueAt(i, 4).equals(txtCpfUsuario.getText())) {
+                tbUsuarios.setRowSelectionInterval(i, i);
+                tbUsuarios.scrollRectToVisible(new Rectangle(tbUsuarios.getCellRect(i, 0, true)));
+                lblCpfUsuario.setText("Usuário encontrado.");
+                Thread.currentThread().stop();
+            } else {
+                lblCpfUsuario.setText("Nenhum Usuário com este CPF foi encontrado.");
+            }
+            if (txtCpfUsuario.getText().equals("")) {
+                lblCpfUsuario.setText(null);
+            }
+        }
+    }//GEN-LAST:event_txtCpfUsuarioKeyReleased
+
     private void tbUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbUsuariosMouseClicked
         // TODO add your handling code here:
         if (alterarUsuario == true) {
@@ -699,10 +1152,23 @@ public class AdminTela extends javax.swing.JFrame {
         // TODO add your handling code here:
         UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
         Usuario usuario = new Usuario();
-        String nome = JOptionPane.showInputDialog("Insira o Nome:");
+        String nome = null;
+        Boolean nomeV = false;
         if (nome == null || nome.isEmpty()) {
             cancelar();
             Thread.currentThread().stop();
+        }
+        while (nomeV == false) {
+            nome = JOptionPane.showInputDialog("Insira o Nome:");
+            if (nome == null || nome.isEmpty()) {
+                cancelar();
+                Thread.currentThread().stop();
+            }
+            if (!Character.isLetter(nome.charAt(0))) {
+                JOptionPane.showMessageDialog(null, "O nome deve ser iniciado com uma letra.");
+            } else {
+                nomeV = true;
+            }
         }
         usuario.setNome(nome);
         String usuarioUser = null;
@@ -767,446 +1233,8 @@ public class AdminTela extends javax.swing.JFrame {
         ListaEspecialidade();
     }//GEN-LAST:event_btnInsUsuarioMouseClicked
 
-    private void txtCpfUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCpfUsuarioKeyReleased
-        // TODO add your handling code here:
-        Integer rows = tbUsuarios.getRowCount();
-        for (int i = 0; i < rows; i++) {
-            if (tbUsuarios.getValueAt(i, 4).equals(txtCpfUsuario.getText())) {
-                tbUsuarios.setRowSelectionInterval(i, i);
-                tbUsuarios.scrollRectToVisible(new Rectangle(tbUsuarios.getCellRect(i, 0, true)));
-                lblCpfUsuario.setText("Usuário encontrado.");
-                Thread.currentThread().stop();
-            } else {
-                lblCpfUsuario.setText("Nenhum Usuário com este CPF foi encontrado.");
-            }
-            if (txtCpfUsuario.getText().equals("")) {
-                lblCpfUsuario.setText(null);
-            }
-        }
-    }//GEN-LAST:event_txtCpfUsuarioKeyReleased
-
-    private void btnExcUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExcUsuarioMouseClicked
-        // TODO add your handling code here:
-        if (btnAltUsuario.isSelected() == false) {
-            if (btnExcUsuario.isSelected() == true) {
-                JOptionPane.showMessageDialog(null, "Clique no partido que deseja excluir.");
-                btnExcUsuario.setText("Cancelar Exclusão");
-                excluirUsuario = true;
-            } else {
-                btnExcUsuario.setText("Excluir");
-                excluirUsuario = false;
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Primeiramente desative as alterações para habilitar exclusões.");
-            btnExcUsuario.setSelected(false);
-        }
-    }//GEN-LAST:event_btnExcUsuarioMouseClicked
-
-    private void btnInsPacienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInsPacienteMouseClicked
-        // TODO add your handling code here:
-        PacienteRepositorio pacienteRepositorio = new PacienteRepositorio();
-        Paciente paciente = new Paciente();
-        String nome = JOptionPane.showInputDialog("Insira o Nome:");
-        if (nome == null || nome.isEmpty()) {
-            cancelar();
-            Thread.currentThread().stop();
-        }
-        paciente.setNome(nome);
-        String cpf = null;
-        Boolean cpfV = false;
-        while (cpfV == false) {
-            cpf = JOptionPane.showInputDialog("Insira o CPF:");
-            if (cpf == null || cpf.isEmpty()) {
-                cancelar();
-                Thread.currentThread().stop();
-            } else if (AdminTela.isValidCPF(cpf) == false) {
-                JOptionPane.showMessageDialog(null, "Digite um CPF válido.");
-            } else {
-                cpfV = true;
-            }
-        }
-        paciente.setCPF(cpf);
-        String sus = JOptionPane.showInputDialog("Insira o código SUS:");
-        if (sus == null || sus.isEmpty()) {
-            cancelar();
-            Thread.currentThread().stop();
-        }
-        paciente.setSUS(sus);
-
-        Boolean dataV = false;
-        String data = null;
-        while (dataV == false) {
-
-            data = JOptionPane.showInputDialog("Insira a data de nascimento:");
-            System.out.println("teste: " + data);
-            DateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
-            dtf.setLenient(false);
-            Date dt = null;
-            try {
-                dt = dtf.parse(data);
-                dataV = true;
-            } catch (ParseException ex) {
-                JOptionPane.showMessageDialog(null, "Insira uma data válida.");
-            } catch (NullPointerException e) {
-                cancelar();
-                Thread.currentThread().stop();
-            }
-
-        }
-        paciente.setDataNasc(data);
-        String end = JOptionPane.showInputDialog("Insira o Endereço:");
-        if (end == null || end.isEmpty()) {
-            cancelar();
-            Thread.currentThread().stop();
-        }
-        paciente.setEndereco(end);
-        String fone = null;
-        Boolean foneV = false;
-        while (foneV == false) {
-            fone = JOptionPane.showInputDialog("Insira o Telefone:");
-            if (fone == null || fone.isEmpty()) {
-                cancelar();
-                Thread.currentThread().stop();
-            }
-            for (int i = 0; i < fone.length(); i++) {
-                if (Character.isLetter(fone.charAt(i))) {
-                    JOptionPane.showMessageDialog(null, "Digite um telefone válido.");
-                } else if (i == fone.length() - 1) {
-                    foneV = true;
-                }
-            }
-        }
-        paciente.setFone(fone);
-        pacienteRepositorio.inserir(paciente);
-        TabelaPaciente();
-    }//GEN-LAST:event_btnInsPacienteMouseClicked
-
-    private void tbPacientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbPacientesMouseClicked
-        // TODO add your handling code here:
-        if (alterarPaciente == true) {
-            AlterarPaciente();
-        }
-    }//GEN-LAST:event_tbPacientesMouseClicked
-
-    private void txtCpfPacienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCpfPacienteKeyReleased
-        // TODO add your handling code here:
-        Integer rows = tbPacientes.getRowCount();
-        for (int i = 0; i < rows; i++) {
-            if (tbPacientes.getValueAt(i, 1).equals(txtCpfPaciente.getText())) {
-                tbPacientes.setRowSelectionInterval(i, i);
-                tbPacientes.scrollRectToVisible(new Rectangle(tbPacientes.getCellRect(i, 0, true)));
-                lblCpfPaciente.setText("Paciente encontrado.");
-                Thread.currentThread().stop();
-            } else {
-                lblCpfPaciente.setText("Nenhum Paciente com este CPF foi encontrado.");
-            }
-            if (txtCpfPaciente.getText().equals("")) {
-                lblCpfPaciente.setText(null);
-            }
-        }
-    }//GEN-LAST:event_txtCpfPacienteKeyReleased
-
-    private void btnAltPacienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAltPacienteMouseClicked
-        // TODO add your handling code here:
-        if (btnAltPaciente.isSelected() == true) {
-            JOptionPane.showMessageDialog(null, "Clique no campo que deseja alterar.");
-            btnAltPaciente.setText("Desabilitar Alterações");
-            alterarPaciente = true;
-        } else {
-            btnAltPaciente.setText("Habilitar Alterações");
-            alterarPaciente = false;
-        }
-    }//GEN-LAST:event_btnAltPacienteMouseClicked
-
-    private void jltMedicoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jltMedicoMouseClicked
-        // TODO add your handling code here:
-        TabelaAtendimento(jltMedico.getSelectedValue());
-    }//GEN-LAST:event_jltMedicoMouseClicked
-
-    private void btnAgendarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgendarMouseClicked
-        // TODO add your handling code here:
-        Atendimento atendimento = new Atendimento();
-        AtendimentoRepositorio atendimentoRepositorio = new AtendimentoRepositorio();
-        AtendimentoPK atendimentoPK = new AtendimentoPK();
-        PacienteRepositorio pacienteRepositorio = new PacienteRepositorio();
-        Usuario usuario = new Usuario();
-        UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
-
-        if (jltHora.isSelectionEmpty()) {
-            JOptionPane.showMessageDialog(null, "Primeiramente selecione um horário.");
-            Thread.currentThread().stop();
-        }
-
-        LocalDate selDate = calendarData.getSelectedDate();
-
-        if (selDate.isBefore(LocalDate.now())) {
-            JOptionPane.showMessageDialog(null, "Selecione uma data superior ou igual a data atual.");
-            cancelar();
-            Thread.currentThread().stop();
-        }
-
-        String formatted = selDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-
-        atendimentoPK.setData(formatted);
-        String hora = jltHora.getSelectedValue();
-        if (hora.charAt(0) == '<') {
-            JOptionPane.showMessageDialog(null, "Já existe uma consulta agendada neste horário!");
-            Thread.currentThread().stop();
-        }
-        atendimentoPK.setHora(hora);
-        atendimentoPK.setMedico(jltMedico.getSelectedValue());
-        usuario = usuarioRepositorio.buscarPorNome(jltMedico.getSelectedValue());
-        atendimento.setEspecialidade(usuario.getEspecialidade());
-        atendimento.setId(atendimentoPK);
-        String cpf = JOptionPane.showInputDialog(null, "Digite o CPF do Paciente desejado:");
-        if (cpf == null || cpf.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Nenhum paciente com este CPF foi encontrado.");
-            Thread.currentThread().stop();
-        }
-        Paciente paciente = pacienteRepositorio.buscarPorCpf(cpf);
-        if (paciente == null) {
-            JOptionPane.showMessageDialog(null, "Nenhum Paciente com este CPF foi encontrado.");
-            Thread.currentThread().stop();
-        }
-        atendimento.setPaciente(paciente);
-        atendimentoRepositorio.inserir(atendimento);
-        TabelaAtendimento(jltMedico.getSelectedValue());
-    }//GEN-LAST:event_btnAgendarMouseClicked
-
-    private void btnAltAgendaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAltAgendaMouseClicked
-        // TODO add your handling code here:
-        if (btnExcAtendimento.isSelected() == false) {
-            if (btnAltAgenda.isSelected() == true) {
-                JOptionPane.showMessageDialog(null, "Clique no campo que deseja alterar.");
-                btnAltAgenda.setText("Desabilitar Alterações");
-                alterarAtendimento = true;
-            } else {
-                btnAltAgenda.setText("Habilitar Alterações");
-                alterarAtendimento = false;
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Primeiramente cancele a exclusão para habilitar alterações.");
-            btnAltAgenda.setSelected(false);
-        }
-    }//GEN-LAST:event_btnAltAgendaMouseClicked
-
-    private void calendarDataPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_calendarDataPropertyChange
-        // TODO add your handling code here:
-        if (jpAgendamento.isShowing()) {
-            if (calendarData.getSelectedDate() != null) {
-                if (jltMedico.isSelectionEmpty()) {
-
-                    Thread.currentThread().stop();
-                } else {
-                    horarios();
-                }
-            } else {
-                calendarData.setSelectedDate(LocalDate.now());
-            }
-        }
-
-    }//GEN-LAST:event_calendarDataPropertyChange
-
-    private void txtDataKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDataKeyReleased
-        // TODO add your handling code here:
-        String medico = jltMedico.getSelectedValue();
-        if (jbData.isSelected()) {
-            if (txtData.getText().length() == 10 && tbAtendimento.getRowCount() != 0) {
-                TabelaAtendimento(medico);
-            }
-        } else if (jbPaciente.isSelected() && tbAtendimento.getRowCount() != 0) {
-            TabelaAtendimento(medico);
-        }
-        if (txtData.getText().isEmpty() && tbAtendimento.getRowCount() != 0) {
-            TabelaAtendimento(medico);
-        }
-
-        Integer rows = tbAtendimento.getRowCount();
-        Integer col = null;
-        for (int i = 0; i < rows; i++) {
-            if (jbData.isSelected()) {
-                col = 0;
-            } else if (jbPaciente.isSelected()) {
-                col = 2;
-            }
-            if (tbAtendimento.getValueAt(i, col).equals(txtData.getText())) {
-                tbAtendimento.setRowSelectionInterval(i, i);
-                tbAtendimento.scrollRectToVisible(new Rectangle(tbAtendimento.getCellRect(i, 0, true)));
-                Thread.currentThread().stop();
-            } else {
-            }
-
-        }
-    }//GEN-LAST:event_txtDataKeyReleased
-
-    private void jbDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbDataMouseClicked
-        // TODO add your handling code here:
-        txtData.setText(null);
-    }//GEN-LAST:event_jbDataMouseClicked
-
-    private void jbPacienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbPacienteMouseClicked
-        // TODO add your handling code here:
-        txtData.setText(null);
-    }//GEN-LAST:event_jbPacienteMouseClicked
-
-    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
-        // TODO add your handling code here:
-        if (!jpPaciente.isShowing() && alterarPaciente == true) {
-            alterarPaciente = false;
-            btnAltPaciente.setSelected(false);
-            btnAltPaciente.setText("Habilitar Alterações");
-        }
-
-        if (!jpUsuario.isShowing() && alterarUsuario == true) {
-            alterarUsuario = false;
-            btnAltUsuario.setSelected(false);
-            btnAltUsuario.setText("Habilitar Alterações");
-        }
-
-        if (!jpAgendamento.isShowing() && alterarAtendimento == true) {
-            alterarAtendimento = false;
-            btnAltAgenda.setSelected(false);
-            btnAltAgenda.setText("Habilitar Alterações");
-        }
-    }//GEN-LAST:event_jTabbedPane1MouseClicked
-
-    private void tbAtendimentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbAtendimentoMouseClicked
-        // TODO add your handling code here:
-        if (alterarAtendimento == true) {
-            AlterarAtendimento();
-        } else if (excluirAtendimento == true) {
-            ExcluirAtendimento();
-        }
-    }//GEN-LAST:event_tbAtendimentoMouseClicked
-
-    private void btnExcAtendimentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExcAtendimentoMouseClicked
-        // TODO add your handling code here:
-        if (btnAltAgenda.isSelected() == false) {
-            if (btnExcAtendimento.isSelected() == true) {
-                JOptionPane.showMessageDialog(null, "Clique no partido que deseja excluir.");
-                btnExcAtendimento.setText("Cancelar Exclusão");
-                excluirAtendimento = true;
-            } else {
-                btnExcAtendimento.setText("Excluir");
-                excluirAtendimento = false;
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Primeiramente desative as alterações para habilitar exclusões.");
-            btnExcAtendimento.setSelected(false);
-        }
-    }//GEN-LAST:event_btnExcAtendimentoMouseClicked
-
-    private void btnReportAcessosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportAcessosMouseClicked
-        // TODO add your handling code here:
-        if (calendarAcesso.getSelectedDate() == null) {
-            JOptionPane.showMessageDialog(null, "Primeiramente selecione uma data.");
-            Thread.currentThread().stop();
-        }
-
-        StyleBuilder boldStyle = stl.style().bold();
-        StyleBuilder boldCenteredStyle = stl.style(boldStyle).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
-        StyleBuilder columnTitleStyle = stl.style(boldCenteredStyle)
-                .setBorder(stl.pen1Point())
-                .setBackgroundColor(Color.LIGHT_GRAY);
-        try {
-            try {
-                report()//create new report design
-                        .setColumnTitleStyle(columnTitleStyle)
-                        .highlightDetailEvenRows()
-                        .columns(//add columns
-                                //            title,     field name     data type
-                                col.column("Usuário", "usuario", type.stringType()),
-                                col.column("Nome", "nome", type.stringType()),
-                                col.column("Horário", "horario", type.stringType()))
-                        .title(cmp.text("Relatório de Acessos de "
-                                + calendarAcesso.getSelectedDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).setStyle(boldCenteredStyle))//shows report title
-                        .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))//shows number of page at page footer
-                        .setDataSource(createDataSourceAcessos())//set datasource
-                        .show(false);//create and show report
-            } catch (ParseException ex) {
-                Logger.getLogger(AdminTela.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (DRException e) {
-            e.printStackTrace();
-        }
-    }//GEN-LAST:event_btnReportAcessosMouseClicked
-
-    private void btnReportDiarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportDiarioMouseClicked
-        // TODO add your handling code here:
-        if (calendarDiario.getSelectedDate() == null) {
-            JOptionPane.showMessageDialog(null, "Primeiramente selecione uma data.");
-            Thread.currentThread().stop();
-        }
-        StyleBuilder boldStyle = stl.style().bold();
-        StyleBuilder boldCenteredStyle = stl.style(boldStyle).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
-        StyleBuilder columnTitleStyle = stl.style(boldCenteredStyle)
-                .setBorder(stl.pen1Point())
-                .setBackgroundColor(Color.LIGHT_GRAY);
-        try {
-            report()//create new report design
-                    .setColumnTitleStyle(columnTitleStyle)
-                    .highlightDetailEvenRows()
-                    .columns(//add columns
-                            //            title,     field name     data type
-                            col.column("Horário", "horario", type.stringType()),
-                            col.column("Médico", "medico", type.stringType()),
-                            col.column("Paciente", "paciente", type.stringType()),
-                            col.column("CPF do Paciente", "cpf", type.stringType()))
-                    .title(cmp.text("Relatório de Atendimentos Diários de "
-                            + calendarAcesso.getSelectedDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).setStyle(boldCenteredStyle))//shows report title
-                    .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))//shows number of page at page footer
-                    .setDataSource(createDataSourceDiario())//set datasource
-                    .show(false);//create and show report
-        } catch (DRException e) {
-            e.printStackTrace();
-        }
-    }//GEN-LAST:event_btnReportDiarioMouseClicked
-
-    private void jbDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDataActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbDataActionPerformed
-
-    private void btnReportEspecMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportEspecMouseClicked
-        // TODO add your handling code here:
-        if (jltEspecialidade.isSelectionEmpty()) {
-            JOptionPane.showMessageDialog(null, "Primeiramente selecione uma especialidade.");
-            Thread.currentThread().stop();
-        }
-        if (calendarEspecialidade.getSelectedDate() == null) {
-            JOptionPane.showMessageDialog(null, "Primeiramente selecione uma data.");
-            Thread.currentThread().stop();
-        }
-
-        if (jbAnual.isSelected()) {
-            ReportAnual();
-        } else if (jbMensal.isSelected()) {
-            ReportMensal();
-        } else if (jbDiario.isSelected()) {
-            ReportDiario();
-        }
-    }//GEN-LAST:event_btnReportEspecMouseClicked
-
-    private void calendarAcessoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_calendarAcessoPropertyChange
-        // TODO add your handling code here:
-        if (calendarAcesso.getSelectedDate() == null) {
-            calendarAcesso.setSelectedDate(LocalDate.now());
-        }
-    }//GEN-LAST:event_calendarAcessoPropertyChange
-
-    private void calendarDiarioPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_calendarDiarioPropertyChange
-        // TODO add your handling code here:
-        if (calendarDiario.getSelectedDate() == null) {
-            calendarDiario.setSelectedDate(LocalDate.now());
-        }
-    }//GEN-LAST:event_calendarDiarioPropertyChange
-
-    private void calendarEspecialidadePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_calendarEspecialidadePropertyChange
-        // TODO add your handling code here:
-        if (calendarEspecialidade.getSelectedDate() == null) {
-            calendarEspecialidade.setSelectedDate(LocalDate.now());
-        }
-    }//GEN-LAST:event_calendarEspecialidadePropertyChange
-
+    private static boolean alterarUsuario = false, alterarPaciente = false, alterarAtendimento = false;
+    private static boolean excluirUsuario = false, excluirAtendimento = false;
     public void ReportAnual() {
         StyleBuilder boldStyle = stl.style().bold();
         StyleBuilder boldCenteredStyle = stl.style(boldStyle).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
@@ -1441,17 +1469,29 @@ public class AdminTela extends javax.swing.JFrame {
         Integer row = tbUsuarios.getSelectedRow();
         Integer col = tbUsuarios.getSelectedColumn();
         String title = (String) tbUsuarios.getColumnName(col);
-        String nome = (String) tbUsuarios.getValueAt(row, 0);
-        Usuario usuario = usuarioRepositorio.buscarPorNome(nome);
+        String name = (String) tbUsuarios.getValueAt(row, 0);
+        Usuario usuario = usuarioRepositorio.buscarPorNome(name);
         switch (title) {
             case "Nome":
-                String usuarioName = null;
-                usuarioName = JOptionPane.showInputDialog("Insira o Nome:");
-                if (usuarioName == null || usuarioName.isEmpty()) {
+                String nome = null;
+                Boolean nomeV = false;
+                if (nome == null || nome.isEmpty()) {
                     cancelar();
                     Thread.currentThread().stop();
                 }
-                usuario.setNome(usuarioName);
+                while (nomeV == false) {
+                    nome = JOptionPane.showInputDialog("Insira o Nome:");
+                    if (nome == null || nome.isEmpty()) {
+                        cancelar();
+                        Thread.currentThread().stop();
+                    }
+                    if (!Character.isLetter(nome.charAt(0))) {
+                        JOptionPane.showMessageDialog(null, "O nome deve ser iniciado com uma letra.");
+                    } else {
+                        nomeV = true;
+                    }
+                }
+                usuario.setNome(nome);
                 break;
             case "Usuario":
                 String usuarioUser = null;
@@ -1568,16 +1608,29 @@ public class AdminTela extends javax.swing.JFrame {
         Integer row = tbPacientes.getSelectedRow();
         Integer col = tbPacientes.getSelectedColumn();
         String title = (String) tbPacientes.getColumnName(col);
-        String nome = (String) tbPacientes.getValueAt(row, 0);
-        Paciente paciente = pacienteRepositorio.buscarPorNome(nome);
+        String name = (String) tbPacientes.getValueAt(row, 0);
+        Paciente paciente = pacienteRepositorio.buscarPorNome(name);
         switch (title) {
             case "Nome":
-                String name = JOptionPane.showInputDialog("Insira o Nome:");
-                if (name == null || name.isEmpty()) {
+                String nome = null;
+                Boolean nomeV = false;
+                if (nome == null || nome.isEmpty()) {
                     cancelar();
                     Thread.currentThread().stop();
                 }
-                paciente.setNome(name);
+                while (nomeV == false) {
+                    nome = JOptionPane.showInputDialog("Insira o Nome:");
+                    if (nome == null || nome.isEmpty()) {
+                        cancelar();
+                        Thread.currentThread().stop();
+                    }
+                    if (!Character.isLetter(nome.charAt(0))) {
+                        JOptionPane.showMessageDialog(null, "O nome deve ser iniciado com uma letra.");
+                    } else {
+                        nomeV = true;
+                    }
+                }
+                paciente.setNome(nome);
                 break;
             case "CPF":
                 String cpf = null;
@@ -1595,8 +1648,8 @@ public class AdminTela extends javax.swing.JFrame {
                 }
                 paciente.setCPF(cpf);
                 break;
-            case "SUS":
-                String sus = JOptionPane.showInputDialog("Insira o código SUS:");
+            case "CNS":
+                String sus = JOptionPane.showInputDialog("Insira o número do CNS:");
                 if (sus == null || sus.isEmpty()) {
                     cancelar();
                     Thread.currentThread().stop();
@@ -1663,7 +1716,7 @@ public class AdminTela extends javax.swing.JFrame {
     public void TabelaPaciente() {
         PacienteRepositorio pacienteRepositorio = new PacienteRepositorio();
         List<Paciente> pacientes = pacienteRepositorio.buscarTudoOrdenado();
-        String[] colunasTabela = new String[]{"Nome", "CPF", "SUS", "Data Nasc.", "Endereço", "Fone"};
+        String[] colunasTabela = new String[]{"Nome", "CPF", "CNS", "Data Nasc.", "Endereço", "Fone"};
         DefaultTableModel modeloTabela = new DefaultTableModel(null, colunasTabela) {
             @Override
             public boolean isCellEditable(int row, int column) {
