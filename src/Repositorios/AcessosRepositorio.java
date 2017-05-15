@@ -36,7 +36,10 @@ public class AcessosRepositorio {
         criterio.add(Restrictions.ge("data", formatorData.parse(date+" 00:00:00")));
         criterio.add(Restrictions.le("data", formatorData.parse(date+" 23:59:59")));
         List<Acessos> acessos = criterio.list();
-
+        if (acessos.isEmpty()){
+            sessao.close();
+            return null;
+        }
         sessao.close();
         return acessos;
     }

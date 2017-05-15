@@ -40,7 +40,15 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import static net.sf.dynamicreports.report.builder.DynamicReports.*;
 import java.awt.Color;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import net.sf.dynamicreports.jasper.builder.export.Exporters;
@@ -70,6 +78,7 @@ public class AdminTela extends javax.swing.JFrame {
         TabelaPaciente();
         ListaMedico();
         ListaEspecialidade();
+        ListaPDF();
     }
 
     /**
@@ -133,6 +142,9 @@ public class AdminTela extends javax.swing.JFrame {
         jbAnual = new javax.swing.JRadioButton();
         btnReportEspec = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jltPDF = new javax.swing.JList<>();
+        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -595,17 +607,36 @@ public class AdminTela extends javax.swing.JFrame {
             }
         });
 
+        jltPDF.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jltPDF.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jltPDFMouseClicked(evt);
+            }
+        });
+        jScrollPane6.setViewportView(jltPDF);
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel8.setText("Relatórios Salvos:");
+
         javax.swing.GroupLayout jpRelatorioLayout = new javax.swing.GroupLayout(jpRelatorio);
         jpRelatorio.setLayout(jpRelatorioLayout);
         jpRelatorioLayout.setHorizontalGroup(
             jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jSeparator2)
             .addGroup(jpRelatorioLayout.createSequentialGroup()
+                .addGap(67, 67, 67)
+                .addComponent(btnReportAcessos)
+                .addGap(214, 214, 214)
+                .addComponent(btnReportEspec)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnReportDiario)
+                .addGap(65, 65, 65))
+            .addGroup(jpRelatorioLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(calendarAcesso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(70, 70, 70)
+                .addGap(80, 80, 80)
                 .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jpRelatorioLayout.createSequentialGroup()
                         .addComponent(jbAnual)
@@ -616,18 +647,18 @@ public class AdminTela extends javax.swing.JFrame {
                     .addComponent(calendarEspecialidade, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(70, 70, 70)
-                .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(calendarDiario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-            .addGroup(jpRelatorioLayout.createSequentialGroup()
-                .addGap(67, 67, 67)
-                .addComponent(btnReportAcessos)
-                .addGap(204, 204, 204)
-                .addComponent(btnReportEspec)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 216, Short.MAX_VALUE)
-                .addComponent(btnReportDiario)
-                .addGap(65, 65, 65))
+                .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jpRelatorioLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(calendarDiario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpRelatorioLayout.createSequentialGroup()
+                .addGap(69, 69, 69)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 576, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42))
         );
         jpRelatorioLayout.setVerticalGroup(
             jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -647,14 +678,22 @@ public class AdminTela extends javax.swing.JFrame {
                     .addComponent(jbMensal)
                     .addComponent(jbAnual)
                     .addComponent(jbDiario))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnReportDiario)
-                    .addComponent(btnReportAcessos)
-                    .addComponent(btnReportEspec))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(242, Short.MAX_VALUE))
+                .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpRelatorioLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnReportDiario)
+                            .addComponent(btnReportAcessos)
+                            .addComponent(btnReportEspec))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(24, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpRelatorioLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel8)
+                        .addGap(123, 123, 123))))
         );
 
         jTabbedPane1.addTab("Relatórios", jpRelatorio);
@@ -724,6 +763,10 @@ public class AdminTela extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Primeiramente selecione uma data.");
             Thread.currentThread().stop();
         }
+        if (createDataSourceDiario() == null) {
+            JOptionPane.showMessageDialog(null, "Nenhum atendimento foi realizado nesta data.");
+            Thread.currentThread().stop();
+        }
         StyleBuilder boldStyle = stl.style().bold();
         StyleBuilder boldCenteredStyle = stl.style(boldStyle).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
         StyleBuilder columnTitleStyle = stl.style(boldCenteredStyle)
@@ -740,14 +783,16 @@ public class AdminTela extends javax.swing.JFrame {
                             col.column("Paciente", "paciente", type.stringType()),
                             col.column("CPF do Paciente", "cpf", type.stringType()))
                     .title(cmp.text("Relatório de Atendimentos Diários de "
-                            + calendarAcesso.getSelectedDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).setStyle(boldCenteredStyle))//shows report title
+                            + calendarDiario.getSelectedDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).setStyle(boldCenteredStyle))//shows report title
                     .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))//shows number of page at page footer
                     .setDataSource(createDataSourceDiario())//set datasource
                     .show(false)
-                    .toPdf(Exporters.pdfExporter("Anual-" + LocalDate.now() + ".pdf"));
+                    .toPdf(Exporters.pdfExporter("Diario-" + Timestamp.from(Instant.now()).toString().split("\\.")[0].replace(":", "-").replace(" ", "_") + ".pdf"));
+            
         } catch (DRException e) {
             e.printStackTrace();
         }
+        ListaPDF();
     }//GEN-LAST:event_btnReportDiarioMouseClicked
 
     private void calendarDiarioPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_calendarDiarioPropertyChange
@@ -770,7 +815,14 @@ public class AdminTela extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Primeiramente selecione uma data.");
             Thread.currentThread().stop();
         }
-
+        try {
+            if (createDataSourceAcessos() == null) {
+                JOptionPane.showMessageDialog(null, "Nenhum acesso foi realizado nesta data.");
+                Thread.currentThread().stop();
+            }
+        } catch (ParseException ex) {
+            Logger.getLogger(AdminTela.class.getName()).log(Level.SEVERE, null, ex);
+        }
         StyleBuilder boldStyle = stl.style().bold();
         StyleBuilder boldCenteredStyle = stl.style(boldStyle).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
         StyleBuilder columnTitleStyle = stl.style(boldCenteredStyle)
@@ -791,13 +843,14 @@ public class AdminTela extends javax.swing.JFrame {
                         .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))//shows number of page at page footer
                         .setDataSource(createDataSourceAcessos())//set datasource
                         .show(false)
-                        .toPdf(Exporters.pdfExporter("Anual-" + LocalDate.now() + ".pdf"));
+                        .toPdf(Exporters.pdfExporter("Acessos-" + Timestamp.from(Instant.now()).toString().split("\\.")[0].replace(":", "-").replace(" ", "_") + ".pdf"));
             } catch (ParseException ex) {
                 Logger.getLogger(AdminTela.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (DRException e) {
             e.printStackTrace();
         }
+        ListaPDF();
     }//GEN-LAST:event_btnReportAcessosMouseClicked
 
     private void btnExcAtendimentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExcAtendimentoMouseClicked
@@ -1227,6 +1280,19 @@ public class AdminTela extends javax.swing.JFrame {
         ListaEspecialidade();
     }//GEN-LAST:event_btnInsUsuarioMouseClicked
 
+    private void jltPDFMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jltPDFMouseClicked
+        // TODO add your handling code here:
+        if (Desktop.isDesktopSupported()) {
+            try {
+                File myFile = new File(System.getProperty("user.dir") + "\\" + jltPDF.getSelectedValue());
+                Desktop.getDesktop().open(myFile);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "Não foi possível abrir o relatório.");
+            }
+        }
+
+    }//GEN-LAST:event_jltPDFMouseClicked
+
     public void ReportAnual() {
         StyleBuilder boldStyle = stl.style().bold();
         StyleBuilder boldCenteredStyle = stl.style(boldStyle).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
@@ -1245,10 +1311,11 @@ public class AdminTela extends javax.swing.JFrame {
                     .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))//shows number of page at page footer
                     .setDataSource(createDataSourceEspAnual())//set datasource
                     .show(false)
-                    .toPdf(Exporters.pdfExporter("Anual-" + LocalDate.now() + ".pdf"));
+                    .toPdf(Exporters.pdfExporter("EspecAnual-" + Timestamp.from(Instant.now()).toString().split("\\.")[0].replace(":", "-").replace(" ", "_") + ".pdf"));
         } catch (DRException e) {
             e.printStackTrace();
         }
+        ListaPDF();
     }
 
     public void ReportMensal() {
@@ -1269,13 +1336,15 @@ public class AdminTela extends javax.swing.JFrame {
                     .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))//shows number of page at page footer
                     .setDataSource(createDataSourceEspMensal())//set datasource
                     .show(false)
-                    .toPdf(Exporters.pdfExporter("Anual-" + LocalDate.now() + ".pdf"));
+                    .toPdf(Exporters.pdfExporter("EspecMensal-" + Timestamp.from(Instant.now()).toString().split("\\.")[0].replace(":", "-").replace(" ", "_") + ".pdf"));
         } catch (DRException e) {
             e.printStackTrace();
         }
+        ListaPDF();
     }
 
     public void ReportDiario() {
+        int n = 0;
         StyleBuilder boldStyle = stl.style().bold();
         StyleBuilder boldCenteredStyle = stl.style(boldStyle).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
         StyleBuilder columnTitleStyle = stl.style(boldCenteredStyle)
@@ -1293,10 +1362,11 @@ public class AdminTela extends javax.swing.JFrame {
                     .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))//shows number of page at page footer
                     .setDataSource(createDataSourceEspDiario())//set datasource
                     .show(false)
-                    .toPdf(Exporters.pdfExporter("Anual-" + LocalDate.now() + ".pdf"));
+                    .toPdf(Exporters.pdfExporter("EspecDiario-" + Timestamp.from(Instant.now()).toString().split("\\.")[0].replace(":", "-").replace(" ", "_") + ".pdf"));
         } catch (DRException e) {
             e.printStackTrace();
         }
+        ListaPDF();
     }
 
     private JRDataSource createDataSourceAcessos() throws ParseException {
@@ -1305,6 +1375,9 @@ public class AdminTela extends javax.swing.JFrame {
         String formatted = selDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         List<Acessos> acessos = acessosRepositorio.buscarPorData(formatted);
         DRDataSource dataSource = new DRDataSource("usuario", "nome", "horario");
+        if (acessos == null){
+          return null;  
+        }
         if (!acessos.isEmpty() || acessos != null) {
             for (Acessos acesso : acessos) {
                 String min = Integer.toString(acesso.getData().getMinutes());
@@ -1317,16 +1390,21 @@ public class AdminTela extends javax.swing.JFrame {
                 }
                 dataSource.add(acesso.getUsuario(), acesso.getNome(), hour + ":" + min);
             }
+        } else {
+            return null;
         }
         return dataSource;
     }
 
     private JRDataSource createDataSourceDiario() {
         AtendimentoRepositorio atendimentoRepositorio = new AtendimentoRepositorio();
-        LocalDate selDate = calendarAcesso.getSelectedDate();
+        LocalDate selDate = calendarDiario.getSelectedDate();
         String formatted = selDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         List<Atendimento> atendimentos = atendimentoRepositorio.buscarPorData(formatted);
         DRDataSource dataSource = new DRDataSource("horario", "medico", "paciente", "cpf");
+        if (atendimentos == null){
+          return null;  
+        }
         if (!atendimentos.isEmpty() || atendimentos != null) {
             for (Atendimento atendimento : atendimentos) {
                 AtendimentoPK atendimentoPK = atendimento.getId();
@@ -1911,6 +1989,30 @@ public class AdminTela extends javax.swing.JFrame {
         }
     }
 
+    public void ListaPDF() {
+        DefaultListModel listModel = new DefaultListModel();
+        jltPDF.setModel(listModel);
+        List<String> pdfs = textFiles(System.getProperty("user.dir"));
+        if (pdfs.isEmpty()) {
+            listModel.addElement("Nenhum Relatório Encontrado.");
+        } else {
+            for (String pdf : pdfs) {
+                listModel.addElement(pdf);
+            }
+        }
+    }
+
+    List<String> textFiles(String directory) {
+        List<String> textFiles = new ArrayList<String>();
+        File dir = new File(directory);
+        for (File file : dir.listFiles()) {
+            if (file.getName().endsWith((".pdf"))) {
+                textFiles.add(file.getName());
+            }
+        }
+        return textFiles;
+    }
+
     /*@Override
     public void dispose() {
     new Login().setVisible(true);
@@ -1964,12 +2066,14 @@ public class AdminTela extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -1980,6 +2084,7 @@ public class AdminTela extends javax.swing.JFrame {
     private javax.swing.JRadioButton jbPaciente;
     private javax.swing.JList<String> jltHora;
     private javax.swing.JList<String> jltMedico;
+    private javax.swing.JList<String> jltPDF;
     private javax.swing.JPanel jpAgendamento;
     private javax.swing.JPanel jpPaciente;
     private javax.swing.JPanel jpRelatorio;
