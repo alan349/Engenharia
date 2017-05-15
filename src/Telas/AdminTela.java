@@ -43,6 +43,7 @@ import java.awt.Color;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import net.sf.dynamicreports.jasper.builder.export.Exporters;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment;
 import net.sf.dynamicreports.report.datasource.DRDataSource;
@@ -117,6 +118,7 @@ public class AdminTela extends javax.swing.JFrame {
         jbPaciente = new javax.swing.JRadioButton();
         jLabel5 = new javax.swing.JLabel();
         btnExcAtendimento = new javax.swing.JToggleButton();
+        jSeparator1 = new javax.swing.JSeparator();
         jpRelatorio = new javax.swing.JPanel();
         btnReportAcessos = new javax.swing.JButton();
         calendarAcesso = new com.github.lgooddatepicker.components.CalendarPanel();
@@ -133,8 +135,12 @@ public class AdminTela extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
-        jTabbedPane1.setPreferredSize(new java.awt.Dimension(640, 480));
+        jTabbedPane1.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
+        jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.LEFT);
+        jTabbedPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jTabbedPane1.setPreferredSize(new java.awt.Dimension(960, 540));
         jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTabbedPane1MouseClicked(evt);
@@ -211,18 +217,22 @@ public class AdminTela extends javax.swing.JFrame {
                     .addGroup(jpUsuarioLayout.createSequentialGroup()
                         .addGap(19, 19, 19)
                         .addGroup(jpUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 599, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpUsuarioLayout.createSequentialGroup()
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 825, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jpUsuarioLayout.createSequentialGroup()
+                                .addGap(68, 68, 68)
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtCpfUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtCpfUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(15, 15, 15))
                             .addGroup(jpUsuarioLayout.createSequentialGroup()
-                                .addComponent(btnInsUsuario)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(14, 14, 14)
+                                .addComponent(btnInsUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(207, 207, 207)
                                 .addComponent(btnAltUsuario)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnExcUsuario)))))
-                .addContainerGap(337, Short.MAX_VALUE))
+                                .addComponent(btnExcUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(13, 13, 13)))))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         jpUsuarioLayout.setVerticalGroup(
             jpUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -234,13 +244,13 @@ public class AdminTela extends javax.swing.JFrame {
                     .addComponent(txtCpfUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
                 .addGroup(jpUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnInsUsuario)
                     .addComponent(btnAltUsuario)
                     .addComponent(btnExcUsuario))
-                .addContainerGap())
+                .addGap(37, 37, 37))
         );
 
         jTabbedPane1.addTab("Usuários", jpUsuario);
@@ -300,22 +310,28 @@ public class AdminTela extends javax.swing.JFrame {
             jpPacienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpPacienteLayout.createSequentialGroup()
                 .addGroup(jpPacienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpPacienteLayout.createSequentialGroup()
+                        .addGap(95, 95, 95)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtCpfPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(16, 16, 16))
                     .addGroup(jpPacienteLayout.createSequentialGroup()
-                        .addGap(125, 125, 125)
-                        .addComponent(lblCpfPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jpPacienteLayout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addGroup(jpPacienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jpPacienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jpPacienteLayout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtCpfPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 593, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(125, 125, 125)
+                                .addComponent(lblCpfPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jpPacienteLayout.createSequentialGroup()
-                                .addComponent(btnInsPaciente)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnAltPaciente)))))
-                .addContainerGap(341, Short.MAX_VALUE))
+                                .addGap(21, 21, 21)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 823, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap(23, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpPacienteLayout.createSequentialGroup()
+                .addGap(181, 181, 181)
+                .addComponent(btnInsPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAltPaciente)
+                .addGap(191, 191, 191))
         );
         jpPacienteLayout.setVerticalGroup(
             jpPacienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -327,12 +343,11 @@ public class AdminTela extends javax.swing.JFrame {
                     .addComponent(txtCpfPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25)
                 .addGroup(jpPacienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnInsPaciente)
-                    .addComponent(btnAltPaciente))
-                .addGap(15, 15, 15))
+                    .addComponent(btnAltPaciente)
+                    .addComponent(btnInsPaciente)))
         );
 
         jTabbedPane1.addTab("Pacientes", jpPaciente);
@@ -438,74 +453,83 @@ public class AdminTela extends javax.swing.JFrame {
         jpAgendamento.setLayout(jpAgendamentoLayout);
         jpAgendamentoLayout.setHorizontalGroup(
             jpAgendamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpAgendamentoLayout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpAgendamentoLayout.createSequentialGroup()
                 .addGroup(jpAgendamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5)
                     .addGroup(jpAgendamentoLayout.createSequentialGroup()
-                        .addGroup(jpAgendamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jpAgendamentoLayout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jbData)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel5))
-                            .addGroup(jpAgendamentoLayout.createSequentialGroup()
-                                .addGap(55, 55, 55)
-                                .addComponent(jbPaciente)))
-                        .addGap(29, 29, 29)
-                        .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-                        .addComponent(btnAltAgenda)
-                        .addGap(121, 121, 121)
-                        .addComponent(btnExcAtendimento))
+                        .addGap(48, 48, 48)
+                        .addComponent(jLabel3))
                     .addGroup(jpAgendamentoLayout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(107, 107, 107)
-                        .addComponent(calendarData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(73, 73, 73)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jbData)
+                        .addGap(10, 10, 10)
+                        .addComponent(jbPaciente)))
+                .addGroup(jpAgendamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jpAgendamentoLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAgendar))
+                        .addComponent(jLabel5)
+                        .addGap(209, 209, 209)
+                        .addComponent(btnAltAgenda)
+                        .addGap(30, 30, 30))
                     .addGroup(jpAgendamentoLayout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(138, 138, 138)
+                        .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnExcAtendimento)
+                        .addGap(59, 59, 59))))
+            .addGroup(jpAgendamentoLayout.createSequentialGroup()
+                .addGroup(jpAgendamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpAgendamentoLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(jpAgendamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addGroup(jpAgendamentoLayout.createSequentialGroup()
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(80, 80, 80)
+                                .addComponent(calendarData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(28, 28, 28)
+                                .addComponent(btnAgendar)
+                                .addGap(19, 19, 19))))
+                    .addGroup(jpAgendamentoLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane5)))
                 .addContainerGap())
+            .addComponent(jSeparator1)
         );
         jpAgendamentoLayout.setVerticalGroup(
             jpAgendamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpAgendamentoLayout.createSequentialGroup()
-                .addGap(8, 8, 8)
-                .addComponent(jLabel4)
-                .addGroup(jpAgendamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(10, 10, 10)
+                .addGroup(jpAgendamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(calendarData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jpAgendamentoLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4)
                         .addGroup(jpAgendamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jpAgendamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(calendarData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jScrollPane3))
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpAgendamentoLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAgendar)
-                        .addGap(122, 122, 122)))
+                            .addGroup(jpAgendamentoLayout.createSequentialGroup()
+                                .addGap(8, 8, 8)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpAgendamentoLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnAgendar)
+                                .addGap(84, 84, 84))))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(38, 38, 38)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jpAgendamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jpAgendamentoLayout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addGroup(jpAgendamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel5)
-                            .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAltAgenda)
-                            .addComponent(btnExcAtendimento)))
-                    .addGroup(jpAgendamentoLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jbData)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jbPaciente)))
-                .addGap(8, 8, 8))
+                .addGap(15, 15, 15)
+                .addGroup(jpAgendamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(btnAltAgenda)
+                    .addComponent(jLabel3))
+                .addGap(0, 0, 0)
+                .addGroup(jpAgendamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbData)
+                    .addComponent(jbPaciente)
+                    .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExcAtendimento))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Agendamentos", jpAgendamento);
@@ -538,8 +562,10 @@ public class AdminTela extends javax.swing.JFrame {
             }
         });
 
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Relatório de Acessos:");
 
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Relatório de Atendimentos Diários:");
 
         calendarEspecialidade.setSelectedDate(LocalDate.now());
@@ -549,6 +575,7 @@ public class AdminTela extends javax.swing.JFrame {
             }
         });
 
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Relatório de Atendimento por Especialidade:");
 
         buttonGroup2.add(jbMensal);
@@ -572,40 +599,35 @@ public class AdminTela extends javax.swing.JFrame {
         jpRelatorio.setLayout(jpRelatorioLayout);
         jpRelatorioLayout.setHorizontalGroup(
             jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jSeparator2)
             .addGroup(jpRelatorioLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(calendarAcesso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(70, 70, 70)
+                .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jpRelatorioLayout.createSequentialGroup()
-                        .addGap(66, 66, 66)
-                        .addComponent(jLabel6)
+                        .addComponent(jbAnual)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel9)
-                        .addGap(159, 159, 159)
-                        .addComponent(jLabel7)
-                        .addGap(38, 38, 38))
-                    .addGroup(jpRelatorioLayout.createSequentialGroup()
-                        .addComponent(calendarAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
-                        .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jpRelatorioLayout.createSequentialGroup()
-                                .addComponent(jbAnual)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jbMensal)
-                                .addGap(31, 31, 31)
-                                .addComponent(jbDiario))
-                            .addComponent(calendarEspecialidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(116, 116, 116)
-                        .addComponent(calendarDiario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpRelatorioLayout.createSequentialGroup()
+                        .addComponent(jbMensal)
+                        .addGap(30, 30, 30)
+                        .addComponent(jbDiario))
+                    .addComponent(calendarEspecialidade, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(70, 70, 70)
+                .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(calendarDiario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(jpRelatorioLayout.createSequentialGroup()
                 .addGap(67, 67, 67)
                 .addComponent(btnReportAcessos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(204, 204, 204)
                 .addComponent(btnReportEspec)
-                .addGap(241, 241, 241)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 216, Short.MAX_VALUE)
                 .addComponent(btnReportDiario)
-                .addGap(68, 68, 68))
-            .addComponent(jSeparator2)
+                .addGap(65, 65, 65))
         );
         jpRelatorioLayout.setVerticalGroup(
             jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -632,7 +654,7 @@ public class AdminTela extends javax.swing.JFrame {
                     .addComponent(btnReportEspec))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(219, Short.MAX_VALUE))
+                .addContainerGap(242, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Relatórios", jpRelatorio);
@@ -641,7 +663,7 @@ public class AdminTela extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 960, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 960, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -721,7 +743,8 @@ public class AdminTela extends javax.swing.JFrame {
                             + calendarAcesso.getSelectedDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).setStyle(boldCenteredStyle))//shows report title
                     .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))//shows number of page at page footer
                     .setDataSource(createDataSourceDiario())//set datasource
-                    .show(false);//create and show report
+                    .show(false)
+                    .toPdf(Exporters.pdfExporter("Anual-" + LocalDate.now() + ".pdf"));
         } catch (DRException e) {
             e.printStackTrace();
         }
@@ -767,7 +790,8 @@ public class AdminTela extends javax.swing.JFrame {
                                 + calendarAcesso.getSelectedDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).setStyle(boldCenteredStyle))//shows report title
                         .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))//shows number of page at page footer
                         .setDataSource(createDataSourceAcessos())//set datasource
-                        .show(false);//create and show report
+                        .show(false)
+                        .toPdf(Exporters.pdfExporter("Anual-" + LocalDate.now() + ".pdf"));
             } catch (ParseException ex) {
                 Logger.getLogger(AdminTela.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -1220,7 +1244,8 @@ public class AdminTela extends javax.swing.JFrame {
                     .title(cmp.text("Relatório Anual de Atendimentos por Especialidade: ").setStyle(boldCenteredStyle))//shows report title
                     .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))//shows number of page at page footer
                     .setDataSource(createDataSourceEspAnual())//set datasource
-                    .show(false);//create and show report
+                    .show(false)
+                    .toPdf(Exporters.pdfExporter("Anual-" + LocalDate.now() + ".pdf"));
         } catch (DRException e) {
             e.printStackTrace();
         }
@@ -1243,7 +1268,8 @@ public class AdminTela extends javax.swing.JFrame {
                     .title(cmp.text("Relatório Mensal de Atendimentos por Especialidade: ").setStyle(boldCenteredStyle))//shows report title
                     .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))//shows number of page at page footer
                     .setDataSource(createDataSourceEspMensal())//set datasource
-                    .show(false);//create and show report
+                    .show(false)
+                    .toPdf(Exporters.pdfExporter("Anual-" + LocalDate.now() + ".pdf"));
         } catch (DRException e) {
             e.printStackTrace();
         }
@@ -1266,7 +1292,8 @@ public class AdminTela extends javax.swing.JFrame {
                     .title(cmp.text("Relatório Diario de Atendimentos por Especialidade: ").setStyle(boldCenteredStyle))//shows report title
                     .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))//shows number of page at page footer
                     .setDataSource(createDataSourceEspDiario())//set datasource
-                    .show(false);//create and show report
+                    .show(false)
+                    .toPdf(Exporters.pdfExporter("Anual-" + LocalDate.now() + ".pdf"));
         } catch (DRException e) {
             e.printStackTrace();
         }
@@ -1427,7 +1454,7 @@ public class AdminTela extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            UIManager.setLookAndFeel(new WindowsLookAndFeel());
+            UIManager.setLookAndFeel(new com.sun.java.swing.plaf.windows.WindowsLookAndFeel());
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(AdminTela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
@@ -1943,6 +1970,7 @@ public class AdminTela extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JRadioButton jbAnual;
