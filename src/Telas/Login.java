@@ -125,7 +125,7 @@ public class Login extends javax.swing.JFrame {
             if(usuario.getNP() == 1){
                 new MedicoTela(usuario.getUsuario()).setVisible(true);
             }else if(usuario.getNP() == 2){
-                new OficialTela(usuario.getUsuario()).setVisible(true);
+                new SecretarioTela(usuario.getUsuario()).setVisible(true);
             }else if (usuario.getNP() == 3){
                 new AdminTela(usuario.getUsuario()).setVisible(true);
             }
