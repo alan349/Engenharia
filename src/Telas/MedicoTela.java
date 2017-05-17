@@ -12,30 +12,37 @@ import Repositorios.PacienteRepositorio;
 import Repositorios.ProntuarioRepositorio;
 import Repositorios.UsuarioRepositorio;
 import java.util.List;
+import javax.swing.Icon;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+import jiconfont.icons.FontAwesome;
+import jiconfont.swing.IconFontSwing;
 
 /**
  *
  * @author Alan
  */
 public class MedicoTela extends javax.swing.JFrame {
-    public static String user ;
+
+    public static String user;
+
     /**
      * Creates new form MedicoTela
+     *
      * @param usuario
      */
-    
     public MedicoTela(String usuario) {
         user = usuario;
         initComponents();
-       carregartabela();
-   
+        IconFontSwing.register(FontAwesome.getIconFont());
+        Icon iconpront = IconFontSwing.buildIcon(FontAwesome.FILES_O, 15);
+        Icon iconagend = IconFontSwing.buildIcon(FontAwesome.CLOCK_O, 15);
+        jTabbedPane1.setIconAt(0, iconpront);
+        jTabbedPane1.setIconAt(1, iconagend);
+        carregartabela();
+
     }
-    
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -61,7 +68,6 @@ public class MedicoTela extends javax.swing.JFrame {
         jButton2.setText("jButton2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(960, 540));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
@@ -70,6 +76,7 @@ public class MedicoTela extends javax.swing.JFrame {
 
         jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.LEFT);
         jTabbedPane1.setName("Prontuários"); // NOI18N
+        jTabbedPane1.setPreferredSize(new java.awt.Dimension(960, 540));
 
         tbProntu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -102,7 +109,7 @@ public class MedicoTela extends javax.swing.JFrame {
                 .addComponent(jScrollPane2)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(345, Short.MAX_VALUE)
+                .addContainerGap(339, Short.MAX_VALUE)
                 .addComponent(btnCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(339, 339, 339))
         );
@@ -116,30 +123,30 @@ public class MedicoTela extends javax.swing.JFrame {
                 .addGap(25, 25, 25))
         );
 
-        jTabbedPane1.addTab("Prontuários", jPanel1);
+        jTabbedPane1.addTab("   Prontuários", jPanel1);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 873, Short.MAX_VALUE)
+            .addGap(0, 867, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 535, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Atendimentos", jPanel2);
+        jTabbedPane1.addTab("Agendamentos", jPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jTabbedPane1.getAccessibleContext().setAccessibleName("Prontuários");
@@ -151,16 +158,16 @@ public class MedicoTela extends javax.swing.JFrame {
     private void tbProntuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbProntuMouseClicked
         // TODO add your handling code here:
         ProntuarioRepositorio prontuarioRepositorio = new ProntuarioRepositorio();
-       UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
+        UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
         Integer row = tbProntu.getSelectedRow();
         //Integer col = tbProntu.getSelectedColumn();
         //String title = (String) tbProntu.getColumnName(col);
         String nome = (String) tbProntu.getValueAt(row, 1);
         Prontuario prontuario = prontuarioRepositorio.buscarPorNome(nome);
         Usuario usuario = usuarioRepositorio.buscarPorUsuario(user);
-        new ProntuarioTela(prontuario.getPaciente(),usuario).alterarProntuario(prontuario);
-        
-        
+        new ProntuarioTela(prontuario.getPaciente(), usuario).alterarProntuario(prontuario);
+
+
     }//GEN-LAST:event_tbProntuMouseClicked
 
     private void btnCadastrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCadastrarMouseClicked
@@ -169,10 +176,16 @@ public class MedicoTela extends javax.swing.JFrame {
         UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
         String paci = JOptionPane.showInputDialog("Insira o CPF do paciente:");
         Paciente paciente = pacienteRepositorio.buscarPorCpf(paci);
-        Usuario usuario = usuarioRepositorio.buscarPorUsuario(user);
-        new ProntuarioTela(paciente,usuario).setVisible(true);
-      
+        try {
+            Usuario usuario = usuarioRepositorio.buscarPorUsuario(user);
+            new ProntuarioTela(paciente, usuario).setVisible(true);
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Usuario nao encontrado , por favor cadastra-lo na secretaria");
+        }
+             
        
+
+
     }//GEN-LAST:event_btnCadastrarMouseClicked
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -190,7 +203,7 @@ public class MedicoTela extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel"); 
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(MedicoTela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
@@ -205,28 +218,29 @@ public class MedicoTela extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-               new MedicoTela(user).setVisible(true); 
-                
+                new MedicoTela(user).setVisible(true);
+
             }
         });
-        
+
     }
-    
+
     @Override
     public void dispose() {
-    new Login().setVisible(true);
-    super.dispose();
+        new Login().setVisible(true);
+        super.dispose();
     }
-    
-    public void carregartabela(){
-    ProntuarioRepositorio prontuarioRepositorio = new ProntuarioRepositorio();
+
+    public void carregartabela() {
+        ProntuarioRepositorio prontuarioRepositorio = new ProntuarioRepositorio();
         List<Prontuario> prontuarios = prontuarioRepositorio.buscarTudoOrdenado();
-        String[] colunasTabela = new String []{"Data", "Nome"};
-        DefaultTableModel modeloTabela = new DefaultTableModel(null, colunasTabela){};
+        String[] colunasTabela = new String[]{"Data", "Nome"};
+        DefaultTableModel modeloTabela = new DefaultTableModel(null, colunasTabela) {
+        };
         tbProntu.setModel(modeloTabela);
         for (Prontuario prontuario : prontuarios) {
-            modeloTabela.addRow(new Object[]{prontuario.getData(),prontuario.getPaciente().getNome()});   
-            
+            modeloTabela.addRow(new Object[]{prontuario.getData(), prontuario.getPaciente().getNome()});
+
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

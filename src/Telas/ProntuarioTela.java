@@ -18,33 +18,38 @@ import javax.swing.JOptionPane;
  * @author Danilo
  */
 public class ProntuarioTela extends javax.swing.JFrame {
+
     public static Prontuario pront;
     public static Paciente paci;
     public static Usuario medico;
-  
+
     /**
      * Creates new form Prontuario
+     *
      * @param prontuario
      * @param Medico
      */
-    public ProntuarioTela(Paciente prontuario ,Usuario Medico) {
+    public ProntuarioTela(Paciente prontuario, Usuario Medico) {
         paci = prontuario;
         medico = Medico;
         initComponents();
-        carreganome(paci.getNome(),medico.getNome());
-        
+        carreganome(paci.getNome(), medico.getNome());
+
     }
-    public void carreganome( String paci , String medico){
-    txtNPaciente.setText(paci);
-    txtNMedico.setText(medico);
+
+    public void carreganome(String paci, String medico) {
+        txtNPaciente.setText(paci);
+        txtNMedico.setText(medico);
     }
-    public void alterarProntuario(Prontuario prontuario){
+
+    public void alterarProntuario(Prontuario prontuario) {
         setVisible(true);
         txtAltura.setText(String.valueOf(prontuario.getAltura()));
         txtPeso.setText(String.valueOf(prontuario.getPeso()));
         txaAnota.setText(prontuario.getAnotacoes());
         carreganome(paci.getNome(), medico.getNome());
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -166,15 +171,14 @@ public class ProntuarioTela extends javax.swing.JFrame {
         ProntuarioRepositorio prontuarioRepositorio = new ProntuarioRepositorio();
         Prontuario prontuario = pront;
         prontuario.setPaciente(paci);
-        prontuario.setMedico(medico);   
+        prontuario.setMedico(medico);
         prontuario.setAltura(Float.valueOf(txtAltura.getText()));
         prontuario.setData(new Date());
         prontuario.setPeso(Float.valueOf(txtPeso.getText()));
         prontuario.setAnotacoes(txaAnota.getText());
         prontuarioRepositorio.inserir(prontuario);
-       JOptionPane.showMessageDialog(null, "Prontuario salvo com sucesso!");
-       
-       dispose();
+        JOptionPane.showMessageDialog(null, "Prontuario salvo com sucesso!");
+        dispose();
     }//GEN-LAST:event_btnOKMouseClicked
 
     /**
@@ -208,11 +212,11 @@ public class ProntuarioTela extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ProntuarioTela(paci,medico).setVisible(true);
+                new ProntuarioTela(paci, medico).setVisible(true);
             }
         });
     }
-     
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnOK;
     private javax.swing.JScrollPane jScrollPane2;

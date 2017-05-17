@@ -20,7 +20,6 @@ import jiconfont.icons.FontAwesome;
 
 import jiconfont.swing.IconFontSwing;
 
-
 /**
  *
  * @author Alan
@@ -32,10 +31,12 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
-        //zuera das fonte
-       IconFontSwing.register(FontAwesome.getIconFont());
-       Icon icon = IconFontSwing.buildIcon(FontAwesome.SMILE_O, 40, new Color(0, 150, 0));
-       btnLogar.setIcon(icon);
+        
+        IconFontSwing.register(FontAwesome.getIconFont());
+        Icon iconlogin = IconFontSwing.buildIcon(FontAwesome.ID_CARD_O, 20);
+        Icon iconsenha = IconFontSwing.buildIcon(FontAwesome.LOCK, 20);
+        jLabel1.setIcon(iconlogin);
+        jLabel2.setIcon(iconsenha);
     }
 
     /**
@@ -76,22 +77,19 @@ public class Login extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(74, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnLogar, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(61, 61, 61))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(52, 52, 52))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(57, 57, 57)))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnLogar, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(1, 1, 1)))
-                .addGap(60, 60, 60))
+                            .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(81, 81, 81))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -116,13 +114,13 @@ public class Login extends javax.swing.JFrame {
     private void btnLogarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogarMouseClicked
         // TODO add your handling code here:
         UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
-       
+
         String user = txtLogin.getText();
         String senha = txtSenha.getText();
         Usuario usuario = usuarioRepositorio.buscarPorUsuario(user);
         String pass = usuario.getSenha();
-        if(senha.equals(pass)){
-            
+        if (senha.equals(pass)) {
+
             AcessosRepositorio acessosRepositorio = new AcessosRepositorio();
             Acessos acessos = new Acessos();
 
@@ -131,19 +129,19 @@ public class Login extends javax.swing.JFrame {
             acessos.setUsuario("a");
             acessosRepositorio.inserir(acessos);
 
-            if(usuario.getNP() == 1){
+            if (usuario.getNP() == 1) {
                 new MedicoTela(usuario.getUsuario()).setVisible(true);
-            }else if(usuario.getNP() == 2){
+            } else if (usuario.getNP() == 2) {
                 new SecretarioTela(usuario.getUsuario()).setVisible(true);
-            }else if (usuario.getNP() == 3){
+            } else if (usuario.getNP() == 3) {
                 new AdminTela(usuario.getUsuario()).setVisible(true);
             }
             setVisible(false);
             dispose();
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Senha Incorreta!");
         }
-        
+
     }//GEN-LAST:event_btnLogarMouseClicked
 
     /**
@@ -156,7 +154,7 @@ public class Login extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-           UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel"); 
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
