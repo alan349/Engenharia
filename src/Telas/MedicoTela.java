@@ -62,6 +62,13 @@ public class MedicoTela extends javax.swing.JFrame {
         tbProntu = new javax.swing.JTable();
         btnCadastrar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tbAtendimento = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
+        jbData = new javax.swing.JRadioButton();
+        jbPaciente = new javax.swing.JRadioButton();
+        jLabel5 = new javax.swing.JLabel();
+        txtData = new javax.swing.JTextField();
 
         jScrollPane1.setViewportView(jEditorPane1);
 
@@ -125,15 +132,73 @@ public class MedicoTela extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("   Prontuários", jPanel1);
 
+        tbAtendimento.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Data", "Hora", "Paciente"
+            }
+        ));
+        tbAtendimento.getTableHeader().setReorderingAllowed(false);
+        jScrollPane5.setViewportView(tbAtendimento);
+
+        jLabel3.setText("Buscar por:");
+
+        jbData.setSelected(true);
+        jbData.setText("Data");
+        jbData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbDataActionPerformed(evt);
+            }
+        });
+
+        jbPaciente.setText("Paciente");
+
+        jLabel5.setText("Digite o dado desejado:");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 867, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane5)
+                        .addContainerGap())
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(30, 30, 30)
+                                .addComponent(jLabel3))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jbData)
+                                .addGap(10, 10, 10)
+                                .addComponent(jbPaciente)))
+                        .addGap(138, 390, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(100, 100, 100))
+                            .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 535, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel3))
+                .addGap(0, 0, 0)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbData)
+                    .addComponent(jbPaciente)
+                    .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Agendamentos", jPanel2);
@@ -193,6 +258,10 @@ public class MedicoTela extends javax.swing.JFrame {
         carregartabela();
     }//GEN-LAST:event_formWindowActivated
 
+    private void jbDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDataActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbDataActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -247,11 +316,18 @@ public class MedicoTela extends javax.swing.JFrame {
     private javax.swing.JButton btnCadastrar;
     private javax.swing.JButton jButton2;
     private javax.swing.JEditorPane jEditorPane1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JRadioButton jbData;
+    private javax.swing.JRadioButton jbPaciente;
+    private javax.swing.JTable tbAtendimento;
     private javax.swing.JTable tbProntu;
+    private javax.swing.JTextField txtData;
     // End of variables declaration//GEN-END:variables
 }

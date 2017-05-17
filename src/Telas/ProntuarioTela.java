@@ -19,9 +19,9 @@ import javax.swing.JOptionPane;
  */
 public class ProntuarioTela extends javax.swing.JFrame {
 
-    public static Prontuario pront;
     public static Paciente paci;
     public static Usuario medico;
+    public static int state = 1;
 
     /**
      * Creates new form Prontuario
@@ -48,6 +48,8 @@ public class ProntuarioTela extends javax.swing.JFrame {
         txtPeso.setText(String.valueOf(prontuario.getPeso()));
         txaAnota.setText(prontuario.getAnotacoes());
         carreganome(paci.getNome(), medico.getNome());
+        btnOK.setText("Atualizar");
+        state = 2;
     }
 
     /**
@@ -109,32 +111,40 @@ public class ProntuarioTela extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblAltura)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtAltura, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblPeso)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtPeso, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblKg))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblNpaciente)
-                                    .addComponent(lblNMedico))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtNMedico)
-                                    .addComponent(txtNPaciente, javax.swing.GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblAnota)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(lblNpaciente)
+                                                    .addComponent(lblNMedico))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addComponent(txtNMedico)
+                                                    .addComponent(txtNPaciente, javax.swing.GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)))
+                                            .addComponent(lblAnota))
+                                        .addGap(3, 3, 3))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(lblAltura)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtAltura, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 249, Short.MAX_VALUE)
+                                        .addComponent(lblPeso)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtPeso, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblKg))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(168, 168, 168)
+                                .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 11, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(99, 99, 99)
-                        .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(21, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addComponent(jScrollPane2)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -158,9 +168,9 @@ public class ProntuarioTela extends javax.swing.JFrame {
                 .addComponent(lblAnota)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnOK, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addComponent(btnOK)
+                .addGap(20, 20, 20))
         );
 
         pack();
@@ -168,17 +178,34 @@ public class ProntuarioTela extends javax.swing.JFrame {
 
     private void btnOKMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOKMouseClicked
         // TODO add your handling code here:
-        ProntuarioRepositorio prontuarioRepositorio = new ProntuarioRepositorio();
-        Prontuario prontuario = pront;
-        prontuario.setPaciente(paci);
-        prontuario.setMedico(medico);
-        prontuario.setAltura(Float.valueOf(txtAltura.getText()));
-        prontuario.setData(new Date());
-        prontuario.setPeso(Float.valueOf(txtPeso.getText()));
-        prontuario.setAnotacoes(txaAnota.getText());
-        prontuarioRepositorio.inserir(prontuario);
-        JOptionPane.showMessageDialog(null, "Prontuario salvo com sucesso!");
-        dispose();
+        if (state == 1) {
+            ProntuarioRepositorio prontuarioRepositorio = new ProntuarioRepositorio();
+            Prontuario prontuario = new Prontuario();
+            prontuario.setPaciente(paci);
+            prontuario.setMedico(medico);
+            prontuario.setAltura(Float.valueOf(txtAltura.getText()));
+            prontuario.setData(new Date());
+            prontuario.setPeso(Float.valueOf(txtPeso.getText()));
+            prontuario.setAnotacoes(txaAnota.getText());
+            prontuarioRepositorio.inserir(prontuario);
+            JOptionPane.showMessageDialog(null, "Prontuario salvo com sucesso!");
+            dispose();
+        } else {
+            ProntuarioRepositorio prontuarioRepositorio = new ProntuarioRepositorio();
+            String nome = paci.getNome();
+            Prontuario prontuario = prontuarioRepositorio.buscarPorNome(nome);
+            prontuario.setPaciente(paci);
+            prontuario.setMedico(medico);
+            prontuario.setAltura(Float.valueOf(txtAltura.getText()));
+            prontuario.setData(new Date());
+            prontuario.setPeso(Float.valueOf(txtPeso.getText()));
+            prontuario.setAnotacoes(txaAnota.getText());
+            prontuarioRepositorio.editar(prontuario);
+            JOptionPane.showMessageDialog(null, "Prontuario atualizado com sucesso!");
+            state = 1;
+            dispose();
+        }
+
     }//GEN-LAST:event_btnOKMouseClicked
 
     /**
