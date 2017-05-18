@@ -5,13 +5,23 @@
  */
 package Telas;
 
+import Entidades.Atendimento;
 import Entidades.Paciente;
 import Entidades.Prontuario;
 import Entidades.Usuario;
+import Repositorios.AtendimentoRepositorio;
 import Repositorios.PacienteRepositorio;
 import Repositorios.ProntuarioRepositorio;
 import Repositorios.UsuarioRepositorio;
+import java.awt.Rectangle;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -41,6 +51,7 @@ public class MedicoTela extends javax.swing.JFrame {
         jTabbedPane1.setIconAt(0, iconpront);
         jTabbedPane1.setIconAt(1, iconagend);
         carregartabela();
+        TabelaAtendimento(user);
 
     }
 
@@ -56,19 +67,20 @@ public class MedicoTela extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jEditorPane1 = new javax.swing.JEditorPane();
         jButton2 = new javax.swing.JButton();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbProntu = new javax.swing.JTable();
         btnCadastrar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        tbAtendimento = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jbData = new javax.swing.JRadioButton();
         jbPaciente = new javax.swing.JRadioButton();
-        jLabel5 = new javax.swing.JLabel();
         txtData = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tbAtendimento = new javax.swing.JTable();
 
         jScrollPane1.setViewportView(jEditorPane1);
 
@@ -123,14 +135,46 @@ public class MedicoTela extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
                 .addGap(30, 30, 30)
                 .addComponent(btnCadastrar)
                 .addGap(25, 25, 25))
         );
 
         jTabbedPane1.addTab("   Prontuários", jPanel1);
+
+        jLabel3.setText("Buscar por:");
+
+        buttonGroup1.add(jbData);
+        jbData.setSelected(true);
+        jbData.setText("Data");
+        jbData.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jbDataMouseClicked(evt);
+            }
+        });
+        jbData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbDataActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(jbPaciente);
+        jbPaciente.setText("Paciente");
+        jbPaciente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jbPacienteMouseClicked(evt);
+            }
+        });
+
+        txtData.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtDataKeyReleased(evt);
+            }
+        });
+
+        jLabel5.setText("Digite o dado desejado:");
 
         tbAtendimento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -140,22 +184,7 @@ public class MedicoTela extends javax.swing.JFrame {
                 "Data", "Hora", "Paciente"
             }
         ));
-        tbAtendimento.getTableHeader().setReorderingAllowed(false);
-        jScrollPane5.setViewportView(tbAtendimento);
-
-        jLabel3.setText("Buscar por:");
-
-        jbData.setSelected(true);
-        jbData.setText("Data");
-        jbData.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbDataActionPerformed(evt);
-            }
-        });
-
-        jbPaciente.setText("Paciente");
-
-        jLabel5.setText("Digite o dado desejado:");
+        jScrollPane3.setViewportView(tbAtendimento);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -164,9 +193,7 @@ public class MedicoTela extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane5)
-                        .addContainerGap())
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 847, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -176,28 +203,31 @@ public class MedicoTela extends javax.swing.JFrame {
                                 .addComponent(jbData)
                                 .addGap(10, 10, 10)
                                 .addComponent(jbPaciente)))
-                        .addGap(138, 390, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel5)
-                                .addGap(100, 100, 100))
-                            .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(20, 20, 20))))
+                                .addGap(105, 105, 105)))))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel3))
-                .addGap(0, 0, 0)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbData)
-                    .addComponent(jbPaciente)
-                    .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(0, 0, 0)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jbData)
+                            .addComponent(jbPaciente)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -225,8 +255,6 @@ public class MedicoTela extends javax.swing.JFrame {
         ProntuarioRepositorio prontuarioRepositorio = new ProntuarioRepositorio();
         UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
         Integer row = tbProntu.getSelectedRow();
-        //Integer col = tbProntu.getSelectedColumn();
-        //String title = (String) tbProntu.getColumnName(col);
         String nome = (String) tbProntu.getValueAt(row, 1);
         Prontuario prontuario = prontuarioRepositorio.buscarPorNome(nome);
         Usuario usuario = usuarioRepositorio.buscarPorUsuario(user);
@@ -258,10 +286,99 @@ public class MedicoTela extends javax.swing.JFrame {
         carregartabela();
     }//GEN-LAST:event_formWindowActivated
 
+    private void jbDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbDataMouseClicked
+        // TODO add your handling code here:
+        txtData.setText(null);
+    }//GEN-LAST:event_jbDataMouseClicked
+
     private void jbDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDataActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jbDataActionPerformed
 
+    private void jbPacienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbPacienteMouseClicked
+        // TODO add your handling code here:
+        txtData.setText(null);
+    }//GEN-LAST:event_jbPacienteMouseClicked
+
+    private void txtDataKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDataKeyReleased
+        // TODO add your handling code here:
+        UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
+        String medico = usuarioRepositorio.buscarPorUsuario(user).getNome();
+        if (jbData.isSelected()) {
+            if (txtData.getText().length() == 10 && tbAtendimento.getRowCount() != 0) {
+                TabelaAtendimento(medico);
+            }
+        } else if (jbPaciente.isSelected() && tbAtendimento.getRowCount() != 0) {
+            TabelaAtendimento(medico);
+        }
+        if (txtData.getText().isEmpty() && tbAtendimento.getRowCount() != 0) {
+            TabelaAtendimento(medico);
+        }
+
+        Integer rows = tbAtendimento.getRowCount();
+        Integer col = null;
+        for (int i = 0; i < rows; i++) {
+            if (jbData.isSelected()) {
+                col = 0;
+            } else if (jbPaciente.isSelected()) {
+                col = 2;
+            }
+            if (tbAtendimento.getValueAt(i, col).equals(txtData.getText())) {
+                tbAtendimento.setRowSelectionInterval(i, i);
+                tbAtendimento.scrollRectToVisible(new Rectangle(tbAtendimento.getCellRect(i, 0, true)));
+                Thread.currentThread().stop();
+            } else {
+            }
+
+        }
+    }//GEN-LAST:event_txtDataKeyReleased
+ public void TabelaAtendimento(String user) {
+        AtendimentoRepositorio atendimentoRepositorio = new AtendimentoRepositorio();
+        UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
+        String medico = usuarioRepositorio.buscarPorUsuario(user).getNome();
+        List<Atendimento> atendimentos = null;
+        Date dt = null;
+        if (!txtData.getText().isEmpty() && jbPaciente.isSelected()) {
+            atendimentos = atendimentoRepositorio.buscarPorPacienteMedico(medico, txtData.getText());
+            if (atendimentos == null || atendimentos.isEmpty()) {
+                Thread.currentThread().stop();
+            }
+        } else if (!txtData.getText().isEmpty() && jbData.isSelected()) {
+            try {
+                dt = new SimpleDateFormat("dd/MM/yyyy").parse(txtData.getText());
+            } catch (ParseException ex) {
+                Logger.getLogger(AdminTela.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
+            String formatted = fm.format(dt);
+            atendimentos = atendimentoRepositorio.buscarPorDataMedico(medico, formatted);
+        } else {
+            atendimentos = atendimentoRepositorio.buscarPorMedico(medico);
+        }
+
+        String[] colunasTabela = new String[]{"Data", "Hora", "Paciente"};
+        DefaultTableModel modeloTabela = new DefaultTableModel(null, colunasTabela) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //all cells false
+                return false;
+            }
+        };
+        tbAtendimento.setModel(modeloTabela);
+        if (atendimentos == null && txtData.getText().isEmpty()) {
+           
+            Thread.currentThread().stop();
+        } else {
+
+            for (Atendimento atendimento : atendimentos) {
+                LocalDate local = LocalDate.parse(atendimento.getId().getData());
+                String data = local.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                modeloTabela.addRow(new Object[]{data, atendimento.getId().getHora(),
+                    atendimento.getPaciente().getNome()});
+            }
+        }
+   
+    }
     /**
      * @param args the command line arguments
      */
@@ -314,6 +431,7 @@ public class MedicoTela extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrar;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton2;
     private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JLabel jLabel3;
@@ -322,7 +440,7 @@ public class MedicoTela extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JRadioButton jbData;
     private javax.swing.JRadioButton jbPaciente;
