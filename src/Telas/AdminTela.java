@@ -1784,7 +1784,7 @@ public class AdminTela extends javax.swing.JFrame {
                 Boolean foneV = false;
                 while (foneV == false) {
                     fone = JOptionPane.showInputDialog("Insira o Telefone:");
-                    if (fone == null || fone.isEmpty()) {
+                    if (fone == null || fone.isEmpty() || validarTelefone(fone) == false) {
                         cancelar();
                         Thread.currentThread().stop();
                     }
@@ -2027,11 +2027,23 @@ public class AdminTela extends javax.swing.JFrame {
         return textFiles;
     }
 
-    /*@Override
+    @Override
     public void dispose() {
-    new Login().setVisible(true);
-    super.dispose();
-    }*/
+        new Login().setVisible(true);
+        super.dispose();
+    }
+
+    public static boolean validarTelefone(String tel) {
+
+        String formato = "\\([0-9]{2}?\\)[0-9]{5}?\\-[0-9]{4}?";
+
+        if ((tel == null) || (tel.length() != 14) || (!tel.matches(formato))) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     private static final int[] pesoCPF = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
 
     private static int calcularDigito(String str, int[] peso) {

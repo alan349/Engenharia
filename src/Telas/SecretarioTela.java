@@ -680,24 +680,24 @@ public class SecretarioTela extends javax.swing.JFrame {
         StyleBuilder boldStyle = stl.style().bold();
         StyleBuilder boldCenteredStyle = stl.style(boldStyle).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
         StyleBuilder columnTitleStyle = stl.style(boldCenteredStyle)
-        .setBorder(stl.pen1Point())
-        .setBackgroundColor(Color.LIGHT_GRAY);
+                .setBorder(stl.pen1Point())
+                .setBackgroundColor(Color.LIGHT_GRAY);
         try {
             report()//create new report design
-            .setColumnTitleStyle(columnTitleStyle)
-            .highlightDetailEvenRows()
-            .columns(//add columns
-                //            title,     field name     data type
-                col.column("Horário", "horario", type.stringType()),
-                col.column("Médico", "medico", type.stringType()),
-                col.column("Paciente", "paciente", type.stringType()),
-                col.column("CPF do Paciente", "cpf", type.stringType()))
-            .title(cmp.text("Relatório de Atendimentos Diários de "
-                + calendarDiario.getSelectedDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).setStyle(boldCenteredStyle))//shows report title
-        .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))//shows number of page at page footer
-        .setDataSource(createDataSourceDiario())//set datasource
-        .show(false)
-        .toPdf(Exporters.pdfExporter("Diario-" + Timestamp.from(Instant.now()).toString().split("\\.")[0].replace(":", "-").replace(" ", "_") + ".pdf"));
+                    .setColumnTitleStyle(columnTitleStyle)
+                    .highlightDetailEvenRows()
+                    .columns(//add columns
+                            //            title,     field name     data type
+                            col.column("Horário", "horario", type.stringType()),
+                            col.column("Médico", "medico", type.stringType()),
+                            col.column("Paciente", "paciente", type.stringType()),
+                            col.column("CPF do Paciente", "cpf", type.stringType()))
+                    .title(cmp.text("Relatório de Atendimentos Diários de "
+                            + calendarDiario.getSelectedDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).setStyle(boldCenteredStyle))//shows report title
+                    .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))//shows number of page at page footer
+                    .setDataSource(createDataSourceDiario())//set datasource
+                    .show(false)
+                    .toPdf(Exporters.pdfExporter("Diario-" + Timestamp.from(Instant.now()).toString().split("\\.")[0].replace(":", "-").replace(" ", "_") + ".pdf"));
 
         } catch (DRException e) {
             e.printStackTrace();
@@ -729,27 +729,27 @@ public class SecretarioTela extends javax.swing.JFrame {
         StyleBuilder boldStyle = stl.style().bold();
         StyleBuilder boldCenteredStyle = stl.style(boldStyle).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
         StyleBuilder columnTitleStyle = stl.style(boldCenteredStyle)
-        .setBorder(stl.pen1Point())
-        .setBackgroundColor(Color.LIGHT_GRAY);
+                .setBorder(stl.pen1Point())
+                .setBackgroundColor(Color.LIGHT_GRAY);
         try {
             try {
                 report()//create new report design
-                .setColumnTitleStyle(columnTitleStyle)
-                .highlightDetailEvenRows()
-                .columns(//add columns
-                    //            title,     field name     data type
-                    col.column("Usuário", "usuario", type.stringType()),
-                    col.column("Nome", "nome", type.stringType()),
-                    col.column("Horário", "horario", type.stringType()))
-                .title(cmp.text("Relatório de Acessos de "
-                    + calendarAcesso.getSelectedDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).setStyle(boldCenteredStyle))//shows report title
-            .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))//shows number of page at page footer
-            .setDataSource(createDataSourceAcessos())//set datasource
-            .show(false)
-            .toPdf(Exporters.pdfExporter("Acessos-" + Timestamp.from(Instant.now()).toString().split("\\.")[0].replace(":", "-").replace(" ", "_") + ".pdf"));
-        } catch (ParseException ex) {
-            Logger.getLogger(SecretarioTela.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                        .setColumnTitleStyle(columnTitleStyle)
+                        .highlightDetailEvenRows()
+                        .columns(//add columns
+                                //            title,     field name     data type
+                                col.column("Usuário", "usuario", type.stringType()),
+                                col.column("Nome", "nome", type.stringType()),
+                                col.column("Horário", "horario", type.stringType()))
+                        .title(cmp.text("Relatório de Acessos de "
+                                + calendarAcesso.getSelectedDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).setStyle(boldCenteredStyle))//shows report title
+                        .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))//shows number of page at page footer
+                        .setDataSource(createDataSourceAcessos())//set datasource
+                        .show(false)
+                        .toPdf(Exporters.pdfExporter("Acessos-" + Timestamp.from(Instant.now()).toString().split("\\.")[0].replace(":", "-").replace(" ", "_") + ".pdf"));
+            } catch (ParseException ex) {
+                Logger.getLogger(SecretarioTela.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } catch (DRException e) {
             e.printStackTrace();
         }
@@ -768,11 +768,11 @@ public class SecretarioTela extends javax.swing.JFrame {
         if (Desktop.isDesktopSupported()) {
             try {
                 File myFile = new File(System.getProperty("user.dir") + "\\" + jltPDF.getSelectedValue());
-                    Desktop.getDesktop().open(myFile);
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(null, "Não foi possível abrir o relatório.");
-                }
+                Desktop.getDesktop().open(myFile);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "Não foi possível abrir o relatório.");
             }
+        }
     }//GEN-LAST:event_jltPDFMouseClicked
 
     private void btnExcAtendimentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExcAtendimentoMouseClicked
@@ -1671,6 +1671,12 @@ public class SecretarioTela extends javax.swing.JFrame {
         Integer digito1 = calcularDigito(cpf.substring(0, 9), pesoCPF);
         Integer digito2 = calcularDigito(cpf.substring(0, 9) + digito1, pesoCPF);
         return cpf.equals(cpf.substring(0, 9) + digito1.toString() + digito2.toString());
+    }
+
+    @Override
+    public void dispose() {
+        new Login().setVisible(true);
+        super.dispose();
     }
 
 
