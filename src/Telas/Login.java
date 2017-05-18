@@ -10,6 +10,7 @@ import Entidades.Usuario;
 import Repositorios.AcessosRepositorio;
 import Repositorios.UsuarioRepositorio;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -31,7 +32,7 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
-        
+        hiber();
         IconFontSwing.register(FontAwesome.getIconFont());
         Icon iconlogin = IconFontSwing.buildIcon(FontAwesome.ID_CARD_O, 20);
         Icon iconsenha = IconFontSwing.buildIcon(FontAwesome.LOCK, 20);
@@ -63,6 +64,11 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setText("Senha");
 
         txtSenha.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtSenha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSenhaKeyPressed(evt);
+            }
+        });
 
         btnLogar.setText("Logar");
         btnLogar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -144,6 +150,41 @@ public class Login extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnLogarMouseClicked
 
+    private void txtSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSenhaKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
+
+            String user = txtLogin.getText();
+            String senha = txtSenha.getText();
+            Usuario usuario = usuarioRepositorio.buscarPorUsuario(user);
+            String pass = usuario.getSenha();
+            if (senha.equals(pass)) {
+
+                AcessosRepositorio acessosRepositorio = new AcessosRepositorio();
+                Acessos acessos = new Acessos();
+
+                acessos.setData(new Date());
+                acessos.setNome("aa");
+                acessos.setUsuario("a");
+                acessosRepositorio.inserir(acessos);
+
+                if (usuario.getNP() == 1) {
+                    new MedicoTela(usuario.getUsuario()).setVisible(true);
+                } else if (usuario.getNP() == 2) {
+                    new SecretarioTela(usuario.getUsuario()).setVisible(true);
+                } else if (usuario.getNP() == 3) {
+                    new AdminTela(usuario.getUsuario()).setVisible(true);
+                }
+                setVisible(false);
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Senha Incorreta!");
+            }
+
+        }
+    }//GEN-LAST:event_txtSenhaKeyPressed
+
     /**
      * @param args the command line arguments
      */
@@ -174,6 +215,10 @@ public class Login extends javax.swing.JFrame {
         });
     }
 
+    public void hiber(){
+        Hibernate.NewHibernateUtil.getSessionFactory();
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogar;
     private javax.swing.JLabel jLabel1;

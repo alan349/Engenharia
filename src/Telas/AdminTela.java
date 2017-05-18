@@ -1196,11 +1196,11 @@ public class AdminTela extends javax.swing.JFrame {
         if (Desktop.isDesktopSupported()) {
             try {
                 File myFile = new File(System.getProperty("user.dir") + "\\" + jltPDF.getSelectedValue());
-                    Desktop.getDesktop().open(myFile);
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(null, "Não foi possível abrir o relatório.");
-                }
+                Desktop.getDesktop().open(myFile);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "Não foi possível abrir o relatório.");
             }
+        }
     }//GEN-LAST:event_jltPDFMouseClicked
 
     private void calendarAcessoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_calendarAcessoPropertyChange
@@ -1227,27 +1227,27 @@ public class AdminTela extends javax.swing.JFrame {
         StyleBuilder boldStyle = stl.style().bold();
         StyleBuilder boldCenteredStyle = stl.style(boldStyle).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
         StyleBuilder columnTitleStyle = stl.style(boldCenteredStyle)
-        .setBorder(stl.pen1Point())
-        .setBackgroundColor(Color.LIGHT_GRAY);
+                .setBorder(stl.pen1Point())
+                .setBackgroundColor(Color.LIGHT_GRAY);
         try {
             try {
                 report()//create new report design
-                .setColumnTitleStyle(columnTitleStyle)
-                .highlightDetailEvenRows()
-                .columns(//add columns
-                    //            title,     field name     data type
-                    col.column("Usuário", "usuario", type.stringType()),
-                    col.column("Nome", "nome", type.stringType()),
-                    col.column("Horário", "horario", type.stringType()))
-                .title(cmp.text("Relatório de Acessos de "
-                    + calendarAcesso.getSelectedDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).setStyle(boldCenteredStyle))//shows report title
-            .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))//shows number of page at page footer
-            .setDataSource(createDataSourceAcessos())//set datasource
-            .show(false)
-            .toPdf(Exporters.pdfExporter("Acessos-" + Timestamp.from(Instant.now()).toString().split("\\.")[0].replace(":", "-").replace(" ", "_") + ".pdf"));
-        } catch (ParseException ex) {
-            Logger.getLogger(SecretarioTela.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                        .setColumnTitleStyle(columnTitleStyle)
+                        .highlightDetailEvenRows()
+                        .columns(//add columns
+                                //            title,     field name     data type
+                                col.column("Usuário", "usuario", type.stringType()),
+                                col.column("Nome", "nome", type.stringType()),
+                                col.column("Horário", "horario", type.stringType()))
+                        .title(cmp.text("Relatório de Acessos de "
+                                + calendarAcesso.getSelectedDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).setStyle(boldCenteredStyle))//shows report title
+                        .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))//shows number of page at page footer
+                        .setDataSource(createDataSourceAcessos())//set datasource
+                        .show(false)
+                        .toPdf(Exporters.pdfExporter("Acessos-" + Timestamp.from(Instant.now()).toString().split("\\.")[0].replace(":", "-").replace(" ", "_") + ".pdf"));
+            } catch (ParseException ex) {
+                Logger.getLogger(SecretarioTela.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } catch (DRException e) {
             e.printStackTrace();
         }
@@ -1274,24 +1274,24 @@ public class AdminTela extends javax.swing.JFrame {
         StyleBuilder boldStyle = stl.style().bold();
         StyleBuilder boldCenteredStyle = stl.style(boldStyle).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
         StyleBuilder columnTitleStyle = stl.style(boldCenteredStyle)
-        .setBorder(stl.pen1Point())
-        .setBackgroundColor(Color.LIGHT_GRAY);
+                .setBorder(stl.pen1Point())
+                .setBackgroundColor(Color.LIGHT_GRAY);
         try {
             report()//create new report design
-            .setColumnTitleStyle(columnTitleStyle)
-            .highlightDetailEvenRows()
-            .columns(//add columns
-                //            title,     field name     data type
-                col.column("Horário", "horario", type.stringType()),
-                col.column("Médico", "medico", type.stringType()),
-                col.column("Paciente", "paciente", type.stringType()),
-                col.column("CPF do Paciente", "cpf", type.stringType()))
-            .title(cmp.text("Relatório de Atendimentos Diários de "
-                + calendarDiario.getSelectedDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).setStyle(boldCenteredStyle))//shows report title
-        .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))//shows number of page at page footer
-        .setDataSource(createDataSourceDiario())//set datasource
-        .show(false)
-        .toPdf(Exporters.pdfExporter("Diario-" + Timestamp.from(Instant.now()).toString().split("\\.")[0].replace(":", "-").replace(" ", "_") + ".pdf"));
+                    .setColumnTitleStyle(columnTitleStyle)
+                    .highlightDetailEvenRows()
+                    .columns(//add columns
+                            //            title,     field name     data type
+                            col.column("Horário", "horario", type.stringType()),
+                            col.column("Médico", "medico", type.stringType()),
+                            col.column("Paciente", "paciente", type.stringType()),
+                            col.column("CPF do Paciente", "cpf", type.stringType()))
+                    .title(cmp.text("Relatório de Atendimentos Diários de "
+                            + calendarDiario.getSelectedDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).setStyle(boldCenteredStyle))//shows report title
+                    .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))//shows number of page at page footer
+                    .setDataSource(createDataSourceDiario())//set datasource
+                    .show(false)
+                    .toPdf(Exporters.pdfExporter("Diario-" + Timestamp.from(Instant.now()).toString().split("\\.")[0].replace(":", "-").replace(" ", "_") + ".pdf"));
 
         } catch (DRException e) {
             e.printStackTrace();
@@ -1404,8 +1404,8 @@ public class AdminTela extends javax.swing.JFrame {
         String formatted = selDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         List<Acessos> acessos = acessosRepositorio.buscarPorData(formatted);
         DRDataSource dataSource = new DRDataSource("usuario", "nome", "horario");
-        if (acessos == null){
-          return null;  
+        if (acessos == null) {
+            return null;
         }
         if (!acessos.isEmpty() || acessos != null) {
             for (Acessos acesso : acessos) {
@@ -1431,8 +1431,8 @@ public class AdminTela extends javax.swing.JFrame {
         String formatted = selDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         List<Atendimento> atendimentos = atendimentoRepositorio.buscarPorData(formatted);
         DRDataSource dataSource = new DRDataSource("horario", "medico", "paciente", "cpf");
-        if (atendimentos == null){
-          return null;  
+        if (atendimentos == null) {
+            return null;
         }
         if (!atendimentos.isEmpty() || atendimentos != null) {
             for (Atendimento atendimento : atendimentos) {
@@ -1799,7 +1799,7 @@ public class AdminTela extends javax.swing.JFrame {
                 Boolean foneV = false;
                 while (foneV == false) {
                     fone = JOptionPane.showInputDialog("Insira o Telefone:");
-                    if (fone == null || fone.isEmpty()) {
+                    if (fone == null || fone.isEmpty() || validarTelefone(fone) == false) {
                         cancelar();
                         Thread.currentThread().stop();
                     }
@@ -2042,11 +2042,23 @@ public class AdminTela extends javax.swing.JFrame {
         return textFiles;
     }
 
-    /*@Override
+    @Override
     public void dispose() {
-    new Login().setVisible(true);
-    super.dispose();
-    }*/
+        new Login().setVisible(true);
+        super.dispose();
+    }
+
+    public static boolean validarTelefone(String tel) {
+
+        String formato = "\\([0-9]{2}?\\)[0-9]{5}?\\-[0-9]{4}?";
+
+        if ((tel == null) || (tel.length() != 14) || (!tel.matches(formato))) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     private static final int[] pesoCPF = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
 
     private static int calcularDigito(String str, int[] peso) {
