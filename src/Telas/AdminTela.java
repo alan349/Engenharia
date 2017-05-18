@@ -820,23 +820,6 @@ public class AdminTela extends javax.swing.JFrame {
         }else if (txtData.getText().isEmpty() && tbAtendimento.getRowCount() != 0) {
             TabelaAtendimento(medico);
         }
-
-        /*Integer rows = tbAtendimento.getRowCount();
-        Integer col = null;
-        for (int i = 0; i < rows; i++) {
-            if (jbData.isSelected()) {
-                col = 0;
-            } else if (jbPaciente.isSelected()) {
-                col = 2;
-            }
-            if (tbAtendimento.getValueAt(i, col).equals(txtData.getText())) {
-                tbAtendimento.setRowSelectionInterval(i, i);
-                tbAtendimento.scrollRectToVisible(new Rectangle(tbAtendimento.getCellRect(i, 0, true)));
-                Thread.currentThread().stop();
-            } else {
-            }
-
-        }*/
     }//GEN-LAST:event_txtDataKeyReleased
 
     private void btnAltAgendaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAltAgendaMouseClicked
