@@ -804,12 +804,11 @@ public class AdminTela extends javax.swing.JFrame {
             }
         } else if (jbPaciente.isSelected() && tbAtendimento.getRowCount() != 0) {
             TabelaAtendimento(medico);
-        }
-        if (txtData.getText().isEmpty() && tbAtendimento.getRowCount() != 0) {
+        }else if (txtData.getText().isEmpty() && tbAtendimento.getRowCount() != 0) {
             TabelaAtendimento(medico);
         }
 
-        Integer rows = tbAtendimento.getRowCount();
+        /*Integer rows = tbAtendimento.getRowCount();
         Integer col = null;
         for (int i = 0; i < rows; i++) {
             if (jbData.isSelected()) {
@@ -824,7 +823,7 @@ public class AdminTela extends javax.swing.JFrame {
             } else {
             }
 
-        }
+        }*/
     }//GEN-LAST:event_txtDataKeyReleased
 
     private void btnAltAgendaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAltAgendaMouseClicked
