@@ -36,6 +36,9 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import javax.swing.Icon;
+import jiconfont.icons.GoogleMaterialDesignIcons;
+import jiconfont.swing.IconFontSwing;
 import net.sf.dynamicreports.jasper.builder.export.Exporters;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment;
@@ -64,6 +67,15 @@ public class AdminTela extends javax.swing.JFrame {
         ListaMedico();
         ListaEspecialidade();
         ListaPDF();
+        IconFontSwing.register(GoogleMaterialDesignIcons.getIconFont());
+        Icon iconuser = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.SUPERVISOR_ACCOUNT, 15);
+        Icon iconpac = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.WC, 15);
+        Icon iconage = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.ACCESS_TIME, 15);
+        Icon iconrel = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.DESCRIPTION, 15);
+        jTabbedPane1.setIconAt(0, iconuser);
+        jTabbedPane1.setIconAt(1, iconpac);
+        jTabbedPane1.setIconAt(2, iconage);
+        jTabbedPane1.setIconAt(3, iconrel);
     }
 
     /**
@@ -231,7 +243,7 @@ public class AdminTela extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnExcUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(13, 13, 13)))))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         jpUsuarioLayout.setVerticalGroup(
             jpUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -252,7 +264,7 @@ public class AdminTela extends javax.swing.JFrame {
                 .addGap(37, 37, 37))
         );
 
-        jTabbedPane1.addTab("Usuários", jpUsuario);
+        jTabbedPane1.addTab("          Usuários", jpUsuario);
 
         btnInsPaciente.setLabel("Inserir");
         btnInsPaciente.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -324,7 +336,7 @@ public class AdminTela extends javax.swing.JFrame {
                                 .addGap(21, 21, 21)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 823, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpPacienteLayout.createSequentialGroup()
                 .addGap(181, 181, 181)
                 .addComponent(btnInsPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -349,7 +361,7 @@ public class AdminTela extends javax.swing.JFrame {
                     .addComponent(btnInsPaciente)))
         );
 
-        jTabbedPane1.addTab("Pacientes", jpPaciente);
+        jTabbedPane1.addTab("         Pacientes", jpPaciente);
 
         jltMedico.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jltMedico.setPreferredSize(new java.awt.Dimension(250, 0));
@@ -485,7 +497,7 @@ public class AdminTela extends javax.swing.JFrame {
                                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(80, 80, 80)
                                 .addComponent(calendarData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(28, 28, 28)
                                 .addComponent(btnAgendar)
@@ -641,7 +653,7 @@ public class AdminTela extends javax.swing.JFrame {
                                 .addGap(21, 21, 21)
                                 .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jpRelatorioLayout.createSequentialGroup()
-                                        .addComponent(calendarEspecialidade, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
+                                        .addComponent(calendarEspecialidade, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGap(23, 23, 23))
                                     .addGroup(jpRelatorioLayout.createSequentialGroup()
                                         .addComponent(jbAnual)
@@ -656,7 +668,7 @@ public class AdminTela extends javax.swing.JFrame {
                         .addComponent(btnReportEspec)
                         .addGap(87, 87, 87)))
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addGroup(jpRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(calendarDiario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -711,7 +723,7 @@ public class AdminTela extends javax.swing.JFrame {
                         .addGap(123, 123, 123))))
         );
 
-        jTabbedPane1.addTab("Relatórios", jpRelatorio);
+        jTabbedPane1.addTab("         Relatórios", jpRelatorio);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -789,12 +801,11 @@ public class AdminTela extends javax.swing.JFrame {
             }
         } else if (jbPaciente.isSelected() && tbAtendimento.getRowCount() != 0) {
             TabelaAtendimento(medico);
-        }
-        if (txtData.getText().isEmpty() && tbAtendimento.getRowCount() != 0) {
+        }else if (txtData.getText().isEmpty() && tbAtendimento.getRowCount() != 0) {
             TabelaAtendimento(medico);
         }
 
-        Integer rows = tbAtendimento.getRowCount();
+        /*Integer rows = tbAtendimento.getRowCount();
         Integer col = null;
         for (int i = 0; i < rows; i++) {
             if (jbData.isSelected()) {
@@ -809,7 +820,7 @@ public class AdminTela extends javax.swing.JFrame {
             } else {
             }
 
-        }
+        }*/
     }//GEN-LAST:event_txtDataKeyReleased
 
     private void btnAltAgendaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAltAgendaMouseClicked
