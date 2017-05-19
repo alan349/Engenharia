@@ -36,7 +36,9 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.Icon;
+import jiconfont.icons.FontAwesome;
 import jiconfont.icons.GoogleMaterialDesignIcons;
 import jiconfont.swing.IconFontSwing;
 import net.sf.dynamicreports.jasper.builder.export.Exporters;
@@ -805,22 +807,6 @@ public class AdminTela extends javax.swing.JFrame {
             TabelaAtendimento(medico);
         }
 
-        /*Integer rows = tbAtendimento.getRowCount();
-        Integer col = null;
-        for (int i = 0; i < rows; i++) {
-            if (jbData.isSelected()) {
-                col = 0;
-            } else if (jbPaciente.isSelected()) {
-                col = 2;
-            }
-            if (tbAtendimento.getValueAt(i, col).equals(txtData.getText())) {
-                tbAtendimento.setRowSelectionInterval(i, i);
-                tbAtendimento.scrollRectToVisible(new Rectangle(tbAtendimento.getCellRect(i, 0, true)));
-                Thread.currentThread().stop();
-            } else {
-            }
-
-        }*/
     }//GEN-LAST:event_txtDataKeyReleased
 
     private void btnAltAgendaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAltAgendaMouseClicked
