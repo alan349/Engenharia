@@ -806,7 +806,6 @@ public class AdminTela extends javax.swing.JFrame {
         }else if (txtData.getText().isEmpty() && tbAtendimento.getRowCount() != 0) {
             TabelaAtendimento(medico);
         }
-
     }//GEN-LAST:event_txtDataKeyReleased
 
     private void btnAltAgendaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAltAgendaMouseClicked
