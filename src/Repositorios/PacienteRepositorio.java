@@ -7,11 +7,13 @@ package Repositorios;
 
 import Entidades.Paciente;
 import java.util.List;
+import javax.swing.JOptionPane;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
+import org.hibernate.exception.ConstraintViolationException;
 
 /**
  *
@@ -21,7 +23,13 @@ public class PacienteRepositorio {
     public void inserir(Paciente paciente){
         Session sessao =  Hibernate.NewHibernateUtil.getSessionFactory().openSession();
         Transaction transacao = sessao.beginTransaction();
-        sessao.save(paciente);
+        try{
+            sessao.save(paciente);
+        } catch (ConstraintViolationException e) {
+            JOptionPane.showMessageDialog(null, "Foi encontrada uma duplicidade com algum CPF já cadastrado.");
+            sessao.close();
+            Thread.currentThread().stop();
+        }
         transacao.commit();
         sessao.close();
     }

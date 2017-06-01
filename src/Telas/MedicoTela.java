@@ -51,7 +51,7 @@ public class MedicoTela extends javax.swing.JFrame {
         jTabbedPane1.setIconAt(0, iconpront);
         jTabbedPane1.setIconAt(1, iconagend);
         carregartabela();
-        TabelaAtendimento(user);
+        TabelaAtendimento(user, true);
 
     }
 
@@ -275,8 +275,6 @@ public class MedicoTela extends javax.swing.JFrame {
         } catch (NullPointerException e) {
             JOptionPane.showMessageDialog(null, "Usuario nao encontrado , por favor cadastra-lo na secretaria");
         }
-             
-       
 
 
     }//GEN-LAST:event_btnCadastrarMouseClicked
@@ -303,39 +301,28 @@ public class MedicoTela extends javax.swing.JFrame {
     private void txtDataKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDataKeyReleased
         // TODO add your handling code here:
         UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
-        String medico = usuarioRepositorio.buscarPorUsuario(user).getNome();
-        if (jbData.isSelected()) {
-            if (txtData.getText().length() == 10 && tbAtendimento.getRowCount() != 0) {
-                TabelaAtendimento(medico);
-            }
-        } else if (jbPaciente.isSelected() && tbAtendimento.getRowCount() != 0) {
-            TabelaAtendimento(medico);
-        }
-        if (txtData.getText().isEmpty() && tbAtendimento.getRowCount() != 0) {
-            TabelaAtendimento(medico);
-        }
-
-        Integer rows = tbAtendimento.getRowCount();
-        Integer col = null;
-        for (int i = 0; i < rows; i++) {
+        Usuario usuario = usuarioRepositorio.buscarPorUsuario(user);
+        String medico = usuario.getNome();
+        if (!medico.isEmpty() || medico != null) {
             if (jbData.isSelected()) {
-                col = 0;
+                if (txtData.getText().length() == 10 || txtData.getText().length() == 0) {
+                    TabelaAtendimento(medico, false);
+                }
             } else if (jbPaciente.isSelected()) {
-                col = 2;
+                TabelaAtendimento(medico, false);
+            } else if (txtData.getText().isEmpty()) {
+                TabelaAtendimento(medico, false);
             }
-            if (tbAtendimento.getValueAt(i, col).equals(txtData.getText())) {
-                tbAtendimento.setRowSelectionInterval(i, i);
-                tbAtendimento.scrollRectToVisible(new Rectangle(tbAtendimento.getCellRect(i, 0, true)));
-                Thread.currentThread().stop();
-            } else {
-            }
-
         }
     }//GEN-LAST:event_txtDataKeyReleased
- public void TabelaAtendimento(String user) {
+    public void TabelaAtendimento(String medico, Boolean start) {
+        
+        if(start == true){
+            UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
+            Usuario usuario = usuarioRepositorio.buscarPorUsuario(user);
+            medico = usuario.getNome();
+        }
         AtendimentoRepositorio atendimentoRepositorio = new AtendimentoRepositorio();
-        UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
-        String medico = usuarioRepositorio.buscarPorUsuario(user).getNome();
         List<Atendimento> atendimentos = null;
         Date dt = null;
         if (!txtData.getText().isEmpty() && jbPaciente.isSelected()) {
@@ -352,6 +339,9 @@ public class MedicoTela extends javax.swing.JFrame {
             SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
             String formatted = fm.format(dt);
             atendimentos = atendimentoRepositorio.buscarPorDataMedico(medico, formatted);
+            if (atendimentos == null || atendimentos.isEmpty()) {
+                Thread.currentThread().stop();
+            }
         } else {
             atendimentos = atendimentoRepositorio.buscarPorMedico(medico);
         }
@@ -366,8 +356,7 @@ public class MedicoTela extends javax.swing.JFrame {
         };
         tbAtendimento.setModel(modeloTabela);
         if (atendimentos == null && txtData.getText().isEmpty()) {
-           
-            Thread.currentThread().stop();
+            
         } else {
 
             for (Atendimento atendimento : atendimentos) {
@@ -377,8 +366,8 @@ public class MedicoTela extends javax.swing.JFrame {
                     atendimento.getPaciente().getNome()});
             }
         }
-   
     }
+
     /**
      * @param args the command line arguments
      */

@@ -118,6 +118,7 @@ public class SecretarioTela extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         btnExcAtendimento = new javax.swing.JToggleButton();
         jSeparator1 = new javax.swing.JSeparator();
+        hiddenLabel = new javax.swing.JLabel();
         jpRelatorio = new javax.swing.JPanel();
         jSeparator2 = new javax.swing.JSeparator();
         jScrollPane6 = new javax.swing.JScrollPane();
@@ -392,6 +393,10 @@ public class SecretarioTela extends javax.swing.JFrame {
                         .addComponent(jScrollPane5)))
                 .addContainerGap())
             .addComponent(jSeparator1)
+            .addGroup(jpAgendamentoLayout.createSequentialGroup()
+                .addGap(389, 389, 389)
+                .addComponent(hiddenLabel)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jpAgendamentoLayout.setVerticalGroup(
             jpAgendamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -412,7 +417,9 @@ public class SecretarioTela extends javax.swing.JFrame {
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(2, 2, 2)
+                .addComponent(hiddenLabel)
+                .addGap(2, 2, 2)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
                 .addGroup(jpAgendamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -561,7 +568,6 @@ public class SecretarioTela extends javax.swing.JFrame {
                     .addComponent(calendarDiario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpRelatorioLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnReportDiario)
                         .addGap(60, 60, 60)))
                 .addGap(25, 25, 25))
@@ -810,7 +816,7 @@ public class SecretarioTela extends javax.swing.JFrame {
         // TODO add your handling code here:
         String medico = jltMedico.getSelectedValue();
         if (jbData.isSelected()) {
-            if (txtData.getText().length() == 10 && tbAtendimento.getRowCount() != 0) {
+            if ((txtData.getText().length() == 10 || txtData.getText().length() == 0) && tbAtendimento.getRowCount() != 0) {
                 TabelaAtendimento(medico);
             }
         } else if (jbPaciente.isSelected() && tbAtendimento.getRowCount() != 0) {
@@ -1443,18 +1449,26 @@ public class SecretarioTela extends javax.swing.JFrame {
         if (!txtData.getText().isEmpty() && jbPaciente.isSelected()) {
             atendimentos = atendimentoRepositorio.buscarPorPacienteMedico(medico, txtData.getText());
             if (atendimentos == null || atendimentos.isEmpty()) {
+                hiddenLabel.setText("Nada encontrado.");
                 Thread.currentThread().stop();
+            }else{
+                hiddenLabel.setText("");
             }
         } else if (!txtData.getText().isEmpty() && jbData.isSelected()) {
             try {
                 dt = new SimpleDateFormat("dd/MM/yyyy").parse(txtData.getText());
             } catch (ParseException ex) {
-                Logger.getLogger(SecretarioTela.class.getName()).log(Level.SEVERE, null, ex);
+                hiddenLabel.setText("Nada encontrado.");
+                Thread.currentThread().stop();
             }
             SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
             String formatted = fm.format(dt);
             atendimentos = atendimentoRepositorio.buscarPorDataMedico(medico, formatted);
+            if (atendimentos == null || atendimentos.isEmpty()) {
+                Thread.currentThread().stop();
+            }
         } else {
+            hiddenLabel.setText("");
             atendimentos = atendimentoRepositorio.buscarPorMedico(medico);
         }
 
@@ -1677,6 +1691,7 @@ public class SecretarioTela extends javax.swing.JFrame {
     private com.github.lgooddatepicker.components.CalendarPanel calendarData;
     private com.github.lgooddatepicker.components.CalendarPanel calendarDiario;
     private com.github.lgooddatepicker.components.CalendarPanel calendarEspecialidade;
+    private javax.swing.JLabel hiddenLabel;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

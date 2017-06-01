@@ -91,6 +91,7 @@ public class AdminTela extends javax.swing.JFrame {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
+        buttonGroup3 = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jpUsuario = new javax.swing.JPanel();
         btnInsUsuario = new javax.swing.JButton();
@@ -127,6 +128,7 @@ public class AdminTela extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         btnExcAtendimento = new javax.swing.JToggleButton();
         jSeparator1 = new javax.swing.JSeparator();
+        hiddenLabel = new javax.swing.JLabel();
         jpRelatorio = new javax.swing.JPanel();
         jSeparator2 = new javax.swing.JSeparator();
         jScrollPane6 = new javax.swing.JScrollPane();
@@ -509,6 +511,10 @@ public class AdminTela extends javax.swing.JFrame {
                         .addComponent(jScrollPane5)))
                 .addContainerGap())
             .addComponent(jSeparator1)
+            .addGroup(jpAgendamentoLayout.createSequentialGroup()
+                .addGap(403, 403, 403)
+                .addComponent(hiddenLabel)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jpAgendamentoLayout.setVerticalGroup(
             jpAgendamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -529,7 +535,9 @@ public class AdminTela extends javax.swing.JFrame {
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(hiddenLabel)
+                .addGap(4, 4, 4)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
                 .addGroup(jpAgendamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -616,11 +624,14 @@ public class AdminTela extends javax.swing.JFrame {
             }
         });
 
+        buttonGroup3.add(jbAnual);
         jbAnual.setSelected(true);
         jbAnual.setText("Anual");
 
+        buttonGroup3.add(jbMensal);
         jbMensal.setText("Mensal");
 
+        buttonGroup3.add(jbDiario);
         jbDiario.setText("Diário");
 
         javax.swing.GroupLayout jpRelatorioLayout = new javax.swing.GroupLayout(jpRelatorio);
@@ -798,12 +809,12 @@ public class AdminTela extends javax.swing.JFrame {
         // TODO add your handling code here:
         String medico = jltMedico.getSelectedValue();
         if (jbData.isSelected()) {
-            if (txtData.getText().length() == 10 && tbAtendimento.getRowCount() != 0) {
+            if ((txtData.getText().length() == 10 || txtData.getText().length() == 0) && tbAtendimento.getRowCount() != 0) {
                 TabelaAtendimento(medico);
             }
         } else if (jbPaciente.isSelected() && tbAtendimento.getRowCount() != 0) {
             TabelaAtendimento(medico);
-        }else if (txtData.getText().isEmpty() && tbAtendimento.getRowCount() != 0) {
+        } else if (txtData.getText().isEmpty() && tbAtendimento.getRowCount() != 0) {
             TabelaAtendimento(medico);
         }
     }//GEN-LAST:event_txtDataKeyReleased
@@ -833,6 +844,11 @@ public class AdminTela extends javax.swing.JFrame {
         PacienteRepositorio pacienteRepositorio = new PacienteRepositorio();
         Usuario usuario = new Usuario();
         UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
+
+        if (jltMedico.isSelectionEmpty()) {
+            JOptionPane.showMessageDialog(null, "Primeiramente selecione um médico.");
+            Thread.currentThread().stop();
+        }
 
         if (jltHora.isSelectionEmpty()) {
             JOptionPane.showMessageDialog(null, "Primeiramente selecione um horário.");
@@ -1838,18 +1854,26 @@ public class AdminTela extends javax.swing.JFrame {
         if (!txtData.getText().isEmpty() && jbPaciente.isSelected()) {
             atendimentos = atendimentoRepositorio.buscarPorPacienteMedico(medico, txtData.getText());
             if (atendimentos == null || atendimentos.isEmpty()) {
+                hiddenLabel.setText("Nada encontrado.");
                 Thread.currentThread().stop();
+            }else{
+                hiddenLabel.setText("");
             }
         } else if (!txtData.getText().isEmpty() && jbData.isSelected()) {
             try {
                 dt = new SimpleDateFormat("dd/MM/yyyy").parse(txtData.getText());
             } catch (ParseException ex) {
-                Logger.getLogger(AdminTela.class.getName()).log(Level.SEVERE, null, ex);
+                hiddenLabel.setText("Nada encontrado.");
+                Thread.currentThread().stop();
             }
             SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
             String formatted = fm.format(dt);
             atendimentos = atendimentoRepositorio.buscarPorDataMedico(medico, formatted);
+            if (atendimentos == null || atendimentos.isEmpty()) {
+                Thread.currentThread().stop();
+            }
         } else {
+            hiddenLabel.setText("");
             atendimentos = atendimentoRepositorio.buscarPorMedico(medico);
         }
 
@@ -1877,7 +1901,7 @@ public class AdminTela extends javax.swing.JFrame {
         horarios();
     }
 
-      public void horarios() {
+    public void horarios() {
         AtendimentoRepositorio atendimentoRepositorio = new AtendimentoRepositorio();
         LocalDate selDate = calendarData.getSelectedDate();
         String formatted = selDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -2077,10 +2101,12 @@ public class AdminTela extends javax.swing.JFrame {
     private javax.swing.JButton btnReportEspec;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.ButtonGroup buttonGroup3;
     private com.github.lgooddatepicker.components.CalendarPanel calendarAcesso;
     private com.github.lgooddatepicker.components.CalendarPanel calendarData;
     private com.github.lgooddatepicker.components.CalendarPanel calendarDiario;
     private com.github.lgooddatepicker.components.CalendarPanel calendarEspecialidade;
+    private javax.swing.JLabel hiddenLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

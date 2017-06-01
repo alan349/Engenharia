@@ -174,18 +174,39 @@ public class ProntuarioTela extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOKMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOKMouseClicked
         // TODO add your handling code here:
+        String alt = txtAltura.getText();
+        String pes = txtPeso.getText();
+        String alt1 = alt.replace(',','.');
+        String pes1 = pes.replace(',','.');
+        Float alt2 = null;
+        Float pes2 = null;
+        try{
+            alt2 = Float.parseFloat(alt1);
+        }catch(NumberFormatException n){
+            JOptionPane.showMessageDialog(null, "A altura não pode conter letras.");
+            Thread.currentThread().stop();
+        }
+        
+        try{
+            pes2 = Float.parseFloat(pes1);
+        }catch(NumberFormatException n){
+            JOptionPane.showMessageDialog(null, "O peso não pode conter letras.");
+            Thread.currentThread().stop();
+        }
+
         if (state == 1) {
             ProntuarioRepositorio prontuarioRepositorio = new ProntuarioRepositorio();
             Prontuario prontuario = new Prontuario();
             prontuario.setPaciente(paci);
             prontuario.setMedico(medico);
-            prontuario.setAltura(Float.valueOf(txtAltura.getText()));
+            prontuario.setAltura(alt2);
             prontuario.setData(new Date());
-            prontuario.setPeso(Float.valueOf(txtPeso.getText()));
+            prontuario.setPeso(pes2);
             prontuario.setAnotacoes(txaAnota.getText());
             prontuarioRepositorio.inserir(prontuario);
             JOptionPane.showMessageDialog(null, "Prontuario salvo com sucesso!");
@@ -196,9 +217,9 @@ public class ProntuarioTela extends javax.swing.JFrame {
             Prontuario prontuario = prontuarioRepositorio.buscarPorNome(nome);
             prontuario.setPaciente(paci);
             prontuario.setMedico(medico);
-            prontuario.setAltura(Float.valueOf(txtAltura.getText()));
+            prontuario.setAltura(alt2);
             prontuario.setData(new Date());
-            prontuario.setPeso(Float.valueOf(txtPeso.getText()));
+            prontuario.setPeso(pes2);
             prontuario.setAnotacoes(txaAnota.getText());
             prontuarioRepositorio.editar(prontuario);
             JOptionPane.showMessageDialog(null, "Prontuario atualizado com sucesso!");

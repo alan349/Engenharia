@@ -6,13 +6,18 @@
 package Repositorios;
 
 import Entidades.Usuario;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
+import javax.swing.JOptionPane;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateError;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.exception.ConstraintViolationException;
 
 /**
  *
@@ -22,7 +27,13 @@ public class UsuarioRepositorio {
     public void inserir(Usuario usuario){
         Session sessao =  Hibernate.NewHibernateUtil.getSessionFactory().openSession();
         Transaction transacao = sessao.beginTransaction();
-        sessao.save(usuario);
+        try{
+            sessao.save(usuario);
+        } catch (ConstraintViolationException e) {
+            JOptionPane.showMessageDialog(null, "Foi encontrada uma duplicidade com algum CPF ou Usuario já cadastrado.");
+            sessao.close();
+            Thread.currentThread().stop();
+        }
         transacao.commit();
         sessao.close();
     }
@@ -68,6 +79,9 @@ public Usuario buscarPorUsuario(String usuario){
         Query query = sessao.createQuery("from Usuario where usuario = :usuario");
         query.setParameter("usuario", usuario);
         List list = query.list();
+        if (list.isEmpty() || list == null){
+            return null;
+        }
         Usuario user = (Usuario) list.get(0);
         sessao.close();
         return user;
