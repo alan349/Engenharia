@@ -134,7 +134,7 @@ public class Login extends javax.swing.JFrame {
         String senha = txtSenha.getText();
         Usuario usuario = usuarioRepositorio.buscarPorUsuario(user);
         if (usuario == null) {
-            JOptionPane.showMessageDialog(null, "Usuário Incorreto!");
+            JOptionPane.showMessageDialog(null, "Usuário e/ou Senha incorretos!");
         } else {
             String pass = usuario.getSenha();
             if (senha.equals(pass)) {
@@ -145,7 +145,6 @@ public class Login extends javax.swing.JFrame {
                 acessos.setNome("aa");
                 acessos.setUsuario("a");
                 acessosRepositorio.inserir(acessos);
-
                 if (usuario.getNP() == 1) {
                     new MedicoTela(usuario.getUsuario()).setVisible(true);
                 } else if (usuario.getNP() == 2) {
@@ -156,7 +155,7 @@ public class Login extends javax.swing.JFrame {
                 setVisible(false);
                 dispose();
             } else {
-                JOptionPane.showMessageDialog(null, "Senha Incorreta!");
+                JOptionPane.showMessageDialog(null, "Usuário e/ou Senha incorretos!");
             }
         }
     }
