@@ -65,7 +65,7 @@ public class AtendimentoRepositorio {
 
     public List<Atendimento> buscarPorMedico(String medico) {
         Session sessao = Hibernate.NewHibernateUtil.getSessionFactory().openSession();
-        Query query = sessao.createQuery("from Atendimento where Medico = :med ORDER BY STR_TO_DATE(Data, '%M-%Y') DESC");
+        Query query = sessao.createQuery("from Atendimento where Medico = :med ORDER BY Data ASC");
         query.setParameter("med", medico);
 
         List<Atendimento> atendimentos = query.list();
@@ -79,7 +79,7 @@ public class AtendimentoRepositorio {
     
     public List<Atendimento> buscarPorData(String data) {
         Session sessao = Hibernate.NewHibernateUtil.getSessionFactory().openSession();
-        Query query = sessao.createQuery("from Atendimento where Data = :date ORDER BY STR_TO_DATE(Data, '%D %M %Y') DESC");
+        Query query = sessao.createQuery("from Atendimento where Data = :date ORDER BY Data ASC");
         query.setParameter("date", data);
 
         List<Atendimento> atendimentos = query.list();
@@ -100,7 +100,7 @@ public class AtendimentoRepositorio {
             return null;
         }
 
-        Query query = sessao.createQuery("from Atendimento where Medico = :med AND paciente_id = :pac ORDER BY STR_TO_DATE(Data, '%D %M %Y') DESC");
+        Query query = sessao.createQuery("from Atendimento where Medico = :med AND paciente_id = :pac ORDER BY Data ASC");
         query.setParameter("med", medico);
         query.setParameter("pac", pacBusca.getId());
         List<Atendimento> atendimentos = query.list();
@@ -114,7 +114,7 @@ public class AtendimentoRepositorio {
 
     public List<Atendimento> buscarPorDataMedico(String medico, String data) {
         Session sessao = Hibernate.NewHibernateUtil.getSessionFactory().openSession();
-        Query query = sessao.createQuery("from Atendimento where Medico = :med AND Data = :date ORDER BY STR_TO_DATE(Data, '%D %M %Y') DESC");
+        Query query = sessao.createQuery("from Atendimento where Medico = :med AND Data = :date ORDER BY Data ASC");
         query.setParameter("med", medico);
         query.setParameter("date", data);
         List<Atendimento> atendimentos = query.list();
@@ -128,7 +128,7 @@ public class AtendimentoRepositorio {
 
     public Atendimento buscarUnicaDataMedico(String medico, String data) {
         Session sessao = Hibernate.NewHibernateUtil.getSessionFactory().openSession();
-        Query query = sessao.createQuery("from Atendimento where Medico = :med AND Data = :date ORDER BY STR_TO_DATE(Data, '%D %M %Y') DESC");
+        Query query = sessao.createQuery("from Atendimento where Medico = :med AND Data = :date ORDER BY Data ASC");
         query.setParameter("med", medico);
         query.setParameter("date", data);
         List<Atendimento> atendimentos = query.list();

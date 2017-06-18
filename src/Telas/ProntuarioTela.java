@@ -183,17 +183,17 @@ public class ProntuarioTela extends javax.swing.JFrame {
         String pes = txtPeso.getText();
         String alt1 = alt.replace(',','.');
         String pes1 = pes.replace(',','.');
-        Float alt2 = null;
-        Float pes2 = null;
+        Double alt2 = null;
+        Double pes2 = null;
         try{
-            alt2 = Float.parseFloat(alt1);
+            alt2 = Double.valueOf(alt1);
         }catch(NumberFormatException n){
             JOptionPane.showMessageDialog(null, "A altura não pode conter letras.");
             Thread.currentThread().stop();
         }
         
         try{
-            pes2 = Float.parseFloat(pes1);
+            pes2 = Double.valueOf(pes1);
         }catch(NumberFormatException n){
             JOptionPane.showMessageDialog(null, "O peso não pode conter letras.");
             Thread.currentThread().stop();

@@ -41,19 +41,17 @@ Contributor(s):
 -->
 <hibernate-configuration>
   <session-factory>
-    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/engenharia?zeroDateTimeBehavior=convertToNull</property>
+    <property name="hibernate.connection.driver_class">org.apache.derby.jdbc.EmbeddedDriver</property>
+    <property name="hibernate.connection.url">jdbc:derby:Engenharia;create=true</property>
     <property name="hibernate.connection.username">root</property>
-    <property name="hibernate.hbm2ddl.auto">validate</property>
-    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="hibernate.hbm2ddl.auto">update</property>
+    <property name="hibernate.dialect">org.hibernate.dialect.DerbyDialect</property>
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.format_sql">true</property>
-    <property name="hibernate.c3p0.timeout">0</property>
-    <mapping class="Entidades.Usuario"/>
     <mapping class="Entidades.Acessos"/>
+    <mapping class="Entidades.Atendimento"/>
     <mapping class="Entidades.Paciente"/>
     <mapping class="Entidades.Prontuario"/>
-    <mapping class="Entidades.Atendimento"/>
-    <mapping class="Entidades.Especialidades"/>
+    <mapping class="Entidades.Usuario"/>
   </session-factory>
 </hibernate-configuration>

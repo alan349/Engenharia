@@ -34,9 +34,9 @@ public class Prontuario {
     @Temporal(TemporalType.TIMESTAMP)
     private Date data;
     @Column(length = 3 ,nullable = false)
-    private Float altura;
+    private Double altura;
     @Column (length = 3,nullable = false)
-    private Float peso;
+    private Double peso;
     @Column (length = 2500)
     private String anotacoes;
 
@@ -85,30 +85,7 @@ public class Prontuario {
     /**
      * @return the altura
      */
-    public Float getAltura() {
-        return altura;
-    }
-
-    /**
-     * @param altura the altura to set
-     */
-    public void setAltura(Float altura) {
-        this.altura = altura;
-    }
-
-    /**
-     * @return the peso
-     */
-    public Float getPeso() {
-        return peso;
-    }
-
-    /**
-     * @param peso the peso to set
-     */
-    public void setPeso(Float peso) {
-        this.peso = peso;
-    }
+   
 
     /**
      * @return the anotacoes
@@ -137,4 +114,34 @@ public class Prontuario {
     public void setData(Date data) {
         this.data = data;
     }
+
+    /**
+     * @return the altura
+     */
+    public Double getAltura() {
+        return altura;
+    }
+
+    /**
+     * @param altura the altura to set
+     */
+    public void setAltura(Double altura) {
+        this.altura = altura;
+    }
+
+    /**
+     * @return the peso
+     */
+    public Double getPeso() {
+        return peso;
+    }
+
+    /**
+     * @param peso the peso to set
+     */
+    public void setPeso(Double peso) {
+        this.peso = peso;
+    }
+
+   
 }
