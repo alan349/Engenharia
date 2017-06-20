@@ -1115,7 +1115,7 @@ public class AdminTela extends javax.swing.JFrame {
         Boolean foneV = false;
         while (foneV == false) {
             fone = JOptionPane.showInputDialog("Insira o Telefone:");
-            if (fone == null || fone.isEmpty()) {
+            if (fone == null || fone.isEmpty() || validarTelefone(fone) == false) {
                 cancelar();
                 Thread.currentThread().stop();
             }
